@@ -50,6 +50,8 @@ public class App
         App.time = time;
     }
 
+    //Functions
+
     public void loadGui()
     {
 

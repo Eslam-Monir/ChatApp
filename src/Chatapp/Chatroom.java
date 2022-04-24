@@ -51,6 +51,8 @@ public class Chatroom {
         return cr_desc;
     }
 
+
+    //Functions
     public void showUsers(){};
 
     public String showLastSeen(){

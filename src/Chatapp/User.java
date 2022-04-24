@@ -25,15 +25,7 @@ public class User {
         this.contacts = contacts;
     }
 
-   public void deleteCr( Chatroom chatroom){}
-    public void sendMessage( Chatroom chatroom, String message){}
-    public void deleteMessage(Chatroom chatroom, String message){}
-    public void addStory(Story story){}
-    public void deleteStory(Story story){}
-    public void addContact(User user){}
-    public void removeContact(User user){}
-    public void addProfilePic(String pic_dir){}
-    public void editDesc(){}
+
 
 
 
@@ -72,7 +64,15 @@ public class User {
     public ArrayList<User> getContacts() {
         return contacts;
     }
-
-
+        //Functions
+    public void deleteCr( Chatroom chatroom){}
+    public void sendMessage( Chatroom chatroom, String message){}
+    public void deleteMessage(Chatroom chatroom, String message){}
+    public void addStory(Story story){}
+    public void deleteStory(Story story){}
+    public void addContact(User user){}
+    public void removeContact(User user){}
+    public void addProfilePic(String pic_dir){}
+    public void editDesc(){}
 
 }

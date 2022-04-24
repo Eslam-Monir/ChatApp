@@ -11,7 +11,7 @@ public class Story{
 
     private int seen_count;
 
-    //vector<User> seen_users;
+
 
     public Story(int id, User user, String time, String text, int seen_count) {
         this.id = id;
@@ -66,6 +66,7 @@ public class Story{
         return seen_count;
     }
 
+    //Functions
     public void openStory(){};
 
    public boolean seen(){
