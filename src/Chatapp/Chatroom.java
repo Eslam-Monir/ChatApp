@@ -1,11 +1,13 @@
 package Chatapp;
 
+import java.util.ArrayList;
+
 public class Chatroom {
     private int id;
     private boolean isgroup;
     private String last_seen;
-    //vector<User> users;
-    //vector<Message>messages;
+    ArrayList<User> users;
+    ArrayList<Message>messages;
     private String cr_desc;
 
     public Chatroom(int id, boolean isgroup, String last_seen, String cr_desc) {
