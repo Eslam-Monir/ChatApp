@@ -1,8 +1,10 @@
 package Chatapp;
+import java.time.LocalDateTime; //  Used for the fetchTime()
+import java.time.format.DateTimeFormatter;//  Used for the fetchTime()
 
 public class App
 {
-    private User logged_user;
+    private User loggedUser;
 
     private Chatroom chatrooms;
 
@@ -12,16 +14,16 @@ public class App
 
 
     public App(User logged_user, Chatroom chatrooms) {
-        this.logged_user = logged_user;
+        this.loggedUser = logged_user;
         this.chatrooms = chatrooms;
     }
             // Getters And Setters
-    public User getLogged_user() {
-        return logged_user;
+    public User getLoggedUser() {
+        return loggedUser;
     }
 
-    public void setLogged_user(User logged_user) {
-        this.logged_user = logged_user;
+    public void setLoggedUser(User loggedUser) {
+        this.loggedUser = loggedUser;
     }
 
     public Chatroom getChatrooms() {
@@ -75,6 +77,13 @@ public class App
 
     public void fetchTime()
     {
+        DateTimeFormatter Date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime Datenow = LocalDateTime.now();
 
+        DateTimeFormatter Time = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime Timenow = LocalDateTime.now();
+
+        setDate(Date.format(Datenow));
+        setTime(Time.format(Timenow));
     }
 }
