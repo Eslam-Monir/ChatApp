@@ -68,7 +68,19 @@ public class User {
     public void deleteCr( Chatroom chatroom){}
     public void sendMessage( Chatroom chatroom, String message){}
     public void deleteMessage(Chatroom chatroom, String message){}
-    public void addStory(Story story){}
+    public void addStory(Story story){
+
+        String query= "INSERT INTO `chatapp`.`story` (`id`, `user_id`, `time`, `text`) VALUES ('2', '23', '121', 'asdasdasdasdasdasdasdas');";
+
+
+
+
+
+    }
+
+
+
+
     public void deleteStory(Story story){}
     public void addContact(User user){}
     public void removeContact(User user){}
