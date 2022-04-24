@@ -1,4 +1,4 @@
 package Chatapp;
 
-public class Story m{
+public class Story{
 }
