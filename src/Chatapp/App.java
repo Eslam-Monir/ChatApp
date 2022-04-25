@@ -1,4 +1,5 @@
 package Chatapp;
+import java.sql.*;
 import java.time.LocalDateTime; //  Used for the fetchTime()
 import java.time.format.DateTimeFormatter;//  Used for the fetchTime()
 
@@ -87,5 +88,20 @@ public class App
 
         setDate(Date.format(Datenow));
         setTime(Time.format(Timenow));
+    }
+
+    static  public Statement connect_to_database(){
+        String connectionUrl = "jdbc:mysql://localhost:3306/chatapp";
+
+        try{ Connection connection = DriverManager.getConnection(connectionUrl, "root", "password");
+
+            return connection.createStatement();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return null;
+
     }
 }

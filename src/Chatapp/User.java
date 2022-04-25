@@ -78,7 +78,16 @@ public class User {
         return contacts;
     }
         //Functions
-    public void deleteCr( Chatroom chatroom){}
+    public void deleteCr( Chatroom chatroom){
+        String query= "DELETE FROM chatroom where id =" + chatroom.getId();
+        Statement statement = App.connect_to_database();
+        try {
+            statement.executeUpdate(query);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     public void sendMessage( Chatroom chatroom, String message){}
     public void deleteMessage(Chatroom chatroom, String message){}
 
