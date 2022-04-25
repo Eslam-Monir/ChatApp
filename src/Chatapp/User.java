@@ -81,9 +81,12 @@ public class User {
     public void deleteCr( Chatroom chatroom){}
     public void sendMessage( Chatroom chatroom, String message){}
     public void deleteMessage(Chatroom chatroom, String message){}
-    public void addStory(Story story){
 
-      try {
+    public void addStory(Story story)
+    {
+
+      try
+      {
           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
           String query = "INSERT INTO story ( `user_id`, `time`, `text`) VALUES ("+story.getUser().id+",'"+story.getTime()+"','"+story.getText()+"');";
           System.out.println(query);
@@ -91,11 +94,11 @@ public class User {
                Statement statement = connection.createStatement();
                 statement.executeUpdate(query);
 
-      }catch (Exception e) {
+      } catch (Exception e)
+       {
           e.printStackTrace();
 
-      }
-
+       }
 
     }
 
