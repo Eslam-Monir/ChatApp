@@ -1,9 +1,9 @@
 package Chatapp;
 import java.sql.*;
 import java.sql.DriverManager;
-
 import java.util.ArrayList;
 import java.util.Queue;
+import java.util.Scanner;
 
 public class User {
     private int id;
@@ -104,7 +104,36 @@ public class User {
 
 
         public void deleteStory(Story story){}
-    public void addContact(User user){}
+
+
+    public void addContact(User user , int number , String name)
+
+
+    {
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+
+            // Query to get the Id of the added_id
+            String query1 = "SELECT id FROM usser WHERE number =" + number;
+            ResultSet resultSet = statement.executeQuery(query1);
+
+            resultSet.next(); // i won the error of before start youshaaaaa!!!
+            String temp ;
+            temp = resultSet.getString("id");
+            int addedId = Integer.parseInt(temp);
+
+            // query  to insert into contacts
+            String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES ("+user.getId()+",'"+ addedId +"','"+ name +"');";
+            statement.executeUpdate(query2);
+        } catch(Exception e)
+          {
+            e.printStackTrace();
+          }
+
+    }
+
     public void removeContact(User user){}
     public void addProfilePic(String pic_dir){}
     public void editDesc(){}

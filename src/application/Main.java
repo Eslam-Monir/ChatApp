@@ -23,11 +23,13 @@ public class Main {
             e.printStackTrace();
 
         }
-//        User uu=new User();
-//
-//
-//        Story stor =new Story(233,uu,"aqssadsdas","sdfasdfaasdasdsdf",3);
-//        User u=new User();
-//            u.addStory(stor);
+        User user = new User();
+       // User uu=new User();
+
+
+      //  Story stor =new Story(233,uu,"aqssadsdas","sdfasdfaasdasdsdf",3);
+        User u=new User();
+          //  u.addStory(stor);
+            u.addContact(user , 2001 , "Dazaii");
 
     }}
