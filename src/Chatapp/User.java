@@ -173,7 +173,21 @@ public class User {
             e.printStackTrace();
         }
     }
-    public void addProfilePic(String pic_dir){}
+     public void addProfilePic(User user,String pic_dir){
+        /* Note : i did "\"" + pic_dir + "\"" to skip error because he need string between " "  */
+
+        String query= "UPDATE  chatapp.usser" + " SET prof_pic = " +   "\"" + pic_dir + "\"" + " WhERE id ="+user.getId();
+        Statement statement = App.connect_to_database();
+        try {
+
+            statement.executeUpdate(query);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
     public void editDesc(){}
 
 }
