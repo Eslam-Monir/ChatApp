@@ -1,4 +1,7 @@
 package Chatapp;
+import java.sql.*;
+import java.sql.DriverManager;
+
 import java.util.ArrayList;
 import java.util.Queue;
 
@@ -24,7 +27,17 @@ public class User {
         Stories = stories;
         this.contacts = contacts;
     }
-
+    public User(){
+        this.id = 0;
+        this.number = 0;
+        this.f_name = null;
+        this.password = null;
+        this.prof_pic = null;
+        this.prof_desc = null;
+        this.chatrooms = null;
+        Stories = null;
+        this.contacts = null;
+    }
 
 
 
@@ -70,18 +83,24 @@ public class User {
     public void deleteMessage(Chatroom chatroom, String message){}
     public void addStory(Story story){
 
-        String query= "INSERT INTO `chatapp`.`story` (`id`, `user_id`, `time`, `text`) VALUES ('2', '23', '121', 'asdasdasdasdasdasdasdas');";
+      try {
+          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+          String query = "INSERT INTO story ( `user_id`, `time`, `text`) VALUES ("+story.getUser().id+",'"+story.getTime()+"','"+story.getText()+"');";
+          System.out.println(query);
 
+               Statement statement = connection.createStatement();
+                statement.executeUpdate(query);
 
+      }catch (Exception e) {
+          e.printStackTrace();
 
+      }
 
 
     }
 
 
-
-
-    public void deleteStory(Story story){}
+        public void deleteStory(Story story){}
     public void addContact(User user){}
     public void removeContact(User user){}
     public void addProfilePic(String pic_dir){}

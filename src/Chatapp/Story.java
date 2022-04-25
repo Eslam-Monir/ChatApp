@@ -20,6 +20,13 @@ public class Story{
         this.text = text;
         this.seen_count = seen_count;
     }
+    public Story(){
+        this.id=0;
+        this.user = null;
+        this.time = null;
+        this.text = null;
+        this.seen_count = 0;
+    }
 
 
     //setters
@@ -51,7 +58,7 @@ public class Story{
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public String getTime() {

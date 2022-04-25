@@ -1,4 +1,7 @@
 package application;
+import Chatapp.Story;
+import Chatapp.User;
+
 import java.sql.*;
 
 public class Main {
@@ -6,10 +9,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String sqlSelectAllPersons = "SELECT * FROM usser";
-        String connectionUrl = "jdbc:mysql://localhost:3306/chatapp";
 
-        try{ Connection connection = DriverManager.getConnection(connectionUrl, "root", "password");
+
+
+        try{ Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery( "select * from usser");
@@ -20,4 +23,11 @@ public class Main {
             e.printStackTrace();
 
         }
+//        User uu=new User();
+//
+//
+//        Story stor =new Story(233,uu,"aqssadsdas","sdfasdfaasdasdsdf",3);
+//        User u=new User();
+//            u.addStory(stor);
+
     }}
