@@ -24,5 +24,6 @@ public class Main {
         Story stor =new Story(2,uu,"aqssadsdas","sdfasdfaasdasdsdf",3);
         User u=new User();
             u.deleteStory(stor);
+            u.addContact(uu , 2002 , "dazaii");
 
     }}
