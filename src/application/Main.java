@@ -9,9 +9,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-
-
         try{ Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
              Statement statement = connection.createStatement();
@@ -23,11 +20,9 @@ public class Main {
             e.printStackTrace();
 
         }
-//        User uu=new User();
-//
-//
-//        Story stor =new Story(233,uu,"aqssadsdas","sdfasdfaasdasdsdf",3);
-//        User u=new User();
-//            u.addStory(stor);
+        User uu=new User();
+        Story stor =new Story(2,uu,"aqssadsdas","sdfasdfaasdasdsdf",3);
+        User u=new User();
+            u.deleteStory(stor);
 
     }}

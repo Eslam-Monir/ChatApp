@@ -100,7 +100,20 @@ public class User {
     }
 
 
-        public void deleteStory(Story story){}
+        public void deleteStory(Story story){
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+                String query = "DELETE FROM `chatapp`.`story` WHERE (`id` ="+story.getId()+" );";
+                System.out.println(query);
+
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(query);
+
+            }catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
     public void addContact(User user){}
     public void removeContact(User user){}
     public void addProfilePic(String pic_dir){}
