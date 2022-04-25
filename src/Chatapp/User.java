@@ -88,8 +88,22 @@ public class User {
             e.printStackTrace();
         }
     }
-    public void sendMessage( Chatroom chatroom, String message){}
-    public void deleteMessage(Chatroom chatroom, String message){}
+    public void sendMessage( Chatroom chatroom, Message message,User sender){
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            String query = "INSERT INTO `chatapp`.`messages` (`id`, `sender_id`, `text`, `date`, `time`, `seen`, `type`) VALUES ('" + message.getId() + "', '" + sender.getId() + "', '" + message.getText() + "', '" + message.getDate() + "', '" + message.getTime() + "', '" + message.isSeen() + "', '" + message.getType() + "');\n";
+            System.out.println(query);
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // STILL WORK IN PROGRESS (MONIR)
+    }
+    public void deleteMessage(Chatroom chatroom, String message){ /*STILL WORK IN PROGRESS (MONIR)*/}
 
     public void addStory(Story story)
     {

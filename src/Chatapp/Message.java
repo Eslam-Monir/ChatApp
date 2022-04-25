@@ -7,14 +7,16 @@ public class Message {
     private String date;
     private String time;
     private boolean seen;
+    private String type;
 
-    public Message(int id, User sender, String text, String date, String time, boolean seen) {
+    public Message(int id, User sender, String text, String date, String time, boolean seen,String type) {
         this.id = id;
         this.sender = sender;
         this.text = text;
         this.date = date;
         this.time = time;
         this.seen = seen;
+        this.type=type;
     }
     //setter
 
@@ -42,6 +44,10 @@ public class Message {
         this.seen = seen;
     }
     //getters
+
+    public String getType() {
+        return type;
+    }
 
     public int getId() {
         return id;
