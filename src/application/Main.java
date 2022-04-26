@@ -1,6 +1,8 @@
 package application;
 import Chatapp.Chatroom;
+
 import Chatapp.Message;
+
 import Chatapp.Story;
 import Chatapp.User;
 
@@ -28,7 +30,12 @@ public class Main {
         Message msg=new Message(26,uu,"sadfasdfa","23","23",1,"asdfasdf");
         User u=new User();
 
+
         uu.sendMessage(cr,msg,u);
+
+            u.deleteStory(stor);
+            u.addContact(uu , 2002 , "dazaii");
+
 
 
 

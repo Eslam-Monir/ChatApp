@@ -77,7 +77,9 @@ public class User {
     public ArrayList<User> getContacts() {
         return contacts;
     }
-        //Functions
+
+
+    //Functions
     public void deleteCr( Chatroom chatroom){
         String query= "DELETE FROM chatroom where id =" + chatroom.getId();
         Statement statement = App.connect_to_database();
@@ -215,11 +217,13 @@ public class User {
 
             }
         }
-    public void addContact(User user,int number,String name){
+    public void addContact(User user,int number,String name)
+    {
         try
         {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
             Statement statement = connection.createStatement();
+
 
             // Query to get the Id of the added_id
             String query1 = "SELECT id FROM usser WHERE number =" + number;
@@ -232,9 +236,25 @@ public class User {
             temp = resultSet.getString("id");
             int addedId = Integer.parseInt(temp);
 
-            // query  to insert into contacts
-            String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES ("+user.getId()+",'"+ addedId +"','"+ name +"');";
-            statement.executeUpdate(query2);
+
+                // Query to get the Id of the added_id
+                String query1 = "SELECT id FROM usser WHERE number =" + number;
+                ResultSet resultSet = statement.executeQuery(query1);
+
+               if (resultSet.next())// i won the error of before start youshaaaaa!!!
+               {
+                   String temp;
+                   temp = resultSet.getString("id");
+                   int addedId = Integer.parseInt(temp);
+
+                   // query  to insert into contacts
+                   String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES (" + user.getId() + ",'" + addedId + "','" + name + "');";
+                   statement.executeUpdate(query2);
+               }
+               else
+               {
+                   System.out.println("This is an empty row");
+               }
         } catch(Exception e)
         {
             e.printStackTrace();
@@ -250,7 +270,36 @@ public class User {
             e.printStackTrace();
         }
     }
-    public void addProfilePic(String pic_dir){}
-    public void editDesc(){}
+    public void addProfilePic(User user,String pic_dir){
+        /* Note : i did "\"" + pic_dir + "\"" to skip error because he need string between " "  */
+
+        String query= "UPDATE  chatapp.usser" + " SET prof_pic = " +   "\"" + pic_dir + "\"" + " WhERE id ="+user.getId();
+        Statement statement = App.connect_to_database();
+        try {
+
+            statement.executeUpdate(query);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    public void editDesc(User user,String desc){
+
+        String query= "UPDATE  chatapp.usser" + " SET prof_desc = " +   "\"" + desc + "\"" + " WhERE id ="+user.getId();
+        Statement statement = App.connect_to_database();
+        try {
+
+            statement.executeUpdate(query);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+    }
 
 }
