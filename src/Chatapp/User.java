@@ -178,12 +178,33 @@ public class User {
             e.printStackTrace();
         }
 
-        // STILL WORK IN PROGRESS (MONIR)
-    }
-    public void deleteMessage(Chatroom chatroom, String message){ /*STILL WORK IN PROGRESS (MONIR)*/}
 
-    public void addStory(Story story)
-    {
+    }
+    public void deleteMessage( Message message){
+       try {
+           Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+           Statement stmt = connection.createStatement();
+           String query = "DELETE FROM `chatapp`.`messages` WHERE (`id` = '"+message.getId()+"');";
+           stmt.executeUpdate(query);
+
+
+           String query1 = "DELETE FROM `chatapp`.`message_to` WHERE (`msg_id` = '"+message.getId()+"');";
+
+           Statement stmt1 = connection.createStatement();
+           stmt.executeUpdate(query1);
+
+       }catch (Exception e){
+           e.printStackTrace();
+
+       }
+
+
+
+
+
+    }
+
+    public void addStory(Story story) {
 
       try
       {
@@ -201,9 +222,7 @@ public class User {
        }
 
     }
-
-
-        public void deleteStory(Story story){
+    public void deleteStory(Story story){
             try {
                 Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
                 String query = "DELETE FROM `chatapp`.`story` WHERE (`id` ="+story.getId()+" );";

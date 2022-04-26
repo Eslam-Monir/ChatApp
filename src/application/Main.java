@@ -1,10 +1,6 @@
 package application;
-import Chatapp.Chatroom;
 
-import Chatapp.Message;
-
-import Chatapp.Story;
-import Chatapp.User;
+import Chatapp.*;
 
 import java.sql.*;
 
@@ -24,14 +20,13 @@ public class Main {
             e.printStackTrace();
 
         }
-        Chatroom cr=new Chatroom(0,false,"233","asddfasdfsadfas");
+        Chatroom cr=new Chatroom(1,false,"233","asddfasdfsadfas");
 
         User uu=new User();
-        Message msg=new Message(26,uu,"sadfasdfa","23","23",1,"asdfasdf");
+        Message msg=new Message(24,uu,"sadfasdfa","23","23",1,"asdfasdf");
         User u=new User();
 
-
-        uu.sendMessage(cr,msg,u);
+        uu.deleteMessage(msg);
 
           //  u.deleteStory(stor);
             u.addContact(uu , 2002 , "dazaii");
