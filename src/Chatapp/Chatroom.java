@@ -78,7 +78,8 @@ public class Chatroom {
                        index += 1;
                    }
                    index = 1; // index reset
-                   while (ids[index] != 0) {
+                   while (ids[index] != 0)
+                   {
                        int temp = ids[index];
                        String query2 = "SELECT * From usser where id = " + temp;
                        ResultSet rs2 = statement.executeQuery(query2);
@@ -114,8 +115,7 @@ public class Chatroom {
 
     public int findRoom (int RoomID) // returns an array with the roomIds inside
     {
-        int[] roomIds = new int[50];
-        int roomsIndex = 1;
+        int roomId = 0;
         boolean roomFound = false;
         int foundRoomId = 0;
         try {
@@ -128,15 +128,13 @@ public class Chatroom {
 
             while (rsss.next()) {
                 String rooms = rsss.getString("cr_id");
-                roomIds[roomsIndex] = Integer.parseInt(rooms);
-                roomsIndex += 1;
+                roomId = Integer.parseInt(rooms);
             }
-            for (int item : roomIds) {
-                if (item == RoomID) {
+
+                if (roomId == RoomID) {
                     roomFound = true;
-                    break;
                 }
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
