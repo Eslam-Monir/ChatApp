@@ -1,4 +1,6 @@
 package application;
+import Chatapp.Chatroom;
+import Chatapp.Message;
 import Chatapp.Story;
 import Chatapp.User;
 
@@ -20,9 +22,14 @@ public class Main {
             e.printStackTrace();
 
         }
+        Chatroom cr=new Chatroom(0,false,"233","asddfasdfsadfas");
+
         User uu=new User();
-        Story stor =new Story(2,uu,"aqssadsdas","sdfasdfaasdasdsdf",3);
+        Message msg=new Message(26,uu,"sadfasdfa","23","23",1,"asdfasdf");
         User u=new User();
-            u.deleteStory(stor);
+
+        uu.sendMessage(cr,msg,u);
+
+
 
     }}

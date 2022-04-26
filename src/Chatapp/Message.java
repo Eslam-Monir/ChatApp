@@ -6,10 +6,10 @@ public class Message {
     private String text;
     private String date;
     private String time;
-    private boolean seen;
+    private int seen;
     private String type;
 
-    public Message(int id, User sender, String text, String date, String time, boolean seen,String type) {
+    public Message(int id, User sender, String text, String date, String time, int seen,String type) {
         this.id = id;
         this.sender = sender;
         this.text = text;
@@ -19,6 +19,16 @@ public class Message {
         this.type=type;
     }
     //setter
+
+    public Message(User sender, String text, String date, String time, int seen, String type) {
+        this.id= 0;
+        this.sender = sender;
+        this.text = text;
+        this.date = date;
+        this.time = time;
+        this.seen = seen;
+        this.type = type;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -40,7 +50,7 @@ public class Message {
         this.time = time;
     }
 
-    public void setSeen(boolean seen) {
+    public void setSeen(int seen) {
         this.seen = seen;
     }
     //getters
@@ -69,7 +79,7 @@ public class Message {
         return time;
     }
 
-    public boolean isSeen() {
+    public int isSeen() {
         return seen;
     }
 }
