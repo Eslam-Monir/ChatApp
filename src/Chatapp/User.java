@@ -225,18 +225,6 @@ public class User {
             Statement statement = connection.createStatement();
 
 
-            // Query to get the Id of the added_id
-            String query1 = "SELECT id FROM usser WHERE number =" + number;
-            ResultSet resultSet = statement.executeQuery(query1);
-
-            resultSet.next(); // i won the error of before start youshaaaaa!!!
-
-            String temp ;
-
-            temp = resultSet.getString("id");
-            int addedId = Integer.parseInt(temp);
-
-
                 // Query to get the Id of the added_id
                 String query1 = "SELECT id FROM usser WHERE number =" + number;
                 ResultSet resultSet = statement.executeQuery(query1);

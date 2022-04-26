@@ -1,6 +1,7 @@
 package Chatapp;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Chatroom {
     private int id;

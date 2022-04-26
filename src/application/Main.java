@@ -33,7 +33,7 @@ public class Main {
 
         uu.sendMessage(cr,msg,u);
 
-            u.deleteStory(stor);
+          //  u.deleteStory(stor);
             u.addContact(uu , 2002 , "dazaii");
 
 
