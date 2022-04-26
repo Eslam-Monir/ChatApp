@@ -1,5 +1,9 @@
 package Chatapp;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Chatroom {
@@ -7,7 +11,7 @@ public class Chatroom {
     private boolean isgroup;
     private String last_seen;
     ArrayList<User> users;
-    ArrayList<Message>messages;
+    ArrayList<Message> messages;
     private String cr_desc;
 
     public Chatroom(int id, boolean isgroup, String last_seen, String cr_desc) {
@@ -53,13 +57,95 @@ public class Chatroom {
 
 
     //Functions
-    public void showUsers(){};
+    public void showUsers(int RoomID) {
 
-    public String showLastSeen(){
+           if (findRoom(RoomID) != 0)
+           {
+               int[] ids = new int[50];
+               try {
+
+                   Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+                   Statement statement = connection.createStatement();
+
+                   // progressing if chatroom id exists or doesnt exist
+
+                   String idQuery = "select * from cr_users where cr_id = " + RoomID;
+                   ResultSet rs1 = statement.executeQuery(idQuery);
+                   int index = 1;
+                   while (rs1.next()) {
+                       String id = rs1.getString("user_id");
+                       ids[index] = Integer.parseInt(id);
+                       index += 1;
+                   }
+                   index = 1; // index reset
+                   while (ids[index] != 0) {
+                       int temp = ids[index];
+                       String query2 = "SELECT * From usser where id = " + temp;
+                       ResultSet rs2 = statement.executeQuery(query2);
+
+                       if (!rs2.next()) {
+                           System.out.println("Results are not found !");
+                       } else {
+                           do {
+                               String outputNames = rs2.getString("f_name");
+                               System.out.println("Users : " + outputNames);
+                           } while (rs2.next());
+                       }
+                       index += 1;
+                   }
+               } catch (Exception e) {
+                   e.printStackTrace();
+               }
+           }
+    }
+
+    ;
+
+    public String showLastSeen() {
         return "";
-    };
+    }
 
-    public void loadMessages(){};
+    ;
+
+    public void loadMessages() {
+    }
+
+    ;
+
+    public int findRoom (int RoomID) // returns an array with the roomIds inside
+    {
+        int[] roomIds = new int[50];
+        int roomsIndex = 1;
+        boolean roomFound = false;
+        int foundRoomId = 0;
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
 
 
+            String Query = "select * from cr_users where cr_id = " + RoomID;
+            ResultSet rsss = statement.executeQuery(Query);
+
+            while (rsss.next()) {
+                String rooms = rsss.getString("cr_id");
+                roomIds[roomsIndex] = Integer.parseInt(rooms);
+                roomsIndex += 1;
+            }
+            for (int item : roomIds) {
+                if (item == RoomID) {
+                    roomFound = true;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!roomFound) {
+            System.out.println("Room Not Found !");
+        } else {
+            System.out.println(" Room " + RoomID + " found ");
+            foundRoomId = RoomID;
+        }
+        return foundRoomId;
+    }
 }
