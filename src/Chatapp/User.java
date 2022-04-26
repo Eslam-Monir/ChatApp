@@ -192,6 +192,21 @@ public class User {
         }
 
     }
-    public void editDesc(){}
+    public void editDesc(User user,String desc){
+
+        String query= "UPDATE  chatapp.usser" + " SET prof_desc = " +   "\"" + desc + "\"" + " WhERE id ="+user.getId();
+        Statement statement = App.connect_to_database();
+        try {
+
+            statement.executeUpdate(query);
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+    }
 
 }
