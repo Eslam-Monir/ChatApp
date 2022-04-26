@@ -1,10 +1,6 @@
 package Chatapp;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.sql.*;
 
 public class Chatroom {
     private int id;
@@ -20,6 +16,8 @@ public class Chatroom {
         this.last_seen = last_seen;
         this.cr_desc = cr_desc;
     }
+
+
 
     //setters
     public void setId(int id) {
@@ -43,10 +41,44 @@ public class Chatroom {
         return id;
     }
 
-    public boolean isIsgroup() {
-        return isgroup;
-    }
+    public  boolean isIsgroup() {
+        boolean is_true = false ;
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+            String query = "select is_group from chatroom where id = "+id;
 
+            ResultSet r = statement.executeQuery("select is_group from chatroom where id = "+id);
+            r.next();
+
+            if(r.getString("is_group").equals("1") )
+
+            {
+
+                is_true=true ;
+                System.out.println("This chat room is group");
+                return is_true;
+            }
+            else if( r.getString("is_group").equals("0") )
+            {
+                is_true = false;
+                System.out.println("This chat room is private");
+                return is_true;
+
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+        return is_true;
+    }
     public String getLast_seen() {
         return last_seen;
     }
