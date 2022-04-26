@@ -135,15 +135,15 @@ public class User {
 
                 Statement statement2 =  connection.createStatement();
                 statement2.executeUpdate(query2,Statement.RETURN_GENERATED_KEYS);
-
-                ResultSet rs2 = statement.getGeneratedKeys();
                 System.out.println("passedddd");
+                ResultSet rs2 = statement2.getGeneratedKeys();
+
                 rs2.next();
                 int auto_cr_id = rs2.getInt(1);
                 //Second:
                     // will add the user to the users of the chatroom in cr_users
 
-                String query4 = "INSERT INTO `chatapp`.`cr_user` (`cr_id`, `user_id`) VALUES ('"+auto_cr_id+"', '"+sender.getId()+"')";
+                String query4 = "INSERT INTO `chatapp`.`cr_users` (`cr_id`, `user_id`) VALUES ('"+auto_cr_id+"', '"+sender.getId()+"')";
                 System.out.println(query4);
 
                 Statement stmt =  connection.createStatement();
