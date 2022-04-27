@@ -142,6 +142,41 @@ public class Chatroom {
     ;
 
     public void loadMessages() {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+
+            Statement statement = connection.createStatement();
+            ResultSet quary_for_messages = statement.executeQuery("select * from messages , message_to , usser where cr_id = "+ id + " and  msg_id = messages.id and sender_id =usser.id  order by date , time");
+
+
+            if(this.messages == null)
+                this.messages=new ArrayList<>();
+
+            else if (this.messages.size()!=0)
+                this.messages.clear();
+            while (quary_for_messages.next()) {
+
+                Message temporary = new Message();
+                temporary.setDate(quary_for_messages.getString("date"));
+                temporary.setId(Integer.parseInt(quary_for_messages.getString("id")));
+                temporary.setSeen(Integer.parseInt(quary_for_messages.getString("seen")));
+                temporary.setTime(quary_for_messages.getString("time"));
+                temporary.setText(quary_for_messages.getString("text"));
+                User temp=new User(Integer.parseInt(quary_for_messages.getString("sender_id")),Integer.parseInt(quary_for_messages.getString("number")) ,quary_for_messages.getString("f_name"),quary_for_messages.getString("password"),quary_for_messages.getString("prof_pic"),quary_for_messages.getString("prof_desc"));
+                temporary.setSender(temp);
+                temporary.setType(quary_for_messages.getString("type"));
+
+                this.messages.add(temporary);
+                temporary = null ;
+                temp = null ;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        ;
+
     }
 
     ;
