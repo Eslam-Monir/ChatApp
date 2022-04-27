@@ -39,7 +39,14 @@ public class User {
         this.contacts = null;
     }
 
-
+    public User(int id, int number, String f_name, String password, String prof_pic, String prof_desc) {
+        this.id = id;
+        this.number = number;
+        this.f_name = f_name;
+        this.password = password;
+        this.prof_pic = prof_pic;
+        this.prof_desc = prof_desc;
+    }
 
 
     public int getId() {

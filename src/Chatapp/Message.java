@@ -18,7 +18,16 @@ public class Message {
         this.seen = seen;
         this.type=type;
     }
+
+    public Message() {
+
+    }
+
     //setter
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Message(User sender, String text, String date, String time, int seen, String type) {
         this.id= 0;
