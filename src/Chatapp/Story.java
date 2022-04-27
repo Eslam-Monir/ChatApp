@@ -74,7 +74,10 @@ public class Story{
     }
 
     //Functions
-    public void openStory(){};
+    public Story openStory(Story story) // the parameter is the clicked story ❤?
+    {
+        return story;
+    };
 
    public boolean seen(){
        return true ;

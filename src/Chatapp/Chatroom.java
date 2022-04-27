@@ -42,7 +42,7 @@ public class Chatroom {
         return id;
     }
 
-    public  boolean isIsgroup() {
+    public  boolean isGroup() {
         boolean is_true = false ;
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
