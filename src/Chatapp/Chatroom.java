@@ -1,7 +1,6 @@
 package Chatapp;
 import java.util.ArrayList;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class Chatroom {
     private int id;
@@ -135,7 +134,8 @@ public class Chatroom {
 
     ;
 
-    public String showLastSeen() {
+    public String showLastSeen()
+    {
         return "";
     }
 
@@ -146,7 +146,9 @@ public class Chatroom {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
             Statement statement = connection.createStatement();
-            ResultSet quary_for_messages = statement.executeQuery("select * from messages , message_to , usser where cr_id = "+ id + " and  msg_id = messages.id and sender_id =usser.id  order by date , time");
+            ResultSet query_for_messages = statement.executeQuery("select * from messages , message_to , usser where cr_id = "+ id +
+                    " and  msg_id = messages.id " +
+                    "and sender_id =usser.id  order by date , time");
 
 
             if(this.messages == null)
@@ -154,17 +156,22 @@ public class Chatroom {
 
             else if (this.messages.size()!=0)
                 this.messages.clear();
-            while (quary_for_messages.next()) {
+            while (query_for_messages.next()) {
 
                 Message temporary = new Message();
-                temporary.setDate(quary_for_messages.getString("date"));
-                temporary.setId(Integer.parseInt(quary_for_messages.getString("id")));
-                temporary.setSeen(Integer.parseInt(quary_for_messages.getString("seen")));
-                temporary.setTime(quary_for_messages.getString("time"));
-                temporary.setText(quary_for_messages.getString("text"));
-                User temp=new User(Integer.parseInt(quary_for_messages.getString("sender_id")),Integer.parseInt(quary_for_messages.getString("number")) ,quary_for_messages.getString("f_name"),quary_for_messages.getString("password"),quary_for_messages.getString("prof_pic"),quary_for_messages.getString("prof_desc"));
+                temporary.setDate(query_for_messages.getString("date"));
+                temporary.setId(Integer.parseInt(query_for_messages.getString("id")));
+                temporary.setSeen(Integer.parseInt(query_for_messages.getString("seen")));
+                temporary.setTime(query_for_messages.getString("time"));
+                temporary.setText(query_for_messages.getString("text"));
+                User temp=new User(Integer.parseInt(query_for_messages.getString("sender_id"))
+                        ,Integer.parseInt(query_for_messages.getString("number"))
+                        , query_for_messages.getString("f_name")
+                        , query_for_messages.getString("password")
+                        , query_for_messages.getString("prof_pic")
+                        , query_for_messages.getString("prof_desc"));
                 temporary.setSender(temp);
-                temporary.setType(quary_for_messages.getString("type"));
+                temporary.setType(query_for_messages.getString("type"));
 
                 this.messages.add(temporary);
                 temporary = null ;

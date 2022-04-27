@@ -47,9 +47,6 @@ public class Story{
         this.text = text;
     }
 
-    public void setSeen_count(int seen_count) {
-        this.seen_count = seen_count;
-    }
 
     //getters
 
@@ -81,5 +78,8 @@ public class Story{
 
    public boolean seen(){
        return true ;
+   }
+    public void setSeen_count(int seen_count) {
+        this.seen_count = seen_count;
+    }
    };
-}
