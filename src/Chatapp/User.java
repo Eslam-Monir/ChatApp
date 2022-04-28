@@ -315,5 +315,54 @@ public class User {
 
 
     }
+    public Story openStory(Story story ) // the parameter is the clicked story ❤?
+    {
+        try {
+            int seenCount = 0;
+            ArrayList<Integer> user_ids = new ArrayList<>();
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+
+            String getIDsQuery = "SELECT * FROM seen_story where str_id =  " +story.getId(); // get user ids who seen the story
+            System.out.println(getIDsQuery); //sout
+            ResultSet rs1 = statement.executeQuery(getIDsQuery);
+
+            while (rs1.next()) {
+                String id = rs1.getString("user_id");
+                user_ids.add(Integer.parseInt(id));
+
+            }
+
+            if (story.getUser().getId() != this.getId())
+            {
+                System.out.println("inside the if");
+                for ( int id : user_ids)
+                {
+                    System.out.println("inside the for");
+                    if (id != this.getId())
+                    {
+                        String fetchSeeCount = "Select seen from story where  id = " + story.getId();
+                        statement.executeQuery(fetchSeeCount);
+                        System.out.println(fetchSeeCount); //sout
+                        seenCount = Integer.parseInt(fetchSeeCount);
+                        seenCount += 1;
+                        String updateQuery = "UPDATE `chatapp`.`story` SET seen = " + seenCount + " where id = " + story.getId();
+                        System.out.println("seen count = " + seenCount);
+
+                        String insertQuery = "INSERT INTO `chatapp`.`seen_story` ( `str_id` , `user_id`) VALUES ( `" + story.getId() + "` , `" + this.getId() + "`) ";
+                        statement.executeQuery(insertQuery);
+                        story.setSeen_count(seenCount);
+                    }
+                    else {
+                        System.out.println("this user has already seen story");
+                    }
+                }
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return story;
+    };
 
 }

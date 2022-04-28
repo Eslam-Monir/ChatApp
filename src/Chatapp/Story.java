@@ -2,6 +2,9 @@ package Chatapp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Story{
     private int id;
@@ -14,9 +17,6 @@ public class Story{
 
     private int seen_count;
 
-    public Story(int id) {
-        this.id = id;
-    }
 
     public Story(int id, User user, String time, String text, int seen_count) {
         this.id = id;
@@ -52,8 +52,11 @@ public class Story{
         this.text = text;
     }
 
+    public void setSeen_count(int seen_count) {
+        this.seen_count = seen_count;
+    }
 
-    //getters
+//getters
 
     public int getId() {
         return id;
@@ -76,28 +79,6 @@ public class Story{
     }
 
     //Functions
-    public Story openStory(Story story) // the parameter is the clicked story ❤?
-    {
-        try {
-            int seenCount = 0;
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
-            String fetchSeeCount = "Select seen from story where  id = "+ story.getId();
-            seenCount = Integer.parseInt(fetchSeeCount);
-            seenCount += 1 ;
-            String query = "UPDATE `chatapp`.`story` SET seen = " + seenCount +" where id = " +  story.getId();
-            System.out.println("seen count = " + seenCount);
- // ahsouf men ele 3aml seen w mayeb2aash as a duplicate (maye3mlsh seen tane)
-            //Just once yabn elkkelab
-
-
-
-
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return story;
-    };
 
    public boolean seen(){
        return true ;
