@@ -3,7 +3,13 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Story  {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+
     private int id;
 
     private User user;
@@ -13,7 +19,6 @@ public class Story  {
     private   String text;
 
     private int seen_count;
-
 
 
     public Story(int id, User user, String time, String text, int seen_count) {
@@ -62,8 +67,11 @@ public class Story  {
         this.text = text;
     }
 
+    public void setSeen_count(int seen_count) {
+        this.seen_count = seen_count;
+    }
 
-    //getters
+//getters
 
     public int getId() {
         return id;
@@ -86,15 +94,9 @@ public class Story  {
     }
 
     //Functions
-    public Story openStory(Story story) // the parameter is the clicked story ❤?
-    {
-        return story;
-    };
 
    public boolean seen(){
        return true ;
    }
-    public void setSeen_count(int seen_count) {
-        this.seen_count = seen_count;
-    }
+
    };
