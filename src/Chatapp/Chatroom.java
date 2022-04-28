@@ -10,13 +10,15 @@ public class Chatroom {
     ArrayList<Message> messages;
     private String cr_desc;
 
+    public Chatroom() {
+
+    }
     public Chatroom(int id, boolean isgroup, String last_seen, String cr_desc) {
         this.id = id;
         this.isgroup = isgroup;
         this.last_seen = last_seen;
         this.cr_desc = cr_desc;
     }
-
 
 
     //setters
@@ -203,7 +205,7 @@ public class Chatroom {
 
             while (rsss.next()) {
                 String rooms = rsss.getString("cr_id");
-                roomId = Integer.parseInt(rooms);
+                roomId  = Integer.parseInt(rooms);
             }
 
                 if (roomId == RoomID) {
