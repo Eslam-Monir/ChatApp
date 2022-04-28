@@ -1,4 +1,7 @@
 package Chatapp;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class Story{
+
     private int id;
 
     private User user;
@@ -25,6 +28,18 @@ public class Story{
         this.text = text;
         this.seen_count = seen_count;
     }
+
+    @Override
+    public String toString() {
+        return "Story{" +
+                "id=" + id +
+                ", user=" + user.toString() +
+                ", time='" + time + '\'' +
+                ", text='" + text + '\'' +
+                ", seen_count=" + seen_count +
+                '}';
+    }
+
     public Story(){
         this.id=0;
         this.user = null;
