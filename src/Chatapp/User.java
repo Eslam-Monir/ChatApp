@@ -131,6 +131,15 @@ public class User {
         }
         this.Stories.add(story);
     }
+    public void addContactToContacts(User user) {
+        if(this.contacts == null) {
+            contacts =new ArrayList<>();
+
+
+        }
+        this.contacts.add(user);
+    }
+
 
     public void setContacts(ArrayList<User> contacts) {
         this.contacts = contacts;
@@ -420,6 +429,14 @@ public class User {
     public void show_stories() {
         for (Story elem : Stories) {
             System.out.println(elem.toString());
+        }
+
+    }
+    public void show_contacts() {
+        System.out.println(toString() +"\nContacts :");
+        for (User elem : contacts) {
+
+            System.out.println("\t" + elem.toString());
         }
 
     }

@@ -23,7 +23,11 @@ public class App
         this.chatrooms = chatrooms;
     }
 
-    public App() {
+    /*public App() {
+    }*/
+
+    public App(User loggedUser) {
+        this.loggedUser = loggedUser;
     }
 
     // Getters And Setters
@@ -126,6 +130,60 @@ public class App
 
     public void loadContacts()
     {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+
+            Statement statement = connection.createStatement();
+
+            ResultSet contacts_query = statement.executeQuery("select * from contacts,usser where adder_id=" + loggedUser.getId() +
+                    " and adder_id = usser.id ");
+
+            if(loggedUser.getContacts()!=null && loggedUser.getContacts().size()!=0 ){
+
+                loggedUser.getContacts().clear();
+            }
+
+
+            while (contacts_query.next()){
+
+
+                User temporary_contact = new User();
+
+                temporary_contact.setId(Integer.parseInt(contacts_query.getString("added_id")));
+
+                temporary_contact.setF_name(contacts_query.getString("name"));
+loggedUser.setId(Integer.parseInt(contacts_query.getString("adder_id")));
+loggedUser.setNumber(Integer.parseInt(contacts_query.getString("number")));
+loggedUser.setF_name(contacts_query.getString("f_name"));
+loggedUser.setPassword(contacts_query.getString("password"));
+loggedUser.setProf_pic(contacts_query.getString("prof_pic"));
+loggedUser.setProf_desc(contacts_query.getString("prof_desc"));
+                /*User temporary_user=new User(Integer.parseInt(contacts_query.getString("adder_id"))
+                        ,Integer.parseInt(contacts_query.getString("number"))
+                        , contacts_query.getString("f_name")
+                        , contacts_query.getString("password")
+                        , contacts_query.getString("prof_pic")
+                        , contacts_query.getString("prof_desc"));*/
+
+                //temporary_contact.setUser(temporary_user);
+                loggedUser.addContactToContacts(temporary_contact);
+
+                temporary_contact = null ;
+                //temporary_user = null ;
+
+
+
+
+            }
+
+         loggedUser.show_contacts();
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
 
     }
 

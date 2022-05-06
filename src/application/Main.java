@@ -20,7 +20,7 @@ public class Main {
             e.printStackTrace();
 
         }
-        Chatroom cr=new Chatroom(1,false,"233","asddfasdfsadfas");
+        /*Chatroom cr=new Chatroom(1,false,"233","asddfasdfsadfas");
 
         User uu=new User();
         Message msg=new Message(24,uu,"sadfasdfa","23","23",1,"asdfasdf");
@@ -29,10 +29,11 @@ public class Main {
         uu.deleteMessage(msg);
 
           //  u.deleteStory(stor);
-            u.addContact(uu , 2002 , "dazaii");
-        User user = new User(1);
+            u.addContact(uu , 2002 , "dazaii");*/
+       /* User user = new User(1);
         App app = new App();
-        app.loadStories(user);
-
-
+        app.loadStories(user);*/
+        User user = new User(1);
+        App app = new App(user);
+         app.loadContacts();
     }}
