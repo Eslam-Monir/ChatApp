@@ -139,6 +139,14 @@ public class User {
         }
         this.contacts.add(user);
     }
+    public void addChatroomToChatrooms(Chatroom chatroom) {
+        if(this.chatrooms == null) {
+            chatrooms =new ArrayList<>();
+
+
+        }
+        this.chatrooms.add(chatroom);
+    }
 
 
     public void setContacts(ArrayList<User> contacts) {
@@ -438,6 +446,16 @@ public class User {
 
             System.out.println("\t" + elem.toString());
         }
+
+    }
+    public void show_chatrooms() {
+        System.out.println(toString() +"\nChatrooms :");
+        for (Chatroom elem : chatrooms) {
+
+            System.out.println( elem.toString());
+        }
+
+
 
     }
 }

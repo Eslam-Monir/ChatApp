@@ -26,6 +26,15 @@ public class Chatroom {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Chatroom{" +
+                "id=" + id +
+                ", isgroup=" + isgroup +
+                ", last_seen='" + last_seen + '\'' +
+                '}';
+    }
+
     public void setIsgroup(boolean isgroup) {
         this.isgroup = isgroup;
     }
