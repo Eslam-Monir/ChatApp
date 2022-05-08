@@ -1,7 +1,7 @@
 package application;
 
 import Chatapp.*;
-
+import gui.*;
 import java.sql.*;
 
 public class Main {
@@ -33,8 +33,10 @@ public class Main {
        /* User user = new User(1);
         App app = new App();
         app.loadStories(user);
-        User user = new User(1);
-        App app = new App(user);
-         //app.loadContacts();
-         app.loadChatrooms();*/
+
+
+        //loading form
+        LoginForm x = new LoginForm();
+        x.showLog();
+
     }}
