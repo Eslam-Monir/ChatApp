@@ -131,6 +131,23 @@ public class User {
         }
 
     }
+    public void addContactToContacts(User user) {
+        if(this.contacts == null) {
+            contacts =new ArrayList<>();
+
+
+        }
+        this.contacts.add(user);
+    }
+    public void addChatroomToChatrooms(Chatroom chatroom) {
+        if(this.chatrooms == null) {
+            chatrooms =new ArrayList<>();
+
+
+        }
+        this.chatrooms.add(chatroom);
+    }
+
 
     public void setContacts(ArrayList<User> contacts) {
         this.contacts = contacts;
@@ -421,6 +438,24 @@ public class User {
         for (Story elem : Stories) {
             System.out.println(elem.toString());
         }
+
+    }
+    public void show_contacts() {
+        System.out.println(toString() +"\nContacts :");
+        for (User elem : contacts) {
+
+            System.out.println("\t" + elem.toString());
+        }
+
+    }
+    public void show_chatrooms() {
+        System.out.println(toString() +"\nChatrooms :");
+        for (Chatroom elem : chatrooms) {
+
+            System.out.println( elem.toString());
+        }
+
+
 
     }
 }
