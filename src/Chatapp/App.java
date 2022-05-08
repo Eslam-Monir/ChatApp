@@ -9,7 +9,7 @@ import java.util.Queue;
 
 public class App
 {
-    private User loggedUser;
+    public static User loggedUser;
 
     private Chatroom chatrooms;
 
@@ -27,13 +27,7 @@ public class App
     }
 
     // Getters And Setters
-    public User getLoggedUser() {
-        return loggedUser;
-    }
 
-    public void setLoggedUser(User loggedUser) {
-        this.loggedUser = loggedUser;
-    }
 
     public Chatroom getChatrooms() {
         return chatrooms;
@@ -70,7 +64,37 @@ public class App
     {
 
     }
+    public static ArrayList<User> getAllUsers()
+    { //returns all users from database to verify user login
+     ArrayList<User> users=new ArrayList<User>();
+        try{
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+            ResultSet rs=statement.executeQuery("SELECT * from usser");
 
+            User user;
+            while (rs.next()){ //initializing user to put in array
+               user =new User(Integer.parseInt(rs.getString("id"))
+                        ,Integer.parseInt(rs.getString("number"))
+                        , rs.getString("f_name")
+                        , rs.getString("password")
+                        , rs.getString("prof_pic")
+                        , rs.getString("prof_desc"));
+                //adds the user to the array
+               users.add(user);
+
+            }
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+
+        }
+        return users;
+
+
+    }
     public void loadStories(User user) {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
