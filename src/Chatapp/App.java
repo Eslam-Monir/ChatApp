@@ -23,7 +23,11 @@ public class App
         this.chatrooms = chatrooms;
     }
 
-    public App() {
+    /*public App() {
+    }*/
+
+    public App(User loggedUser) {
+        this.loggedUser = loggedUser;
     }
 
     // Getters And Setters
@@ -68,7 +72,57 @@ public class App
 
     public void loadChatrooms()
     {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
+            Statement statement = connection.createStatement();
+
+            ResultSet chatroom_query = statement.executeQuery("select * from cr_users ,usser,chatroom where user_id=" + loggedUser.getId() +
+                    " and user_id = usser.id " +
+                    " and cr_id = chatroom.id order by last_seen ");
+
+            if(loggedUser.getChatrooms()!=null && loggedUser.getChatrooms().size()!=0 ){
+
+                loggedUser.getChatrooms().clear();
+            }
+
+
+            while (chatroom_query.next()){
+
+
+                Chatroom temporary_chatroom = new Chatroom();
+
+                temporary_chatroom.setId(Integer.parseInt(chatroom_query.getString("chatroom.id")));
+                temporary_chatroom.setIsgroup(chatroom_query.getBoolean("chatroom.id"));
+
+                temporary_chatroom.setLast_seen(chatroom_query.getString("chatroom.last_seen"));
+                loggedUser.setId(Integer.parseInt(chatroom_query.getString("usser.id")));
+                loggedUser.setNumber(Integer.parseInt(chatroom_query.getString("number")));
+                loggedUser.setF_name(chatroom_query.getString("f_name"));
+                loggedUser.setPassword(chatroom_query.getString("password"));
+                loggedUser.setProf_pic(chatroom_query.getString("prof_pic"));
+                loggedUser.setProf_desc(chatroom_query.getString("prof_desc"));
+
+
+                loggedUser.addChatroomToChatrooms(temporary_chatroom);
+
+
+                temporary_chatroom = null ;
+
+
+
+
+
+            }
+            //loggedUser.show_chatrooms();
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
     }
 
     public void loadStories(User user) {
@@ -126,6 +180,55 @@ public class App
 
     public void loadContacts()
     {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+
+            Statement statement = connection.createStatement();
+
+            ResultSet contacts_query = statement.executeQuery("select * from contacts,usser where adder_id=" + loggedUser.getId() +
+                    " and adder_id = usser.id ");
+
+            if(loggedUser.getContacts()!=null && loggedUser.getContacts().size()!=0 ){
+
+                loggedUser.getContacts().clear();
+            }
+
+
+            while (contacts_query.next()){
+
+
+                User temporary_contact = new User();
+
+                temporary_contact.setId(Integer.parseInt(contacts_query.getString("added_id")));
+
+                temporary_contact.setF_name(contacts_query.getString("name"));
+                loggedUser.setId(Integer.parseInt(contacts_query.getString("adder_id")));
+                loggedUser.setNumber(Integer.parseInt(contacts_query.getString("number")));
+                loggedUser.setF_name(contacts_query.getString("f_name"));
+                loggedUser.setPassword(contacts_query.getString("password"));
+                loggedUser.setProf_pic(contacts_query.getString("prof_pic"));
+                loggedUser.setProf_desc(contacts_query.getString("prof_desc"));
+
+
+
+                loggedUser.addContactToContacts(temporary_contact);
+
+                temporary_contact = null ;
+
+
+
+
+
+            }
+
+         //loggedUser.show_contacts();
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
 
     }
 

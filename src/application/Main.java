@@ -30,9 +30,11 @@ public class Main {
 
           //  u.deleteStory(stor);
             u.addContact(uu , 2002 , "dazaii");
-        User user = new User(1);
+       /* User user = new User(1);
         App app = new App();
         app.loadStories(user);
-
-
+        User user = new User(1);
+        App app = new App(user);
+         //app.loadContacts();
+         app.loadChatrooms();*/
     }}
