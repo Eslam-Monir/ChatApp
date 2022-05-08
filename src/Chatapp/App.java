@@ -187,13 +187,13 @@ public class App
 
             ResultSet contacts_query = statement.executeQuery("select * from contacts,usser where adder_id=" + loggedUser.getId() +
                     " and adder_id = usser.id ");
-
+        // delete array_list
             if(loggedUser.getContacts()!=null && loggedUser.getContacts().size()!=0 ){
 
                 loggedUser.getContacts().clear();
             }
 
-
+          //put query in object
             while (contacts_query.next()){
 
 
@@ -210,7 +210,7 @@ public class App
                 loggedUser.setProf_desc(contacts_query.getString("prof_desc"));
 
 
-
+                //put object in array_list
                 loggedUser.addContactToContacts(temporary_contact);
 
                 temporary_contact = null ;
