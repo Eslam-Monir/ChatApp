@@ -30,7 +30,7 @@ public class Main {
         uu.deleteMessage(msg);
 
           //  u.deleteStory(stor);
-//            u.addContact(uu , 1687387229 , "levi"); add a check if contact is already there
+         App.addContact(App.loggedUser , 1687387229 , "levi");
         User user = new User(1);
 
 

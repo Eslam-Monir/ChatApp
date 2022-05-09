@@ -319,11 +319,6 @@ public class User {
         }
     }
 
-    public void addContact(User user, int number, String name) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
-            Statement statement = connection.createStatement();
-
 
             // Query to get the Id of the added_id
             String query1 = "SELECT id FROM usser WHERE number =" + number;
@@ -345,6 +340,7 @@ public class User {
             e.printStackTrace();
         }
     }
+
 
     public void removeContact(User adder, User added) {
         String query = "DELETE FROM contacts where adder_id =" + adder.getId() + "and added_id=" + added.getId();
