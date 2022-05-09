@@ -1,6 +1,7 @@
 package application;
 
 import Chatapp.*;
+import gui.*;
 
 import java.sql.*;
 
@@ -34,5 +35,6 @@ public class Main {
         App app = new App();
         app.loadStories(user);
 
-
+        LoginForm x = new LoginForm();
+        x.showLog();
     }}
