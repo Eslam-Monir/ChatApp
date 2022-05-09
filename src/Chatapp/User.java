@@ -320,28 +320,6 @@ public class User {
     }
 
 
-            // Query to get the Id of the added_id
-            String query1 = "SELECT id FROM usser WHERE number =" + number;
-            ResultSet resultSet = statement.executeQuery(query1);
-
-            if (resultSet.next())// i won the error of before start youshaaaaa!!!
-            {
-                String temp;
-                temp = resultSet.getString("id");
-                int addedId = Integer.parseInt(temp);
-
-                // query  to insert into contacts
-                String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES (" + user.getId() + ",'" + addedId + "','" + name + "');";
-                statement.executeUpdate(query2);
-            } else {
-                System.out.println("This is number doens't have i-message app !");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public void removeContact(User adder, User added) {
         String query = "DELETE FROM contacts where adder_id =" + adder.getId() + "and added_id=" + added.getId();
         Statement statement = App.connect_to_database();
