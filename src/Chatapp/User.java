@@ -339,7 +339,7 @@ public class User {
                 String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES (" + user.getId() + ",'" + addedId + "','" + name + "');";
                 statement.executeUpdate(query2);
             } else {
-                System.out.println("This is an empty row");
+                System.out.println("This is number doens't have i-message app !");
             }
         } catch (Exception e) {
             e.printStackTrace();
