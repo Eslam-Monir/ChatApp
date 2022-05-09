@@ -3,6 +3,8 @@ import java.sql.*;
 import java.time.LocalDateTime; //  Used for the fetchTime()
 import java.time.format.DateTimeFormatter;//  Used for the fetchTime()
 import java.util.ArrayList;
+import java.util.Stack;
+import java.util.concurrent.ExecutionException;
 
 
 public class App
@@ -307,6 +309,36 @@ public class App
 
         setDate(Date.format(Datenow));
         setTime(Time.format(Timenow));
+    }
+
+    public static void addChatroom(Stack<User> users)
+    {
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+            String createChatroom = "INSERT INTO chatroom ( `is_group` , `last_seen` ) Values ( '1' , 'null' )";
+      
+            statement.executeUpdate(createChatroom, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+
+            int crID = rs.getInt(1);
+            System.out.println("CR ID :  " + crID);
+
+        while(!users.empty())
+              {
+                User addedUser = new User();
+                addedUser = users.pop();
+                String insertUsers = "INSERT INTO cr_users ( `cr_id` , `user_id` ) Values ( " + crID + " , " + addedUser.getId() + ") ";
+                System.out.println(insertUsers);
+                statement.executeUpdate(insertUsers);
+              }
+        }catch (Exception e) 
+            {
+            e.printStackTrace();
+            }
+
     }
 
     static  public Statement connect_to_database(){
