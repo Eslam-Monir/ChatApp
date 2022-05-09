@@ -195,7 +195,32 @@ public class App
         }
     }
 
+    public static void addContact(User user, int number, String name) {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
 
+
+            // Query to get the Id of the added_id
+            String query1 = "SELECT id FROM usser WHERE number =" + number;
+            ResultSet resultSet = statement.executeQuery(query1);
+
+            if (resultSet.next())// i won the error of before start youshaaaaa!!!
+            {
+                String temp;
+                temp = resultSet.getString("id");
+                int addedId = Integer.parseInt(temp);
+
+                // query  to insert into contacts
+                String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES (" + user.getId() + ",'" + addedId + "','" + name + "');";
+                statement.executeUpdate(query2);
+            } else {
+                System.out.println("This is an empty row");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static void loadContacts()
     {
         try {
