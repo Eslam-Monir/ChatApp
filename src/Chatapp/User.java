@@ -129,8 +129,25 @@ public class User {
 
 
         }
-        this.Stories.add(story);
+
     }
+    public void addContactToContacts(User user) {
+        if(this.contacts == null) {
+            contacts =new ArrayList<>();
+
+
+        }
+        this.contacts.add(user);
+    }
+    public void addChatroomToChatrooms(Chatroom chatroom) {
+        if(this.chatrooms == null) {
+            chatrooms =new ArrayList<>();
+
+
+        }
+        this.chatrooms.add(chatroom);
+    }
+
 
     public void setContacts(ArrayList<User> contacts) {
         this.contacts = contacts;
@@ -261,7 +278,7 @@ public class User {
 
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
-            String query = "INSERT INTO story ( `user_id`, `time`, `text`) VALUES (" + story.getUser().id + ",'" + story.getTime() + "','" + story.getText() + "');";
+            String query = "INSERT INTO story ( `user_id`, `time`, `text`) VALUES (" + story.getUser().getId() + ",'" + story.getTime() + "','" + story.getText() + "');";
             System.out.println(query);
 
             Statement statement = connection.createStatement();
@@ -437,6 +454,24 @@ public class User {
         for (Story elem : Stories) {
             System.out.println(elem.toString());
         }
+
+    }
+    public void show_contacts() {
+        System.out.println(toString() +"\nContacts :");
+        for (User elem : contacts) {
+
+            System.out.println("\t" + elem.toString());
+        }
+
+    }
+    public void show_chatrooms() {
+        System.out.println(toString() +"\nChatrooms :");
+        for (Chatroom elem : chatrooms) {
+
+            System.out.println( elem.toString());
+        }
+
+
 
     }
 }
