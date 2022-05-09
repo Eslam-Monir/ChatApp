@@ -3,8 +3,6 @@ import java.sql.*;
 import java.time.LocalDateTime; //  Used for the fetchTime()
 import java.time.format.DateTimeFormatter;//  Used for the fetchTime()
 import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 
 public class App
@@ -200,22 +198,41 @@ public class App
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
             Statement statement = connection.createStatement();
 
-
             // Query to get the Id of the added_id
-            String query1 = "SELECT id FROM usser WHERE number =" + number;
-            ResultSet resultSet = statement.executeQuery(query1);
+            String getID = "SELECT id FROM usser WHERE number =" + number;
+            ResultSet resultSet = statement.executeQuery(getID);
 
             if (resultSet.next())// i won the error of before start youshaaaaa!!!
             {
-                String temp;
-                temp = resultSet.getString("id");
-                int addedId = Integer.parseInt(temp);
 
-                // query  to insert into contacts
-                String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES (" + user.getId() + ",'" + addedId + "','" + name + "');";
-                statement.executeUpdate(query2);
+                String id = resultSet.getString("id");
+                int addedId = Integer.parseInt(id);
+
+                String adder_added = "SELECT * FROM contacts WHERE adder_id = " + user.getId() + " AND added_id = " + addedId;
+                System.out.println(adder_added);
+                ResultSet rstt = statement.executeQuery(adder_added);
+
+                if (!rstt.next())
+                {
+
+                    // query  to insert into contacts
+                    String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES (" + user.getId() + ",'" + addedId + "','" + name + "');";
+                    statement.executeUpdate(query2);
+                    try
+                    { 
+                        String createChatroom = "INSERT INTO chatroom ( `is_group` , `last_seen` ) Values ( '0' , 'null' )";
+                        System.out.println(createChatroom);
+                        statement.executeUpdate(createChatroom);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                System.out.println("You have already added this user ");
+
             } else {
-                System.out.println("This is an empty row");
+                System.out.println("This is contact doesn't have this app installed");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -280,7 +297,7 @@ public class App
         return "hello";
     }
 
-    public void fetchTime()
+    public static void fetchTime()
     {
         DateTimeFormatter Date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime Datenow = LocalDateTime.now();
