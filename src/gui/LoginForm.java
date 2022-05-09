@@ -126,24 +126,33 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
 
-      ArrayList<User> system_users=App.getAllUsers(); // An array that contains all the users
-
+        ArrayList<User> system_users=App.getAllUsers(); // An array that contains all the users
+        boolean x = false;
         String input=jTextField1.getText();
-       if(input != null){
-           for (User user  : system_users ) {
-                if(Integer.parseInt(input) == user.getNumber()){ //sets the logged user with the verified user
+        if(!input.isEmpty()){
+            for (User user  : system_users ) {
+                if(Integer.parseInt(input) == user.getNumber()) { //sets the logged user with the verified user
+                    x = true;
                     App.loggedUser=user;
                 }
-           }
+            }
 
+            if(x == false){
+                JFrame frame = new JFrame("Wrong Number");
+                JOptionPane.showMessageDialog(this, "Wrong Number");
+            }
 
-
-        UserForm user = new UserForm();
-        ImageIcon img = new ImageIcon("D:\\Work\\chatapp\\chat-icon.jpg");
-        user.setIconImage(img.getImage());
-        user.setTitle("i-chat");
-        user.setVisible(true);}
-        dispose();
+            UserForm user = new UserForm();
+            ImageIcon img = new ImageIcon("C:\\Chatapp\\src\\gui\\chat-icon.jpg");
+            user.setIconImage(img.getImage());
+            user.setTitle("i-chat");
+            user.setVisible(true);
+            dispose();
+        }
+        else{
+            JFrame frame = new JFrame("Empty Input");
+            JOptionPane.showMessageDialog(this, "Empty Input");
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
@@ -155,8 +164,8 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jButton1ComponentShown
-        
-        
+
+
     }//GEN-LAST:event_jButton1ComponentShown
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown

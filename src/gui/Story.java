@@ -4,9 +4,13 @@
  */
 package gui;
 
+import Chatapp.App;
+import Chatapp.User;
+
 import java.awt.Color;
 import java.awt.Image;
-import javax.swing.ImageIcon;
+import java.util.ArrayList;
+import javax.swing.*;
 
 /**
  *
@@ -56,7 +60,17 @@ public class Story extends javax.swing.JFrame {
         jList1.setBackground(new java.awt.Color(102, 102, 102));
         jList1.setFont(new java.awt.Font("Arial Black", 1, 20)); // NOI18N
         jList1.setForeground(new java.awt.Color(0, 0, 0));
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+
+        ArrayList<User> contacts;
+        DefaultListModel dlm=new DefaultListModel();
+        App.loadContacts();
+//        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
+        for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
+            dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
+        }
+        jList1.setModel(dlm);
+
+        /*jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
@@ -65,7 +79,7 @@ public class Story extends javax.swing.JFrame {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jList1ComponentShown(evt);
             }
-        });
+        });*/
         jScrollPane1.setViewportView(jList1);
 
         getContentPane().add(jScrollPane1);
@@ -112,7 +126,7 @@ public class Story extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Arabic Typesetting", 1, 40)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel2.setText("rouf");
+        jLabel2.setText(App.loggedUser.getF_name().toString());
         getContentPane().add(jLabel2);
         jLabel2.setBounds(120, 36, 130, 40);
 

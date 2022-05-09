@@ -239,6 +239,7 @@ public class UserForm extends javax.swing.JFrame {
         Image modifiedImage = image.getScaledInstance(80, 70, java.awt.Image.SCALE_SMOOTH);
         img = new ImageIcon(modifiedImage);
         jLabel3.setIcon(img);
+
     }//GEN-LAST:event_formComponentShown
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
