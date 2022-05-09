@@ -23,14 +23,14 @@ public class Main {
         }
         Chatroom cr=new Chatroom(1,false,"233","asddfasdfsadfas");
 
-        User uu=new User();
+        User uu=new User(1);
         Message msg=new Message(24,uu,"sadfasdfa","23","23",1,"asdfasdf");
         User u=new User();
 
         uu.deleteMessage(msg);
 
           //  u.deleteStory(stor);
-            u.addContact(uu , 2002 , "dazaii");
+//            u.addContact(uu , 1687387229 , "levi"); add a check if contact is already there
         User user = new User(1);
 
 

@@ -196,7 +196,7 @@ public class App
     }
 
 
-    public void loadContacts()
+    public static void loadContacts()
     {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");

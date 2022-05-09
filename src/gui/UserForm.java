@@ -4,11 +4,13 @@
  */
 package gui;
 
-import Chatapp.App;
+import Chatapp.*;
 
 import java.awt.Color;
 import java.awt.Image;
-import javax.swing.ImageIcon;
+import java.util.ArrayList;
+import java.util.Queue;
+import javax.swing.*;
 
 /**
  *
@@ -54,6 +56,17 @@ public class UserForm extends javax.swing.JFrame {
             }
         });
         getContentPane().setLayout(null);
+
+        ArrayList<User> contacts;
+        DefaultListModel dlm=new DefaultListModel();
+        App.loadContacts();
+//        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
+        for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
+            dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
+        }
+//    }
+
+
 
         jLabel1.setFont(new java.awt.Font("Arabic Typesetting", 1, 40)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(204, 204, 204));
@@ -159,11 +172,21 @@ public class UserForm extends javax.swing.JFrame {
         jList1.setBackground(new java.awt.Color(102, 102, 102));
         jList1.setFont(new java.awt.Font("Arial Black", 1, 20)); // NOI18N
         jList1.setForeground(new java.awt.Color(0, 0, 0));
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "I1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 11", "Item 21", "Item 31", "Item 41", "Item 51", "Item 12", "2", "Item 22", "Item 32", "Item 42", "Item 52", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+
+
+
+        jList1.setModel(dlm);
+
+//        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+//
+//
+//
+//
+//
+//            String[] strings = { "I1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 11", "Item 21", "Item 31", "Item 41", "Item 51", "Item 12", "2", "Item 22", "Item 32", "Item 42", "Item 52", " " };
+//            public int getSize() { return strings.length; }
+//            public String getElementAt(int i) { return strings[i]; }
+//        });
         jList1.setFixedCellHeight(30);
         jScrollPane1.setViewportView(jList1);
 
