@@ -13,11 +13,10 @@ public class Chatroom {
     public Chatroom() {
 
     }
-    public Chatroom(int id, boolean isgroup, String last_seen, String cr_desc) {
+    public Chatroom(int id, boolean isgroup, String last_seen) {
         this.id = id;
         this.isgroup = isgroup;
         this.last_seen = last_seen;
-        this.cr_desc = cr_desc;
     }
 
 
