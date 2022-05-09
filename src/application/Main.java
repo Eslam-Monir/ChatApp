@@ -33,7 +33,7 @@ public class Main {
             u.addContact(uu , 2002 , "dazaii");
         User user = new User(1);
 
-        app.loadStories(user);
+
 
 
         //loading form

@@ -291,22 +291,7 @@ public class User {
 
     }
 
-    public void addContactToContacts(User user) {
-        if(this.contacts == null) {
-            contacts =new ArrayList<>();
 
-
-        }
-        this.contacts.add(user);
-    }
-    public void addChatroomToChatrooms(Chatroom chatroom) {
-        if(this.chatrooms == null) {
-            chatrooms =new ArrayList<>();
-
-
-        }
-        this.chatrooms.add(chatroom);
-    }
     @Override
     public String toString() {
         return "User{" +

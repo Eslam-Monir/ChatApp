@@ -9,7 +9,7 @@ import java.util.Queue;
 
 public class App
 {
-    private User loggedUser;
+    public static User loggedUser;
 
     private Chatroom chatrooms;
 
@@ -27,14 +27,6 @@ public class App
     }
 
     // Getters And Setters
-    public User getLoggedUser() {
-        return loggedUser;
-    }
-
-    public void setLoggedUser(User loggedUser) {
-        this.loggedUser = loggedUser;
-    }
-
     public Chatroom getChatrooms() {
         return chatrooms;
     }
