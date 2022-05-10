@@ -79,8 +79,8 @@ public class Story extends javax.swing.JFrame {
             int id = rst.getInt("user_id");
             ids.add(id);
         }
-        App.removeDuplicates(ids);
-        for (int id : ids) {
+        ArrayList<Integer> IDS= App.removeDuplicates(ids);
+        for (int id : IDS) {
             /*if(){
 
             }*/
