@@ -57,7 +57,6 @@ public class UserForm extends javax.swing.JFrame {
         });
         getContentPane().setLayout(null);
 
-        ArrayList<User> contacts;
         DefaultListModel dlm=new DefaultListModel();
         App.loadContacts();
 //        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
