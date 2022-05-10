@@ -413,7 +413,6 @@ public class User {
         for (Story elem : Stories) {
             System.out.println(elem.toString());
         }
-
     }
     public void show_contacts() {
         System.out.println(toString() +"\nContacts :");

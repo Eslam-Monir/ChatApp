@@ -9,6 +9,7 @@ import Chatapp.User;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -21,8 +22,12 @@ public class Story extends javax.swing.JFrame {
     /**
      * Creates new form Story
      */
-    public Story() {
-        initComponents();
+    public Story(){
+        try {
+            initComponents();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -32,7 +37,7 @@ public class Story extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws SQLException {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -65,21 +70,24 @@ public class Story extends javax.swing.JFrame {
         DefaultListModel dlm=new DefaultListModel();
         App.loadContacts();
 //        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
-        for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
-            dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+        Statement statement = connection.createStatement();
+        String userIds = "SELECT * FROM story";
+        ResultSet rst = statement.executeQuery(userIds);
+        ArrayList<Integer> ids= new ArrayList<>();
+        while(rst.next()){
+            int id = rst.getInt("user_id");
+            ids.add(id);
+        }
+        App.removeDuplicates(ids);
+        for (int id : ids) {
+            /*if(){
+
+            }*/
+                dlm.addElement(/*"" + App.loggedUser.getContacts().get(id).getF_name()*/ ids.get(id));
         }
         jList1.setModel(dlm);
 
-        /*jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jList1.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                jList1ComponentShown(evt);
-            }
-        });*/
         jScrollPane1.setViewportView(jList1);
 
         getContentPane().add(jScrollPane1);
@@ -153,6 +161,12 @@ public class Story extends javax.swing.JFrame {
         getContentPane().add(jLabel3);
         jLabel3.setBounds(0, -10, 700, 540);
 
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -197,17 +211,26 @@ public class Story extends javax.swing.JFrame {
         jLabel1.setIcon(img);
     }//GEN-LAST:event_formComponentShown
 
-    /**
-//     * @param args the command line arguments
-     */
-    public void showLog(){
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
+        // TODO add your handling code here:
+        JList list = (JList)evt.getSource();
+        if (evt.getClickCount() == 2) {
+            //print the name in console
+            System.out.println(list.getSelectedValue());
+        }
+    }
+
+        /**
+    //     * @param args the command line arguments
+         */
+    /*public void showLog(){
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Story story = new Story();
                 story.setVisible(true);
             }
         });
-    }
+    }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

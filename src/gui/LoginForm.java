@@ -141,13 +141,15 @@ public class LoginForm extends javax.swing.JFrame {
                 JFrame frame = new JFrame("Wrong Number");
                 JOptionPane.showMessageDialog(this, "Wrong Number");
             }
+            else{
+                UserForm user = new UserForm();
+                ImageIcon img = new ImageIcon("C:\\Chatapp\\src\\gui\\chat-icon.jpg");
+                user.setIconImage(img.getImage());
+                user.setTitle("i-chat");
+                user.setVisible(true);
+                dispose();
+            }
 
-            UserForm user = new UserForm();
-            ImageIcon img = new ImageIcon("C:\\Chatapp\\src\\gui\\chat-icon.jpg");
-            user.setIconImage(img.getImage());
-            user.setTitle("i-chat");
-            user.setVisible(true);
-            dispose();
         }
         else{
             JFrame frame = new JFrame("Empty Input");
