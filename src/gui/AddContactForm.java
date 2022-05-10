@@ -4,6 +4,8 @@
  */
 package gui;
 
+import Chatapp.App;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -95,7 +97,11 @@ public class AddContactForm extends javax.swing.JFrame {
         jButton2.setText("Add");
         getContentPane().add(jButton2);
         jButton2.setBounds(200, 340, 103, 31);
-
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/background.jpg"))); // NOI18N
         getContentPane().add(jLabel4);
         jLabel4.setBounds(0, -20, 730, 560);
@@ -113,6 +119,17 @@ public class AddContactForm extends javax.swing.JFrame {
         user.show();
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt){
+        int number_input=Integer.parseInt(jTextField1.getText());
+        String name_input=jTextField2.getText();
+
+        App.addContact(App.loggedUser,number_input,name_input);
+
+    }
+
+
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
