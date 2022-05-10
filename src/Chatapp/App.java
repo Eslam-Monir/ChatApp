@@ -224,7 +224,21 @@ public class App
                     { 
                         String createChatroom = "INSERT INTO chatroom ( `is_group` , `last_seen` ) Values ( '0' , 'null' )";
                         System.out.println(createChatroom);
-                        statement.executeUpdate(createChatroom);
+                        statement.executeUpdate(createChatroom,Statement.RETURN_GENERATED_KEYS);
+
+                        ResultSet rs = statement.getGeneratedKeys();
+                        rs.next();
+
+                        int crID = rs.getInt(1);
+
+                        //Puts newly created contact with the adder in the created chatroom
+                        String first_user_insert = "INSERT INTO cr_users ( `cr_id` , `user_id` ) Values ( " + crID + " , " + user.getId() + ") ";
+                        String second_user_insert = "INSERT INTO cr_users ( `cr_id` , `user_id` ) Values ( " + crID + " , " + addedId + ") ";
+
+                        statement.executeUpdate(first_user_insert);
+                        statement.executeUpdate(second_user_insert);
+
+
                     }
                     catch (Exception e) {
                         e.printStackTrace();

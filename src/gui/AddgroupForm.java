@@ -7,6 +7,7 @@ package gui;
 import Chatapp.*;
 
 import javax.swing.*;
+import java.util.Stack;
 
 /**
  *
@@ -62,6 +63,8 @@ public class AddgroupForm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
+
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
         setResizable(false);
@@ -73,13 +76,7 @@ public class AddgroupForm extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
 
-//        DefaultListModel dlm=new DefaultListModel();
-//        App.loadContacts();
-////        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
-//        for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
-//            dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
-//        }
-////    }
+
 
         jTextField1.setBackground(new java.awt.Color(102, 102, 102));
         jTextField1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -120,6 +117,11 @@ public class AddgroupForm extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         getContentPane().add(jButton1);
         jButton1.setBounds(480, 350, 100, 30);
 
@@ -138,23 +140,14 @@ public class AddgroupForm extends javax.swing.JFrame {
         jList1.setBackground(new java.awt.Color(102, 102, 102));
         jList1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jList1.setForeground(new java.awt.Color(0, 0, 0));
-//        jList1.setModel(dlm);
-        /*jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList1ValueChanged(evt);
-            }
-        });*/
+
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList1MouseClicked(evt);
             }
         });
 
-//        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-//            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-//            public int getSize() { return strings.length; }
-//            public String getElementAt(int i) { return strings[i]; }
-//        });
+
         jScrollPane2.setViewportView(jList1);
 
         getContentPane().add(jScrollPane2);
@@ -164,11 +157,7 @@ public class AddgroupForm extends javax.swing.JFrame {
         jList2.setBorder(null);
         jList2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jList2.setForeground(new java.awt.Color(0, 0, 0));
-//        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-//            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-//            public int getSize() { return strings.length; }
-//            public String getElementAt(int i) { return strings[i]; }
-//        });
+
         jScrollPane3.setViewportView(jList2);
 
         getContentPane().add(jScrollPane3);
@@ -209,15 +198,7 @@ public class AddgroupForm extends javax.swing.JFrame {
 
     }// </editor-fold>//GEN-END:initComponents
 
-//    DefaultListModel dlm=new DefaultListModel();
-//        App.loadContacts();
-////        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
-//        for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
-//        dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
-//    }
-////    }
 
-//     DefaultListModel added_contacts=new DefaultListModel();
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt){
         // TODO add your handling code here:
         String added_value = jList1.getSelectedValue();
@@ -229,6 +210,20 @@ public class AddgroupForm extends javax.swing.JFrame {
         }
         jList1.setModel(dlm);
     }
+
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt){
+        Stack<User> new_cr_contacts;
+        for (int i = 0; i < jList2.getModel().getSize() ; i++) {
+
+        }
+
+
+
+    }
+
+
+
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
