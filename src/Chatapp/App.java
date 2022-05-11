@@ -387,3 +387,20 @@ public class App
 //
 //       }
 //}
+
+    
+    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) // removing duplicates from an ArrayList
+    {
+        ArrayList<T> newList = new ArrayList<T>(); 
+        // Traverse through the first list
+        for (T element : list) {
+              
+            if (!newList.contains(element)) {
+  
+                newList.add(element);
+            }
+        }
+        return newList;
+    }
+}
+
