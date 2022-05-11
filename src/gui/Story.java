@@ -152,7 +152,7 @@ public class Story extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Arabic Typesetting", 1, 40)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel2.setText("rouf");
+        jLabel2.setText(App.loggedUser.getF_name().toString());
         getContentPane().add(jLabel2);
         jLabel2.setBounds(120, 36, 130, 40);
 
