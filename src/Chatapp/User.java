@@ -51,9 +51,7 @@ public class User {
         this.prof_desc = prof_desc;
     }
 
-    public User(int id) {
-        this.id = id;
-    }
+    public User(int id) { this.id = id;}
 
     public int getId() {
         return id;
@@ -413,7 +411,6 @@ public class User {
         for (Story elem : Stories) {
             System.out.println(elem.toString());
         }
-
     }
     public void show_contacts() {
         System.out.println(toString() +"\nContacts :");
