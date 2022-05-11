@@ -3,10 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gui;
-
+import java.sql.*;
 import Chatapp.*;
 
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -214,13 +218,20 @@ public class AddgroupForm extends javax.swing.JFrame {
 
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt){
-        Stack<User> new_cr_contacts;
-        for (int i = 0; i < jList2.getModel().getSize() ; i++) {
+
+        ArrayList<String> group_users=new ArrayList<>();
+        for (int i = 0; i <jList2.getModel().getSize() ; i++) {
+            if (jList2.getModel().getElementAt(i) != null)
+           group_users.add(jList2.getModel().getElementAt(i));
+
 
         }
 
+        System.out.println( );
 
+        Stack<User> users = App.usersGetter(group_users,App.loggedUser);
 
+        App.addChatroom(users,jTextField1.getText());
     }
 
 

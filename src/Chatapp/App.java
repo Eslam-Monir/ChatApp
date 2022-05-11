@@ -7,8 +7,7 @@ import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
 
-public class App
-{
+public class App {
     public static User loggedUser;
 
     private Chatroom chatrooms;
@@ -53,13 +52,11 @@ public class App
 
     //Functions
 
-    public void loadGui()
-    {
+    public void loadGui() {
 
     }
 
-    public void loadChatrooms()
-    {
+    public void loadChatrooms() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
@@ -69,13 +66,13 @@ public class App
                     " and user_id = usser.id " +
                     " and cr_id = chatroom.id order by last_seen ");
 
-            if(loggedUser.getChatrooms()!=null && loggedUser.getChatrooms().size()!=0 ){
+            if (loggedUser.getChatrooms() != null && loggedUser.getChatrooms().size() != 0) {
 
                 loggedUser.getChatrooms().clear();
             }
 
 
-            while (chatroom_query.next()){
+            while (chatroom_query.next()) {
 
 
                 Chatroom temporary_chatroom = new Chatroom();
@@ -95,16 +92,11 @@ public class App
                 loggedUser.addChatroomToChatrooms(temporary_chatroom);
 
 
-                temporary_chatroom = null ;
-
-
-
+                temporary_chatroom = null;
 
 
             }
             //loggedUser.show_chatrooms();
-
-
 
 
         } catch (Exception e) {
@@ -112,30 +104,28 @@ public class App
 
         }
     }
-    public static ArrayList<User> getAllUsers()
-    { //returns all users from database to verify user login
-     ArrayList<User> users=new ArrayList<User>();
-        try{
+
+    public static ArrayList<User> getAllUsers() { //returns all users from database to verify user login
+        ArrayList<User> users = new ArrayList<User>();
+        try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
             Statement statement = connection.createStatement();
-            ResultSet rs=statement.executeQuery("SELECT * from usser");
+            ResultSet rs = statement.executeQuery("SELECT * from usser");
 
             User user;
-            while (rs.next()){ //initializing user to put in array
-               user =new User(Integer.parseInt(rs.getString("id"))
-                        ,Integer.parseInt(rs.getString("number"))
+            while (rs.next()) { //initializing user to put in array
+                user = new User(Integer.parseInt(rs.getString("id"))
+                        , Integer.parseInt(rs.getString("number"))
                         , rs.getString("f_name")
                         , rs.getString("password")
                         , rs.getString("prof_pic")
                         , rs.getString("prof_desc"));
                 //adds the user to the array
-               users.add(user);
+                users.add(user);
 
             }
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
@@ -143,6 +133,7 @@ public class App
 
 
     }
+
     public void loadStories(User user) {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
@@ -150,15 +141,15 @@ public class App
             Statement statement = connection.createStatement();
 
             ResultSet story_query = statement.executeQuery("select * from story,usser where user_id=" + user.getId() +
-                                                                                          " and user_id = usser.id order by  time");
+                    " and user_id = usser.id order by  time");
             // remove stories from queue to not make redundancy in queue
-            if(user.getStories()!=null && user.getStories().size()!=0 ){
+            if (user.getStories() != null && user.getStories().size() != 0) {
 
                 user.getStories().clear();
             }
 
             //put Stories in story's Queue from database
-            while (story_query.next()){
+            while (story_query.next()) {
 
 
                 Story temporary_story = new Story();
@@ -167,26 +158,21 @@ public class App
 
                 temporary_story.setTime(story_query.getString("time"));
                 temporary_story.setText(story_query.getString("text"));
-                User temporary_user=new User(Integer.parseInt(story_query.getString("user_id"))
-                        ,Integer.parseInt(story_query.getString("number"))
+                User temporary_user = new User(Integer.parseInt(story_query.getString("user_id"))
+                        , Integer.parseInt(story_query.getString("number"))
                         , story_query.getString("f_name")
                         , story_query.getString("password")
                         , story_query.getString("prof_pic")
                         , story_query.getString("prof_desc"));
 
                 temporary_story.setUser(temporary_user);
-               user.addStoryToStories(temporary_story);
+                user.addStoryToStories(temporary_story);
 
-                temporary_story = null ;
-                temporary_user = null ;
-
-
+                temporary_story = null;
+                temporary_user = null;
 
 
             }
-
-
-
 
 
         } catch (Exception e) {
@@ -214,17 +200,15 @@ public class App
                 System.out.println(adder_added);
                 ResultSet rstt = statement.executeQuery(adder_added);
 
-                if (!rstt.next())
-                {
+                if (!rstt.next()) {
 
                     // query  to insert into contacts
                     String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES (" + user.getId() + ",'" + addedId + "','" + name + "');";
                     statement.executeUpdate(query2);
-                    try
-                    { 
+                    try {
                         String createChatroom = "INSERT INTO chatroom ( `is_group` , `last_seen` ) Values ( '0' , 'null' )";
                         System.out.println(createChatroom);
-                        statement.executeUpdate(createChatroom,Statement.RETURN_GENERATED_KEYS);
+                        statement.executeUpdate(createChatroom, Statement.RETURN_GENERATED_KEYS);
 
                         ResultSet rs = statement.getGeneratedKeys();
                         rs.next();
@@ -239,13 +223,11 @@ public class App
                         statement.executeUpdate(second_user_insert);
 
 
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
-                else
-                System.out.println("You have already added this user ");
+                } else
+                    System.out.println("You have already added this user ");
 
             } else {
                 System.out.println("This is contact doesn't have this app installed");
@@ -254,8 +236,8 @@ public class App
             e.printStackTrace();
         }
     }
-    public static void loadContacts()
-    {
+
+    public static void loadContacts() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
@@ -264,21 +246,21 @@ public class App
             ResultSet contacts_query = statement.executeQuery("select * from contacts,usser where adder_id=" + loggedUser.getId() +
                     " and adder_id = usser.id ");
             // delete array_list
-            if(loggedUser.getContacts()!=null && loggedUser.getContacts().size()!=0 ){
+            if (loggedUser.getContacts() != null && loggedUser.getContacts().size() != 0) {
 
                 loggedUser.getContacts().clear();
             }
 
             //put query in object
-            while (contacts_query.next()){
+            while (contacts_query.next()) {
 
 
                 User temporary_contact = new User();
 
-                temporary_contact.setId(Integer.parseInt(contacts_query.getString("added_id")));
+                temporary_contact.setId(Integer.parseInt(contacts_query.getString("id")));
 
                 temporary_contact.setF_name(contacts_query.getString("name"));
-                loggedUser.setId(Integer.parseInt(contacts_query.getString("adder_id")));
+                loggedUser.setId(Integer.parseInt(contacts_query.getString("id")));
                 loggedUser.setNumber(Integer.parseInt(contacts_query.getString("number")));
                 loggedUser.setF_name(contacts_query.getString("f_name"));
                 loggedUser.setPassword(contacts_query.getString("password"));
@@ -289,16 +271,12 @@ public class App
                 //put object in array_list
                 loggedUser.addContactToContacts(temporary_contact);
 
-                temporary_contact = null ;
-
-
-
+                temporary_contact = null;
 
 
             }
 
             //loggedUser.show_contacts();
-
 
 
         } catch (Exception e) {
@@ -308,13 +286,11 @@ public class App
 
     }
 
-    public String showDesc(User user)
-    {
+    public String showDesc(User user) {
         return "hello";
     }
 
-    public static void fetchTime()
-    {
+    public static void fetchTime() {
         DateTimeFormatter Date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime Datenow = LocalDateTime.now();
 
@@ -325,14 +301,12 @@ public class App
         setTime(Time.format(Timenow));
     }
 
-    public static void addChatroom(Stack<User> users)
-    {
-        try
-        {
+    public static void addChatroom(Stack<User> users,String name) {
+        try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
             Statement statement = connection.createStatement();
-            String createChatroom = "INSERT INTO chatroom ( `is_group` , `last_seen` ) Values ( '1' , 'null' )";
-      
+            String createChatroom = "INSERT INTO chatroom ( `is_group` , `last_seen` ,`cr_name`) Values ( '1' , 'null' ,'"+name+"')";
+
             statement.executeUpdate(createChatroom, Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = statement.getGeneratedKeys();
             rs.next();
@@ -340,25 +314,27 @@ public class App
             int crID = rs.getInt(1);
             System.out.println("CR ID :  " + crID);
 
-        while(!users.empty())
-              {
+            String loggedinsert = "INSERT INTO cr_users ( `cr_id` , `user_id` ) Values ( " + crID + " , " + loggedUser.getId() + ") ";
+
+            statement.executeUpdate(loggedinsert);
+            while (!users.empty()) {
                 User addedUser = new User();
                 addedUser = users.pop();
                 String insertUsers = "INSERT INTO cr_users ( `cr_id` , `user_id` ) Values ( " + crID + " , " + addedUser.getId() + ") ";
                 System.out.println(insertUsers);
                 statement.executeUpdate(insertUsers);
-              }
-        }catch (Exception e) 
-            {
-            e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
-    static  public Statement connect_to_database(){
+    static public Statement connect_to_database() {
         String connectionUrl = "jdbc:mysql://localhost:3306/chatapp";
 
-        try{ Connection connection = DriverManager.getConnection(connectionUrl, "root", "password");
+        try {
+            Connection connection = DriverManager.getConnection(connectionUrl, "root", "password");
 
             return connection.createStatement();
 
@@ -370,20 +346,46 @@ public class App
 
     }
 
-//    static public ArrayList<User> usersGetter(ArrayList<String> users){ // takes an array lists of users names and returns Array of their users
-//       try{ Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
-//
-//        Statement statement = connection.createStatement();
-//
-//           for (int i = 0; i < users.size(); i++) {
-//               //String query="Select * From ";
-//           }
-//
-//
-//
-//
-//       } catch (Exception e) {
-//           e.printStackTrace();
-//
-//       }
-//}
+    static public Stack<User> usersGetter(ArrayList<String> users, User loggedUser) { // takes an array lists of users names and returns Array of their users
+        Stack<User> Users =new Stack<>();
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+
+            Statement statement = connection.createStatement();
+
+
+            for (int i = 0; i < users.size(); i++) {
+                //will get the id of the contact
+                String get_contact_id_query = "Select added_id From contacts where adder_id= " + loggedUser.getId() + " AND name= '" + users.get(i)+"'";
+                System.out.println(get_contact_id_query);
+                ResultSet contact_id = statement.executeQuery(get_contact_id_query);
+                contact_id.next();
+
+               String cID=contact_id.getString("added_id");
+                String get_user_query="Select * from usser where id=" + cID;
+
+                ResultSet users_ = statement.executeQuery(get_user_query);
+
+                users_.next();
+                User user=new User(Integer.parseInt(users_.getString("id"))
+                        , Integer.parseInt(users_.getString("number"))
+                        , users_.getString("f_name")
+                        , users_.getString("password")
+                        , users_.getString("prof_pic")
+                        , users_.getString("prof_desc"));
+
+
+                Users.push(user);
+
+
+
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return Users;
+}
+}
