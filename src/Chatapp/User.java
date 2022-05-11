@@ -87,9 +87,7 @@ public class User {
         return Stories;
     }
 
-    public ArrayList<User> getContacts() {
-        return contacts;
-    }
+    public ArrayList<User> getContacts() { return contacts; }
 
     public void setId(int id) {
         this.id = id;

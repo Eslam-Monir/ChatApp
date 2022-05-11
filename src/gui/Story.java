@@ -4,7 +4,7 @@
  */
 package gui;
 
-import Chatapp.App;
+import Chatapp.*;
 import Chatapp.User;
 
 import java.awt.Color;
@@ -66,25 +66,35 @@ public class Story extends javax.swing.JFrame {
         jList1.setFont(new java.awt.Font("Arial Black", 1, 20)); // NOI18N
         jList1.setForeground(new java.awt.Color(0, 0, 0));
 
-        ArrayList<User> contacts;
+        //ArrayList<User> contacts;
         DefaultListModel dlm=new DefaultListModel();
         App.loadContacts();
-//        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
+        //if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
         Statement statement = connection.createStatement();
-        String userIds = "SELECT * FROM story";
-        ResultSet rst = statement.executeQuery(userIds);
-        ArrayList<Integer> ids= new ArrayList<>();
-        while(rst.next()){
-            int id = rst.getInt("user_id");
-            ids.add(id);
+        ResultSet rst = statement.executeQuery("select * FROM contacts where adder_id = " + App.loggedUser.getId());
+        ArrayList<Integer> contact_ids= new ArrayList<>();
+        while(rst.next()) {
+            int ids = rst.getInt("added_id");
+            contact_ids.add(ids);
         }
-        ArrayList<Integer> IDS= App.removeDuplicates(ids);
-        for (int id : IDS) {
-            /*if(){
+        rst = statement.executeQuery("SELECT * FROM story");
+        ArrayList<Integer> story_id = new ArrayList<>();
+        while(rst.next()) {
+            int ids = rst.getInt("user_id");
+            story_id.add(ids);
+        }
+        ArrayList<Integer> story_ids= App.removeDuplicates(story_id);
+        for (int contactId : contact_ids) {
+            for(int storyId : story_ids){
+                if(contactId == storyId){
+                    rst = statement.executeQuery("SELECT * FROM contacts WHERE added_id = " + contactId);
+                    rst.next();
+                    dlm.addElement("" + rst.getString("name"));
+                    break;
+                }
+            }
 
-            }*/
-                dlm.addElement(/*"" + App.loggedUser.getContacts().get(id).getF_name()*/ ids.get(id));
         }
         jList1.setModel(dlm);
 
