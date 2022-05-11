@@ -224,8 +224,7 @@ public class Story extends javax.swing.JFrame {
         // TODO add your handling code here:
         JList list = (JList)evt.getSource();
         if (evt.getClickCount() == 2) {
-            //print the name in console
-            System.out.println(list.getSelectedValue());
+
         }
     }
 

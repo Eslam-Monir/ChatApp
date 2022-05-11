@@ -51,9 +51,7 @@ public class User {
         this.prof_desc = prof_desc;
     }
 
-    public User(int id) {
-        this.id = id;
-    }
+    public User(int id) { this.id = id;}
 
     public int getId() {
         return id;
@@ -87,7 +85,9 @@ public class User {
         return Stories;
     }
 
-    public ArrayList<User> getContacts() { return contacts; }
+    public ArrayList<User> getContacts() {
+        return contacts;
+    }
 
     public void setId(int id) {
         this.id = id;
