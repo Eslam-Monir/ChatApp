@@ -172,7 +172,11 @@ public class Story extends javax.swing.JFrame {
 
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList1MouseClicked(evt);
+                try {
+                    jList1MouseClicked(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -220,10 +224,15 @@ public class Story extends javax.swing.JFrame {
         jLabel1.setIcon(img);
     }//GEN-LAST:event_formComponentShown
 
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
         // TODO add your handling code here:
         JList list = (JList)evt.getSource();
-        if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 1) {
+            //print the name in console
+            //System.out.println(list.getSelectedValue());
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+            ResultSet rst = statement.executeQuery("select usser.id FROM contacts,usser where adder_id = " + App.loggedUser.getId());
 
         }
     }
