@@ -31,6 +31,7 @@ public class AddgroupForm extends javax.swing.JFrame {
             for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
                 dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
             }
+
             jList1.setModel(dlm);
     }
 
