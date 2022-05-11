@@ -94,7 +94,6 @@ public class Story extends javax.swing.JFrame {
                     break;
                 }
             }
-
         }
         jList1.setModel(dlm);
 
