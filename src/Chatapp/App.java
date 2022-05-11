@@ -346,6 +346,7 @@ public class App {
 
     }
 
+
     static public Stack<User> usersGetter(ArrayList<String> users, User loggedUser) { // takes an array lists of users names and returns Array of their users
         Stack<User> Users =new Stack<>();
         try {
@@ -389,3 +390,4 @@ public class App {
         return Users;
 }
 }
+
