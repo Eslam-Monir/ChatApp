@@ -369,4 +369,21 @@ public class App
         return null;
 
     }
-}
+
+//    static public ArrayList<User> usersGetter(ArrayList<String> users){ // takes an array lists of users names and returns Array of their users
+//       try{ Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+//
+//        Statement statement = connection.createStatement();
+//
+//           for (int i = 0; i < users.size(); i++) {
+//               //String query="Select * From ";
+//           }
+//
+//
+//
+//
+//       } catch (Exception e) {
+//           e.printStackTrace();
+//
+//       }
+//}

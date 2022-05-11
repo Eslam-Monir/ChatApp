@@ -39,7 +39,8 @@ public class UserProfile extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
@@ -56,25 +57,25 @@ public class UserProfile extends javax.swing.JFrame {
 
         jLabel1.setText(""+number);
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(160, 320, 230, 50);
+        jLabel1.setBounds(160, 250, 230, 50);
 
         jLabel2.setFont(new java.awt.Font("Arial", 3, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 204));
         jLabel2.setText("Name   :");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(50, 240, 110, 50);
+        jLabel2.setBounds(50, 200, 110, 50);
 
         jLabel3.setFont(new java.awt.Font("Arial", 3, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(204, 204, 204));
         jLabel3.setText("Number :");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(50, 320, 110, 50);
+        jLabel3.setBounds(50, 250, 110, 50);
 
         jLabel4.setFont(new java.awt.Font("Arial", 3, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(204, 204, 204));
         jLabel4.setText(App.loggedUser.getF_name());
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(160, 240, 230, 50);
+        jLabel4.setBounds(160, 200, 230, 50);
 
         jLabel5.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -83,6 +84,23 @@ public class UserProfile extends javax.swing.JFrame {
         });
         getContentPane().add(jLabel5);
         jLabel5.setBounds(50, 50, 170, 150);
+
+
+        jLabel8.setFont(new java.awt.Font("Arial", 3, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel8.setText("Description:");
+        getContentPane().add(jLabel8);
+        jLabel8.setBounds(50, 300, 140, 50);
+
+
+
+        jLabel9.setFont(new java.awt.Font("Arial", 3, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel9.setText(App.loggedUser.getProf_desc());
+        getContentPane().add(jLabel9);
+        jLabel9.setBounds(200, 300, 350, 50);
+
+
 
         jButton1.setBackground(new java.awt.Color(51, 51, 51));
         jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -199,6 +217,9 @@ public class UserProfile extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+
     // End of variables declaration//GEN-END:variables
 }
