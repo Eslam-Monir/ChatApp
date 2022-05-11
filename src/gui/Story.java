@@ -5,6 +5,7 @@
 package gui;
 
 import Chatapp.App;
+import Chatapp.User;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -237,10 +238,18 @@ public class Story extends javax.swing.JFrame {
         JList list = (JList)evt.getSource();
         if (evt.getClickCount() == 1) {
             //print the name in console
-            //System.out.println(list.getSelectedValue());
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
             Statement statement = connection.createStatement();
-            ResultSet rst = statement.executeQuery("select usser.id FROM contacts,usser where adder_id = " + App.loggedUser.getId());
+            String names = String.valueOf(list.getSelectedValue());
+            System.out.println(names);
+            ResultSet rst = statement.executeQuery("SELECT added_id FROM contacts WHERE name = '" +  names+"'");
+            rst.next();
+            int Id = Integer.parseInt(rst.getString("added_id"));
+            User contact = new User(Id);
+            App app = new App();
+            app.loadStories(contact);
+            contact.show_stories();
+
 
         }
     }
