@@ -4,6 +4,8 @@ import java.time.LocalDateTime; //  Used for the fetchTime()
 import java.time.format.DateTimeFormatter;//  Used for the fetchTime()
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 
@@ -291,14 +293,26 @@ public class App {
     }
 
     public static void fetchTime() {
-        DateTimeFormatter Date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDateTime Datenow = LocalDateTime.now();
+        Timer timer = new Timer("Display Timer");
 
-        DateTimeFormatter Time = DateTimeFormatter.ofPattern("HH:mm:ss");
-        LocalDateTime Timenow = LocalDateTime.now();
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                   // This will be executed every second
 
-        setDate(Date.format(Datenow));
-        setTime(Time.format(Timenow));
+                   DateTimeFormatter Date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                   LocalDateTime Datenow = LocalDateTime.now();
+           
+                   DateTimeFormatter Time = DateTimeFormatter.ofPattern("HH:mm:ss");
+                   LocalDateTime Timenow = LocalDateTime.now();
+           
+                   setDate(Date.format(Datenow));
+                   setTime(Time.format(Timenow));
+                }
+            };
+
+           // This will invoke the timer every second
+            timer.scheduleAtFixedRate(task, 1000, 1000);
     }
 
     public static void addChatroom(Stack<User> users,String name) {
