@@ -391,6 +391,7 @@ public class User {
                         seenCount = Integer.parseInt(fetchSeeCount);
                         seenCount += 1;
                         String updateQuery = "UPDATE `chatapp`.`story` SET seen = " + seenCount + " where id = " + story.getId();
+                        statement.executeQuery(updateQuery);
                         System.out.println("seen count = " + seenCount);
 
                         String insertQuery = "INSERT INTO `chatapp`.`seen_story` ( `str_id` , `user_id`) VALUES ( `" + story.getId() + "` , `" + this.getId() + "`) ";
