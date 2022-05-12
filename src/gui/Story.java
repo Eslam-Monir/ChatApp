@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Queue;
 import javax.swing.*;
 
 /**
@@ -29,6 +30,8 @@ public class Story extends javax.swing.JFrame {
             throw new RuntimeException(e);
         }
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -145,6 +148,12 @@ public class Story extends javax.swing.JFrame {
         getContentPane().add(jButton2);
         jButton2.setBounds(247, 300, 140, 32);
 
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/OIP.jpeg"))); // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(10, 10, 90, 90);
@@ -174,6 +183,12 @@ public class Story extends javax.swing.JFrame {
         jButton4.setText("Next Story");
         getContentPane().add(jButton4);
         jButton4.setBounds(530, 300, 140, 32);
+
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/background.jpg"))); // NOI18N
         getContentPane().add(jLabel3);
@@ -232,7 +247,8 @@ public class Story extends javax.swing.JFrame {
         img = new ImageIcon(modifiedImage);
         jLabel1.setIcon(img);
     }//GEN-LAST:event_formComponentShown
-
+    int index_of_stories = 0;
+    ArrayList<String> stories = new ArrayList<>();
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
         // TODO add your handling code here:
         JList list = (JList)evt.getSource();
@@ -248,10 +264,34 @@ public class Story extends javax.swing.JFrame {
             User contact = new User(Id);
             App app = new App();
             app.loadStories(contact);
-            contact.show_stories();
-
-
+            stories = new ArrayList<>();
+            index_of_stories = 0;
+            rst = statement.executeQuery("SELECT text FROM story WHERE user_id =" + Id);
+            while(rst.next()) {
+                String text  = rst.getString("text");
+                stories.add(text);
+            }
+            jTextArea1.setText(stories.get(index_of_stories));
         }
+    }
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {
+        // TODO add your handling code here:
+        index_of_stories++;
+        if(index_of_stories == stories.size()){
+            index_of_stories = (stories.size() - 1);
+            return;
+        }
+        jTextArea1.setText(stories.get(index_of_stories));
+    }
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {
+        // TODO add your handling code here:
+        if(index_of_stories == 0){
+            return;
+        }
+        index_of_stories--;
+        jTextArea1.setText(stories.get(index_of_stories));
     }
 
     /**
