@@ -274,11 +274,11 @@ public class User {
 
     }
 
-    public void addStory(Story story) {
+    public void addStory(String textt) {
 
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
-            String query = "INSERT INTO story ( `user_id`, `time`, `text`) VALUES (" + story.getUser().getId() + ",'" + story.getTime() + "','" + story.getText() + "');";
+            String query = "INSERT INTO story ( `user_id`, `time`, `text`) VALUES (" + App.loggedUser + ",'" + App.getTime() + "','" + textt + "');";
             System.out.println(query);
 
             Statement statement = connection.createStatement();
