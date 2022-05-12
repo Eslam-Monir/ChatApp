@@ -257,7 +257,6 @@ public class Story extends javax.swing.JFrame {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
             Statement statement = connection.createStatement();
             String names = String.valueOf(list.getSelectedValue());
-            System.out.println(names);
             ResultSet rst = statement.executeQuery("SELECT added_id FROM contacts WHERE name = '" +  names+"'");
             rst.next();
             int Id = Integer.parseInt(rst.getString("added_id"));
