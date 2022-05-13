@@ -4,9 +4,15 @@
  */
 package gui;
 
+import Chatapp.App;
+import Chatapp.User;
+
 import java.awt.Color;
 import java.awt.Image;
-import javax.swing.ImageIcon;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Queue;
+import javax.swing.*;
 
 /**
  *
@@ -18,8 +24,14 @@ public class Story extends javax.swing.JFrame {
      * Creates new form Story
      */
     public Story() {
-        initComponents();
+        try {
+            initComponents();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,7 +40,7 @@ public class Story extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws SQLException {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -56,11 +68,42 @@ public class Story extends javax.swing.JFrame {
         jList1.setBackground(new java.awt.Color(102, 102, 102));
         jList1.setFont(new java.awt.Font("Arial Black", 1, 20)); // NOI18N
         jList1.setForeground(new java.awt.Color(0, 0, 0));
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+
+        //ArrayList<User> contacts;
+        DefaultListModel dlm=new DefaultListModel();
+        App.loadContacts();
+        //if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+        Statement statement = connection.createStatement();
+        ResultSet rst = statement.executeQuery("select * FROM contacts where adder_id = " + App.loggedUser.getId());
+        ArrayList<Integer> contact_ids= new ArrayList<>();
+        while(rst.next()) {
+            int ids = rst.getInt("added_id");
+            contact_ids.add(ids);
+        }
+        rst = statement.executeQuery("SELECT * FROM story");
+        ArrayList<Integer> story_id = new ArrayList<>();
+        while(rst.next()) {
+            int ids = rst.getInt("user_id");
+            story_id.add(ids);
+        }
+        ArrayList<Integer> story_ids= App.removeDuplicates(story_id);
+        for (int contactId : contact_ids) {
+            for(int storyId : story_ids){
+                if(contactId == storyId){
+                    rst = statement.executeQuery("SELECT * FROM contacts WHERE added_id = " + contactId);
+                    rst.next();
+                    dlm.addElement("" + rst.getString("name"));
+                    break;
+                }
+            }
+        }
+        jList1.setModel(dlm);
+//        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+//            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+//            public int getSize() { return strings.length; }
+//            public String getElementAt(int i) { return strings[i]; }
+//        });
         jList1.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jList1ComponentShown(evt);
@@ -105,6 +148,12 @@ public class Story extends javax.swing.JFrame {
         getContentPane().add(jButton2);
         jButton2.setBounds(247, 300, 140, 32);
 
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/OIP.jpeg"))); // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(10, 10, 90, 90);
@@ -112,7 +161,7 @@ public class Story extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Arabic Typesetting", 1, 40)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel2.setText("rouf");
+        jLabel2.setText(App.loggedUser.getF_name().toString());
         getContentPane().add(jLabel2);
         jLabel2.setBounds(120, 36, 130, 40);
 
@@ -135,9 +184,25 @@ public class Story extends javax.swing.JFrame {
         getContentPane().add(jButton4);
         jButton4.setBounds(530, 300, 140, 32);
 
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
+
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/background.jpg"))); // NOI18N
         getContentPane().add(jLabel3);
         jLabel3.setBounds(0, -10, 700, 540);
+
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                try {
+                    jList1MouseClicked(evt);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
 
         pack();
         setLocationRelativeTo(null);
@@ -182,6 +247,51 @@ public class Story extends javax.swing.JFrame {
         img = new ImageIcon(modifiedImage);
         jLabel1.setIcon(img);
     }//GEN-LAST:event_formComponentShown
+    int index_of_stories = 0;
+    ArrayList<String> stories = new ArrayList<>();
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
+        // TODO add your handling code here:
+        JList list = (JList)evt.getSource();
+        if (evt.getClickCount() == 1) {
+            //print the name in console
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+            String names = String.valueOf(list.getSelectedValue());
+            ResultSet rst = statement.executeQuery("SELECT added_id FROM contacts WHERE name = '" +  names+"'");
+            rst.next();
+            int Id = Integer.parseInt(rst.getString("added_id"));
+            User contact = new User(Id);
+            App app = new App();
+            app.loadStories(contact);
+            stories = new ArrayList<>();
+            index_of_stories = 0;
+            rst = statement.executeQuery("SELECT text FROM story WHERE user_id =" + Id);
+            while(rst.next()) {
+                String text  = rst.getString("text");
+                stories.add(text);
+            }
+            jTextArea1.setText(stories.get(index_of_stories));
+        }
+    }
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {
+        // TODO add your handling code here:
+        index_of_stories++;
+        if(index_of_stories == stories.size()){
+            index_of_stories = (stories.size() - 1);
+            return;
+        }
+        jTextArea1.setText(stories.get(index_of_stories));
+    }
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {
+        // TODO add your handling code here:
+        if(index_of_stories == 0){
+            return;
+        }
+        index_of_stories--;
+        jTextArea1.setText(stories.get(index_of_stories));
+    }
 
     /**
 //     * @param args the command line arguments
@@ -194,6 +304,7 @@ public class Story extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

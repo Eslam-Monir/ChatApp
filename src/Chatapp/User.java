@@ -129,6 +129,7 @@ public class User {
 
 
         }
+        this.Stories.add(story);
 
     }
     public void addContactToContacts(User user) {

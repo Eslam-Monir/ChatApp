@@ -4,7 +4,10 @@
  */
 package gui;
 
+import Chatapp.App;
+
 import java.awt.Color;
+import java.sql.*;
 import javax.swing.ImageIcon;
 
 /**
@@ -17,7 +20,11 @@ public class AddYourStory extends javax.swing.JFrame {
      * Creates new form Story
      */
     public AddYourStory() {
-        initComponents();
+        try {
+            initComponents();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -27,7 +34,7 @@ public class AddYourStory extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws SQLException {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -51,11 +58,10 @@ public class AddYourStory extends javax.swing.JFrame {
         jList1.setBackground(new java.awt.Color(102, 102, 102));
         jList1.setFont(new java.awt.Font("Arial Black", 1, 20)); // NOI18N
         jList1.setForeground(new java.awt.Color(0, 0, 0));
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+        Statement statement = connection.createStatement();
+        ResultSet rst = statement.executeQuery("select * FROM contacts where adder_id = " + App.loggedUser.getId());
         jList1.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jList1ComponentShown(evt);
