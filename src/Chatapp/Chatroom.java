@@ -1,5 +1,10 @@
 package Chatapp;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import com.mysql.cj.Query;
+
 import java.sql.*;
 
 public class Chatroom {
@@ -103,7 +108,7 @@ public class Chatroom {
 
            if (findRoom(RoomID) != 0)
            {
-               int[] ids = new int[50];
+               Queue <Integer> ids = new LinkedList<>();
                try {
 
                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
@@ -113,28 +118,27 @@ public class Chatroom {
 
                    String idQuery = "select * from cr_users where cr_id = " + RoomID;
                    ResultSet rs1 = statement.executeQuery(idQuery);
-                   int index = 1;
                    while (rs1.next()) {
                        String id = rs1.getString("user_id");
-                       ids[index] = Integer.parseInt(id);
-                       index += 1;
+                       ids.add(Integer.parseInt(id));
                    }
-                   index = 1; // index reset
-                   while (ids[index] != 0)
+                  
+                   while (!ids.isEmpty())
                    {
-                       int temp = ids[index];
-                       String query2 = "SELECT * From usser where id = " + temp;
+                       int poppedId = ids.remove();
+                       String query2 = "SELECT * From usser where id = " + poppedId;
                        ResultSet rs2 = statement.executeQuery(query2);
 
-                       if (!rs2.next()) {
+                       if (!rs2.next()) 
+                       {
                            System.out.println("Results are not found !");
-                       } else {
+                       } else 
+                       {
                            do {
                                String outputNames = rs2.getString("f_name");
                                System.out.println("Users : " + outputNames);
                            } while (rs2.next());
                        }
-                       index += 1;
                    }
                } catch (Exception e) {
                    e.printStackTrace();
