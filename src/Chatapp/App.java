@@ -19,6 +19,14 @@ public class App {
     private static String time;
 
 
+    public static User getLoggedUser() {
+        return loggedUser;
+    }
+
+    public static void setLoggedUser(User loggedUser) {
+        App.loggedUser = loggedUser;
+    }
+
     public App(User logged_user, Chatroom chatrooms) {
         this.loggedUser = logged_user;
         this.chatrooms = chatrooms;
