@@ -4,6 +4,9 @@ import java.sql.DriverManager;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+
+import com.mysql.cj.xdevapi.Result;
+
 import java.util.*;
 
 
@@ -434,6 +437,57 @@ public class User {
 
 
 
+    }
+    public void showContactInfo()
+    { 
+        int addedId = 0;
+        int addedIdss = 0;
+        LinkedList<Integer> contacts = new LinkedList<>();
+        LinkedList<Integer> validatedContacts = new LinkedList<>(); //hghdfgddbh
+        try
+        {
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+        Statement statement = connection.createStatement();
+
+        String getAddedId = "SELECT added_id FROM contacts where adder_id  = " + App.loggedUser.getId(); //get  ids of contacts of logged user
+        ResultSet rst = statement.executeQuery(getAddedId);
+        
+        while(rst.next())
+        {
+            contacts.add(rst.getInt("added_id"));
+        }
+        while(!contacts.isEmpty())
+        {
+            addedId = contacts.remove();
+            String getAdderId = "SELECT adder_id FROM  contacts WHERE adder_id  = " + addedId + " AND added_id = " + App.loggedUser.getId();
+            ResultSet rstt = statement.executeQuery(getAdderId);
+            if(rstt.next())
+            {
+                validatedContacts.add(rstt.getInt("adder_id"));
+            }
+        }
+            while(!validatedContacts.isEmpty())
+            {
+                addedIdss = validatedContacts.remove(); 
+             //   String getName = "SELECT name FROM contacts WHERE added_id = " + x ;
+                String getName = "SELECT * FROM contacts,usser WHERE added_id = " + addedIdss  + " AND added_id = usser.id ";
+
+                ResultSet rst_name = statement.executeQuery(getName);
+                if(!rst_name.next())
+                {
+                System.out.println("no names"); // will be deleted
+                break;
+                }
+                System.out.println(rst_name.getString("contacts.name"));
+                System.out.println(rst_name.getString("prof_pic"));
+
+            }
+        
+        // String name = rstt.getString("name");
+        // System.out.println("name := " + name);
+        
+        }catch(Exception e)
+        {e.printStackTrace();}
     }
 }
 
