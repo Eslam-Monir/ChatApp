@@ -320,7 +320,7 @@ public class App {
             };
 
            // This will invoke the timer every second
-            timer.scheduleAtFixedRate(task, 1000, 1000);
+            timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
     public static void addChatroom(Stack<User> users,String name) {
