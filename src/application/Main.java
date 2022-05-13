@@ -9,6 +9,7 @@ public class Main {
 
 
     public static void main(String[] args) {
+        App.fetchTime();
 
         try{ Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 

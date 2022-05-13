@@ -4,8 +4,16 @@
  */
 package gui;
 
-import java.awt.Color;
-import javax.swing.ImageIcon;
+import Chatapp.App;
+import Chatapp.User;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
+import javax.swing.*;
 
 /**
  *
@@ -29,87 +37,102 @@ public class AddYourStory extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new JScrollPane();
+        jList1 = new JList<>();
+        jScrollPane2 = new JScrollPane();
+        jTextArea1 = new JTextArea();
+        jButton1 = new JButton();
+        jButton2 = new JButton();
+        jButton4 = new JButton();
+        jLabel3 = new JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(680, 530));
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new Dimension(680, 530));
         setResizable(false);
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
+        addComponentListener(new ComponentAdapter() {
+            public void componentShown(ComponentEvent evt) {
                 formComponentShown(evt);
             }
         });
         getContentPane().setLayout(null);
 
-        jList1.setBackground(new java.awt.Color(102, 102, 102));
-        jList1.setFont(new java.awt.Font("Arial Black", 1, 20)); // NOI18N
-        jList1.setForeground(new java.awt.Color(0, 0, 0));
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jList1.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
+        DefaultListModel dlm=new DefaultListModel();
+        App.loadContacts();
+
+        App story = new App();
+        story.loadStories(App.loggedUser);
+
+        for (int i = 1; i <=App.loggedUser.getStories().size() ; i++) {
+            dlm.addElement("Story " + i);
+        }
+
+
+
+        jList1.setBackground(new Color(102, 102, 102));
+        jList1.setFont(new Font("Arial Black", 1, 20)); // NOI18N
+        jList1.setForeground(new Color(0, 0, 0));
+
+        jList1.setModel(dlm);
+
+        jList1.addComponentListener(new ComponentAdapter() {
+            public void componentShown(ComponentEvent evt) {
                 jList1ComponentShown(evt);
             }
         });
+
         jScrollPane1.setViewportView(jList1);
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(10, 20, 230, 460);
 
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(290, 101));
+        jScrollPane2.setPreferredSize(new Dimension(290, 101));
 
-        jTextArea1.setBackground(new java.awt.Color(102, 102, 102));
+        jTextArea1.setBackground(new Color(102, 102, 102));
         jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Arial", 2, 18)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(0, 0, 0));
+        jTextArea1.setFont(new Font("Arial", 2, 18)); // NOI18N
+        jTextArea1.setForeground(new Color(0, 0, 0));
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
+
+
+
+
 
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(250, 20, 420, 200);
 
-        jButton1.setBackground(new java.awt.Color(51, 51, 51));
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setBackground(new Color(51, 51, 51));
+        jButton1.setFont(new Font("Arial", 1, 14)); // NOI18N
+        jButton1.setForeground(new Color(255, 255, 255));
         jButton1.setText("Back");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
         getContentPane().add(jButton1);
         jButton1.setBounds(510, 440, 140, 32);
 
-        jButton2.setBackground(new java.awt.Color(51, 51, 51));
-        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setBackground(new Color(51, 51, 51));
+        jButton2.setFont(new Font("Arial", 1, 14)); // NOI18N
+        jButton2.setForeground(new Color(255, 255, 255));
         jButton2.setText("Submit");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
         getContentPane().add(jButton2);
         jButton2.setBounds(310, 260, 140, 32);
 
-        jButton4.setBackground(new java.awt.Color(51, 51, 51));
-        jButton4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setBackground(new Color(51, 51, 51));
+        jButton4.setFont(new Font("Arial", 1, 14)); // NOI18N
+        jButton4.setForeground(new Color(255, 255, 255));
         jButton4.setText("Delete");
         getContentPane().add(jButton4);
         jButton4.setBounds(480, 260, 140, 32);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/background.jpg"))); // NOI18N
+        jLabel3.setIcon(new ImageIcon(getClass().getResource("/gui/background.jpg"))); // NOI18N
         getContentPane().add(jLabel3);
         jLabel3.setBounds(0, -10, 700, 540);
 
@@ -119,6 +142,9 @@ public class AddYourStory extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String text = jTextArea1.getText();
+        User.addStory(text);
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jList1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jList1ComponentShown

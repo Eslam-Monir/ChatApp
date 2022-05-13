@@ -59,11 +59,10 @@ public class UserForm extends javax.swing.JFrame {
 
         DefaultListModel dlm=new DefaultListModel();
         App.loadContacts();
-//        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
         for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
             dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
         }
-//    }
+
 
 
 
@@ -176,16 +175,7 @@ public class UserForm extends javax.swing.JFrame {
 
         jList1.setModel(dlm);
 
-//        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-//
-//
-//
-//
-//
-//            String[] strings = { "I1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 11", "Item 21", "Item 31", "Item 41", "Item 51", "Item 12", "2", "Item 22", "Item 32", "Item 42", "Item 52", " " };
-//            public int getSize() { return strings.length; }
-//            public String getElementAt(int i) { return strings[i]; }
-//        });
+
         jList1.setFixedCellHeight(30);
         jScrollPane1.setViewportView(jList1);
 

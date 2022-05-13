@@ -15,10 +15,10 @@ public class User {
     private String prof_pic;
     private String prof_desc;
     private ArrayList<Chatroom> chatrooms;
-    private Queue<Story> Stories ;
+    private ArrayList<Story> Stories ;
     private ArrayList<User> contacts;
 
-    public User(int id, int number, String f_name, String password, String prof_pic, String prof_desc, ArrayList<Chatroom> chatrooms, Queue<Story> stories, ArrayList<User> contacts) {
+    public User(int id, int number, String f_name, String password, String prof_pic, String prof_desc, ArrayList<Chatroom> chatrooms, ArrayList<Story> stories, ArrayList<User> contacts) {
         this.id = id;
         this.number = number;
         this.f_name = f_name;
@@ -83,7 +83,7 @@ public class User {
         return chatrooms;
     }
 
-    public Queue<Story> getStories() {
+    public ArrayList<Story> getStories() {
         return Stories;
     }
 
@@ -119,17 +119,17 @@ public class User {
         this.chatrooms = chatrooms;
     }
 
-    public void setStories(Deque<Story> stories) {
+    public void setStories(ArrayList<Story> stories) {
 
         Stories = stories;
     }
     public void addStoryToStories(Story story) {
         if(this.Stories == null) {
-            Stories =new LinkedList<>();
+            Stories =new ArrayList<>();
 
 
         }
-
+        Stories.add(story);
     }
     public void addContactToContacts(User user) {
         if(this.contacts == null) {
@@ -274,11 +274,11 @@ public class User {
 
     }
 
-    public void addStory(String textt) {
+    public static void addStory(String textt) {
 
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
-            String query = "INSERT INTO story ( `user_id`, `time`, `text`) VALUES (" + App.loggedUser + ",'" + App.getTime() + "','" + textt + "');";
+            String query = "INSERT INTO story ( `user_id`, `time`, `text`) VALUES (" + App.loggedUser.getId() + ",'" + App.getTime() + "','" + textt + "');";
             System.out.println(query);
 
             Statement statement = connection.createStatement();
