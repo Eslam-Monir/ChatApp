@@ -442,33 +442,33 @@ public class User {
     { 
         int addedId = 0;
         int addedIdss = 0;
-        LinkedList<Integer> addedIds = new LinkedList<>();
-        LinkedList<Integer> ids = new LinkedList<>();
+        LinkedList<Integer> contacts = new LinkedList<>();
+        LinkedList<Integer> validatedContacts = new LinkedList<>(); //hghdfgddbh
         try
         {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
         Statement statement = connection.createStatement();
 
-        String getAddedId = "SELECT added_id FROM contacts where adder_id  = " + App.loggedUser.getId();
+        String getAddedId = "SELECT added_id FROM contacts where adder_id  = " + App.loggedUser.getId(); //get  ids of contacts of logged user
         ResultSet rst = statement.executeQuery(getAddedId);
         
         while(rst.next())
         {
-            addedIds.add(rst.getInt("added_id"));
+            contacts.add(rst.getInt("added_id"));
         }
-        while(!addedIds.isEmpty())
+        while(!contacts.isEmpty())
         {
-            addedId = addedIds.remove();
+            addedId = contacts.remove();
             String getAdderId = "SELECT adder_id FROM  contacts WHERE adder_id  = " + addedId + " AND added_id = " + App.loggedUser.getId();
             ResultSet rstt = statement.executeQuery(getAdderId);
             if(rstt.next())
             {
-                ids.add(rstt.getInt("adder_id"));
+                validatedContacts.add(rstt.getInt("adder_id"));
             }
         }
-            while(!ids.isEmpty())
+            while(!validatedContacts.isEmpty())
             {
-                addedIdss = ids.remove(); 
+                addedIdss = validatedContacts.remove(); 
              //   String getName = "SELECT name FROM contacts WHERE added_id = " + x ;
                 String getName = "SELECT * FROM contacts,usser WHERE added_id = " + addedIdss  + " AND added_id = usser.id ";
 
