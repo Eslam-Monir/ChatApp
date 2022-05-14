@@ -3,6 +3,7 @@ import java.sql.*;
 import java.time.LocalDateTime; //  Used for the fetchTime()
 import java.time.format.DateTimeFormatter;//  Used for the fetchTime()
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -437,16 +438,79 @@ public class App {
                     , user_.getString("password")
                     , user_.getString("prof_pic")
                     , user_.getString("prof_desc"));
+                    
+                    aloooo = new_user;
 
-            aloooo = new_user;
 
-
-        } catch (Exception e) {
+                } catch (Exception e) {
             e.printStackTrace();
-
+            
         }
         return aloooo;
     }
+    
+    public int load1to1Chatroom(int id)
+    {
+        int foundRoomId = 0;
+        Stack<Integer> checkList = new Stack<>();
+        LinkedList<Integer> chatroomIds = new LinkedList<>();
+
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+            
+            
+            String getRoomIds = "SELECT cr_id FROM cr_users WHERE user_id = " + App.loggedUser.getId();
+            ResultSet rst1 = statement.executeQuery(getRoomIds);
+
+            while(rst1.next())
+            {
+                checkList.add(rst1.getInt("cr_id"));
+            }
+
+            System.out.println(checkList);  // sout to check if the list is not empty
+        
+            int remvedRoom; // haghayr esmo 
+            for (Integer room : checkList) 
+            {
+                
+                String validateChatroom = "SELECT is_group FROM chatroom where id = " + room;
+                ResultSet rst2 = statement.executeQuery(validateChatroom);
+                remvedRoom = rst2.getInt("is_group") ;
+                if(remvedRoom == 0)
+                {
+                    checkList.pop();
+                }
+                else
+                {
+                    chatroomIds.add( checkList.pop() );
+                }
+            }
+            
+            System.out.println(chatroomIds); // sout to check if the list is filtered
+
+
+            while(!chatroomIds.isEmpty())
+            {
+             String getRoom = "SELECT cr_id FROM cr_users  WHERE user_id =  " + id  + " AND cr_id =  " + chatroomIds.remove();
+             ResultSet rst3 = statement.executeQuery(getRoom);
+
+                 if(rst3.next())
+                    {
+                        foundRoomId = rst3.getInt("cr_id");
+                        System.out.println("Room Found = " + foundRoomId);
+                    }            
+            } 
+        
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }    
+    return foundRoomId;
+      
+    }
+
     public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) // removing duplicates from an ArrayList
     {
         ArrayList<T> newList = new ArrayList<T>();
