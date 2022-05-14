@@ -64,10 +64,10 @@ public class UserForm extends javax.swing.JFrame {
 
         //testing
 
-User us=new User(1);
+
 
 ///delete above
-        App.loadContacts(us);
+        App.loadContacts(App.loggedUser);
 //        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
         for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
             dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
