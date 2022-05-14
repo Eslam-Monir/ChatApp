@@ -449,7 +449,7 @@ public class App {
         return aloooo;
     }
     
-    public int load1to1Chatroom(int id)
+    public static int load1to1Chatroom(int id)
     {
         int foundRoomId = 0;
         Stack<Integer> checkList = new Stack<>();
@@ -471,23 +471,20 @@ public class App {
 
             System.out.println(checkList);  // sout to check if the list is not empty
         
-            int remvedRoom; // haghayr esmo 
-            for (Integer room : checkList) 
-            {
-                
-                String validateChatroom = "SELECT is_group FROM chatroom where id = " + room;
-                ResultSet rst2 = statement.executeQuery(validateChatroom);
-                remvedRoom = rst2.getInt("is_group") ;
-                if(remvedRoom == 0)
-                {
-                    checkList.pop();
-                }
-                else
-                {
-                    chatroomIds.add( checkList.pop() );
+            int remvedRoom; // haghayr esmo
+            while(rst1.next()) {
+                for (Integer room : checkList) {
+
+                    String validateChatroom = "SELECT is_group FROM chatroom where id = " + room;
+                    ResultSet rst2 = statement.executeQuery(validateChatroom);
+                    remvedRoom = rst2.getInt("is_group");
+                    if (remvedRoom == 0) {
+                        checkList.pop();
+                    } else {
+                        chatroomIds.add(checkList.pop());
+                    }
                 }
             }
-            
             System.out.println(chatroomIds); // sout to check if the list is filtered
 
 

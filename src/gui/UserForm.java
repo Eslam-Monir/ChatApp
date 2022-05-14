@@ -276,7 +276,8 @@ public class UserForm extends javax.swing.JFrame {
 
             User user= App.userGetter(jList1.getSelectedValue(),App.loggedUser);
             System.out.println(user);
-            App.loadChatrooms();
+
+            App.load1to1Chatroom(user.getId());
         }
 
 
