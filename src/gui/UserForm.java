@@ -259,6 +259,15 @@ public class UserForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+
+
+
+
+
+
+
+
+
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
         //messages will apear after clicking on the contact
 
@@ -266,10 +275,25 @@ public class UserForm extends javax.swing.JFrame {
 
 
      User user= App.userGetter(jList1.getSelectedValue(),App.loggedUser);
-    //  App.loadContacts(user);
-    System.out.println(user);
-    
+     App.loadChatrooms(user);
+        System.out.println(user.getChatrooms());  
+
+    // System.out.println(user.getContacts());
+    //visd
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
         LoginForm log = new LoginForm();

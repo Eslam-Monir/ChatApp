@@ -242,7 +242,7 @@ public class App {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
             Statement statement = connection.createStatement();
-            System.out.println(user+"alloo");
+            
             ResultSet contacts_query = statement.executeQuery("select * from contacts,usser where adder_id=" + user.getId() +
                     " and adder_id = usser.id ");
             // delete array_list
@@ -275,7 +275,7 @@ public class App {
 
 
             }
-
+            // System.out.println(user+" alloo");
             //loggedUser.show_contacts();
 
 
