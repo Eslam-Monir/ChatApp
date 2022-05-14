@@ -29,7 +29,7 @@ public class AddgroupForm extends javax.swing.JFrame {
         initComponents();
 
         dlm=new DefaultListModel();
-        App.loadContacts();
+        App.loadContacts(App.loggedUser);
         added_contacts=new DefaultListModel();
 
             for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
@@ -230,7 +230,7 @@ public class AddgroupForm extends javax.swing.JFrame {
         System.out.println( );
 
         Stack<User> users = App.usersGetter(group_users,App.loggedUser);
-
+        System.out.println(users);
         App.addChatroom(users,jTextField1.getText());
     }
 

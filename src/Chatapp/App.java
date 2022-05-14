@@ -56,19 +56,19 @@ public class App {
 
     }
 
-    public void loadChatrooms() {
+    public static void loadChatrooms(User user) {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
             Statement statement = connection.createStatement();
 
-            ResultSet chatroom_query = statement.executeQuery("select * from cr_users ,usser,chatroom where user_id=" + loggedUser.getId() +
+            ResultSet chatroom_query = statement.executeQuery("select * from cr_users ,usser,chatroom where user_id=" + user.getId() +
                     " and user_id = usser.id " +
                     " and cr_id = chatroom.id order by last_seen ");
 
-            if (loggedUser.getChatrooms() != null && loggedUser.getChatrooms().size() != 0) {
+            if (user.getChatrooms() != null && user.getChatrooms().size() != 0) {
 
-                loggedUser.getChatrooms().clear();
+                user.getChatrooms().clear();
             }
 
 
@@ -81,12 +81,12 @@ public class App {
                 temporary_chatroom.setIsgroup(chatroom_query.getBoolean("chatroom.id"));
 
                 temporary_chatroom.setLast_seen(chatroom_query.getString("chatroom.last_seen"));
-                loggedUser.setId(Integer.parseInt(chatroom_query.getString("usser.id")));
-                loggedUser.setNumber(Integer.parseInt(chatroom_query.getString("number")));
-                loggedUser.setF_name(chatroom_query.getString("f_name"));
-                loggedUser.setPassword(chatroom_query.getString("password"));
-                loggedUser.setProf_pic(chatroom_query.getString("prof_pic"));
-                loggedUser.setProf_desc(chatroom_query.getString("prof_desc"));
+                user.setId(Integer.parseInt(chatroom_query.getString("usser.id")));
+                user.setNumber(Integer.parseInt(chatroom_query.getString("number")));
+                user.setF_name(chatroom_query.getString("f_name"));
+                user.setPassword(chatroom_query.getString("password"));
+                user.setProf_pic(chatroom_query.getString("prof_pic"));
+                user.setProf_desc(chatroom_query.getString("prof_desc"));
 
 
                 loggedUser.addChatroomToChatrooms(temporary_chatroom);
@@ -237,18 +237,18 @@ public class App {
         }
     }
 
-    public static void loadContacts() {
+    public static void loadContacts(User user) {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
             Statement statement = connection.createStatement();
 
-            ResultSet contacts_query = statement.executeQuery("select * from contacts,usser where adder_id=" + loggedUser.getId() +
+            ResultSet contacts_query = statement.executeQuery("select * from contacts,us_ser where adder_id=" + user.getId() +
                     " and adder_id = usser.id ");
             // delete array_list
-            if (loggedUser.getContacts() != null && loggedUser.getContacts().size() != 0) {
+            if (user.getContacts() != null && user.getContacts().size() != 0) {
 
-                loggedUser.getContacts().clear();
+                user.getContacts().clear();
             }
 
             //put query in object
@@ -260,16 +260,16 @@ public class App {
                 temporary_contact.setId(Integer.parseInt(contacts_query.getString("id")));
 
                 temporary_contact.setF_name(contacts_query.getString("name"));
-                loggedUser.setId(Integer.parseInt(contacts_query.getString("id")));
-                loggedUser.setNumber(Integer.parseInt(contacts_query.getString("number")));
-                loggedUser.setF_name(contacts_query.getString("f_name"));
-                loggedUser.setPassword(contacts_query.getString("password"));
-                loggedUser.setProf_pic(contacts_query.getString("prof_pic"));
-                loggedUser.setProf_desc(contacts_query.getString("prof_desc"));
+                user.setId(Integer.parseInt(contacts_query.getString("id")));
+                user.setNumber(Integer.parseInt(contacts_query.getString("number")));
+                user.setF_name(contacts_query.getString("f_name"));
+                user.setPassword(contacts_query.getString("password"));
+                user.setProf_pic(contacts_query.getString("prof_pic"));
+                user.setProf_desc(contacts_query.getString("prof_desc"));
 
 
                 //put object in array_list
-                loggedUser.addContactToContacts(temporary_contact);
+                user.addContactToContacts(temporary_contact);
 
                 temporary_contact = null;
 
@@ -346,7 +346,7 @@ public class App {
 
     }
 
-    static public Stack<User> usersGetter(ArrayList<String> users, User loggedUser) { // takes an array lists of users names and returns Array of their users
+    static public Stack<User> usersGetter(ArrayList<String> users, User loggedUser) { // takes an array lists of users names and returns stack of their users
         Stack<User> Users =new Stack<>();
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
@@ -388,4 +388,47 @@ public class App {
         }
         return Users;
 }
-}
+
+static public User userGetter(String user, User loggedUser) { // takes contact name and returns its user
+    User aloooo=new User();
+    try {
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+
+        Statement statement = connection.createStatement();
+
+
+      
+            //will get the id of the contact
+            String get_contact_id_query = "Select added_id From contacts where adder_id= " + loggedUser.getId() + " AND name= '" + user+"'";
+            System.out.println(get_contact_id_query);
+            ResultSet contact_id = statement.executeQuery(get_contact_id_query);
+            contact_id.next();
+
+           String cID=contact_id.getString("added_id");
+            String get_user_query="Select * from usser where id=" + cID;
+
+            ResultSet user_ = statement.executeQuery(get_user_query);
+
+            user_.next();
+          User new_user=new User(Integer.parseInt(user_.getString("id"))
+                    , Integer.parseInt(user_.getString("number"))
+                    , user_.getString("f_name")
+                    , user_.getString("password")
+                    , user_.getString("prof_pic")
+                    , user_.getString("prof_desc"));
+
+                    aloooo=new_user;
+
+           
+
+
+
+                    
+         
+
+    } catch (Exception e) {
+        e.printStackTrace();
+       
+    }
+   return aloooo;
+}}

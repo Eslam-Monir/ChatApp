@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Queue;
+import java.util.Stack;
+
 import javax.swing.*;
 
 /**
@@ -58,7 +60,14 @@ public class UserForm extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         DefaultListModel dlm=new DefaultListModel();
-        App.loadContacts();
+
+
+        //testing
+
+User us=new User(1);
+
+///delete above
+        App.loadContacts(us);
 //        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
         for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
             dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
@@ -171,21 +180,17 @@ public class UserForm extends javax.swing.JFrame {
         jList1.setBackground(new java.awt.Color(102, 102, 102));
         jList1.setFont(new java.awt.Font("Arial Black", 1, 20)); // NOI18N
         jList1.setForeground(new java.awt.Color(0, 0, 0));
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
 
 
 
         jList1.setModel(dlm);
 
-//        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-//
-//
-//
-//
-//
-//            String[] strings = { "I1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 11", "Item 21", "Item 31", "Item 41", "Item 51", "Item 12", "2", "Item 22", "Item 32", "Item 42", "Item 52", " " };
-//            public int getSize() { return strings.length; }
-//            public String getElementAt(int i) { return strings[i]; }
-//        });
+
         jList1.setFixedCellHeight(30);
         jScrollPane1.setViewportView(jList1);
 
@@ -254,6 +259,17 @@ public class UserForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
+        //messages will apear after clicking on the contact
+
+        //first we will have to access the contacts by usersgetters
+
+
+     User user= App.userGetter(jList1.getSelectedValue(),App.loggedUser);
+    //  App.loadContacts(user);
+    System.out.println(user);
+    
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
         LoginForm log = new LoginForm();
