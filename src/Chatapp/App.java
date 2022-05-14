@@ -451,7 +451,7 @@ public class App {
     
     public static int load1to1Chatroom(int id)
     {
-        int foundRoomId = 0;
+        int foundRoomId = -1;
         Stack<Integer> checkList = new Stack<>();
         LinkedList<Integer> chatroomIds = new LinkedList<>();
 
@@ -471,15 +471,15 @@ public class App {
 
             System.out.println("checked list = " + checkList);  // sout to check if the list is not empty
         
-            int remvedRoom; // haghayr esmo
+            int removedRoom; // haghayr esmo
             while(rst1.next())
              {
                 for (Integer room : checkList) {
 
                     String validateChatroom = "SELECT is_group FROM chatroom where id = " + room;
                     ResultSet rst2 = statement.executeQuery(validateChatroom);
-                    remvedRoom = rst2.getInt("is_group");
-                    if (remvedRoom == 0) {
+                    removedRoom = rst2.getInt("is_group");
+                    if (removedRoom == 1) {
                         checkList.pop();
                     } else {
                         chatroomIds.add(checkList.pop());
