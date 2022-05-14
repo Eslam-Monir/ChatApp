@@ -68,6 +68,8 @@ public class AddYourStory extends javax.swing.JFrame {
 
 
 
+
+
         jList1.setBackground(new Color(102, 102, 102));
         jList1.setFont(new Font("Arial Black", 1, 20)); // NOI18N
         jList1.setForeground(new Color(0, 0, 0));
