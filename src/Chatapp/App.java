@@ -469,10 +469,11 @@ public class App {
                 checkList.add(rst1.getInt("cr_id"));
             }
 
-            System.out.println(checkList);  // sout to check if the list is not empty
+            System.out.println("checked list = " + checkList);  // sout to check if the list is not empty
         
             int remvedRoom; // haghayr esmo
-            while(rst1.next()) {
+            while(rst1.next())
+             {
                 for (Integer room : checkList) {
 
                     String validateChatroom = "SELECT is_group FROM chatroom where id = " + room;
@@ -485,7 +486,7 @@ public class App {
                     }
                 }
             }
-            System.out.println(chatroomIds); // sout to check if the list is filtered
+            System.out.println("chatroomIds = " + chatroomIds); // sout to check if the list is filtered
 
 
             while(!chatroomIds.isEmpty())

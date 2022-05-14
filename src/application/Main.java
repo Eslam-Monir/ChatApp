@@ -24,17 +24,17 @@ public class Main {
 //        Chatroom cr=new Chatroom(1,false,"233","asddfasdfsadfas");
 
         User uu=new User(1);
-        Message msg=new Message(24,uu,"sadfasdfa","23","23",1,"asdfasdf");
-        User u=new User();
+       // Message msg=new Message(24,uu,"sadfasdfa","23","23",1,"asdfasdf");
+      //  User u=new User();
 
-        uu.deleteMessage(msg);
+      //  uu.deleteMessage(msg);
 
           //  u.deleteStory(stor);
 //         App.addContact(App.loggedUser , 1687387229 , "levi");
       //  User user = new User(1);
 
         App.setLoggedUser(uu);
-        uu.showContactInfo();
+       // uu.showContactInfo();
 
         //loading form
         LoginForm x = new LoginForm();
