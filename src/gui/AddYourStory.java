@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -24,6 +25,7 @@ public class AddYourStory extends javax.swing.JFrame {
     /**
      * Creates new form Story
      */
+
     public AddYourStory() {
         initComponents();
     }
@@ -73,6 +75,11 @@ public class AddYourStory extends javax.swing.JFrame {
         jList1.setBackground(new Color(102, 102, 102));
         jList1.setFont(new Font("Arial Black", 1, 20)); // NOI18N
         jList1.setForeground(new Color(0, 0, 0));
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
 
         jList1.setModel(dlm);
 
@@ -133,6 +140,11 @@ public class AddYourStory extends javax.swing.JFrame {
         jButton4.setText("Delete");
         getContentPane().add(jButton4);
         jButton4.setBounds(480, 260, 140, 32);
+        jButton4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setIcon(new ImageIcon(getClass().getResource("/gui/background.jpg"))); // NOI18N
         getContentPane().add(jLabel3);
@@ -146,9 +158,32 @@ public class AddYourStory extends javax.swing.JFrame {
         // TODO add your handling code here:
         String text = jTextArea1.getText();
         User.addStory(text);
+        AddYourStory story = new AddYourStory();
+        story.show();
+        dispose();
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        App app = new App();
+        app.loadStories(App.loggedUser);
+        int index = jList1.getSelectedIndex();
+        App.loggedUser.deleteStory(App.loggedUser.getStories().get(index));
+        AddYourStory story = new AddYourStory();
+        story.show();
+        dispose();
+    }
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
+        // TODO add your handling code here:
+        JList list = (JList)evt.getSource();
+        if (evt.getClickCount() == 1) {
+            App app = new App();
+            app.loadStories(App.loggedUser);
+            int index = jList1.getSelectedIndex();
+            jTextArea1.setText(App.loggedUser.getStories().get(index).getText());
+        }
+    }
     private void jList1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jList1ComponentShown
         // TODO add your handling code here:
         jList1.setBackground(new Color(204, 204, 204));
