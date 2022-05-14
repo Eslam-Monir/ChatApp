@@ -66,7 +66,7 @@ public class App {
 
     }
 
-    public void loadChatrooms() {
+    public static void loadChatrooms() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
@@ -411,6 +411,42 @@ public class App {
         }
         return Users;
 }
+    static public User userGetter(String user, User loggedUser) { // takes contact name and returns its user
+        User aloooo = new User();
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+
+            Statement statement = connection.createStatement();
+
+
+            //will get the id of the contact
+            String get_contact_id_query = "Select added_id From contacts where adder_id= " + loggedUser.getId() + " AND name= '" + user + "'";
+            System.out.println(get_contact_id_query);
+            ResultSet contact_id = statement.executeQuery(get_contact_id_query);
+            contact_id.next();
+
+            String cID = contact_id.getString("added_id");
+            String get_user_query = "Select * from usser where id=" + cID;
+
+            ResultSet user_ = statement.executeQuery(get_user_query);
+
+            user_.next();
+            User new_user = new User(Integer.parseInt(user_.getString("id"))
+                    , Integer.parseInt(user_.getString("number"))
+                    , user_.getString("f_name")
+                    , user_.getString("password")
+                    , user_.getString("prof_pic")
+                    , user_.getString("prof_desc"));
+
+            aloooo = new_user;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return aloooo;
+    }
     public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) // removing duplicates from an ArrayList
     {
         ArrayList<T> newList = new ArrayList<T>();

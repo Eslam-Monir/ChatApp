@@ -171,7 +171,11 @@ public class UserForm extends javax.swing.JFrame {
         jList1.setBackground(new java.awt.Color(102, 102, 102));
         jList1.setFont(new java.awt.Font("Arial Black", 1, 20)); // NOI18N
         jList1.setForeground(new java.awt.Color(0, 0, 0));
-
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
 
 
         jList1.setModel(dlm);
@@ -263,6 +267,20 @@ public class UserForm extends javax.swing.JFrame {
         log.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+
+
+
+        private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
+            // TODO add your handling code here:
+
+            User user= App.userGetter(jList1.getSelectedValue(),App.loggedUser);
+            System.out.println(user);
+            App.loadChatrooms();
+        }
+
+
+
 
     private void jButton1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jButton1ComponentShown
         // TODO add your handling code here:
