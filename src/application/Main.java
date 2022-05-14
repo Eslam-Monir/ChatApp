@@ -15,7 +15,7 @@ public class Main {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery( "select * from usser");
         while (resultSet.next()) {
-            System.out.println(resultSet.getString("f_name"));
+       //     System.out.println(resultSet.getString("f_name"));
         }
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,9 +29,10 @@ public class Main {
 
         uu.deleteMessage(msg);
 
-          //  u.deleteStory(stor);
-//         App.addContact(App.loggedUser , 1687387229 , "levi");
-        User user = new User(1);
+        //   //  u.deleteStory(stor);
+        //  App.addContact(App.loggedUser , 1687387229 , "levi");
+        // User user = new User(1);
+
 
 
 

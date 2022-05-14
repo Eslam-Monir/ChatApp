@@ -317,6 +317,18 @@ public class UserForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1MouseClicked
 
+
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
+        // TODO add your handling code here:
+
+
+
+
+    }
+
+
+
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
         AddContactForm addUser = new AddContactForm();
