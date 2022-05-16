@@ -489,5 +489,19 @@ public class User {
         }catch(Exception e)
         {e.printStackTrace();}
     }
+    public void undoMessage(int msgId)
+    {
+        try
+        {
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+        Statement statement = connection.createStatement();
+
+        String deleteMessage = "DELETE FROM message_to where where msg_id = " + msgId;
+        statement.executeQuery(deleteMessage);    
+        
+        }catch(Exception e)
+        {e.printStackTrace();}
+
+    }
 }
 
