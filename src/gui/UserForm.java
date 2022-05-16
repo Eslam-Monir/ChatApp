@@ -214,10 +214,15 @@ public class UserForm extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jList2);
 
         getContentPane().add(jScrollPane2);
-        jScrollPane2.setBounds(230, 100, 440, 330);
+        jScrollPane2.setBounds(230, 100, 440, 270);
         getContentPane().add(jLabel3);
         jLabel3.setBounds(20, 20, 80, 70);
 
@@ -293,10 +298,10 @@ public class UserForm extends javax.swing.JFrame {
             System.out.println(cr.messages.get(1));
             DefaultListModel dlm=new DefaultListModel();
             ArrayList<Message> messages=cr.messages;
-
+            ArrayList<Integer> msg_ids=new ArrayList<>();
             for (int i = 0; i < messages.size() ; i++) {
                 System.out.println(messages.get(i).getText());
-
+                msg_ids.add(messages.get(i).getId());
                 String messages_string;
 
                 if((messages.get(i).getSender().getId() != App.loggedUser.getId()))
@@ -310,7 +315,13 @@ public class UserForm extends javax.swing.JFrame {
             
         }
 
+    private void jList2MouseClicked(java.awt.event.MouseEvent evt) {
 
+
+
+
+
+    }
 
 
     private void jButton1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jButton1ComponentShown
