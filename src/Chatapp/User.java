@@ -290,29 +290,28 @@ public class User {
 
             while (rs1.next()) {
                 String id = rs1.getString("user_id");
-                user_ids.add(Integer.parseInt(id));
+                user_ids.add(Integer.parseInt(id));             
 
-            }
+            } // this array(user_ids) now carries the ids of users who saw the story before
 
-            if (story.getUser().getId() != this.getId())
+            if (story.getUser().getId() != this.getId()) //check if the story not opened by its publisher
             {
-                System.out.println("inside the if");
                 for ( int id : user_ids)
                 {
-                    System.out.println("inside the for");
-                    if (id != this.getId())
+                    if (id != App.loggedUser.getId())
                     {
                         String fetchSeeCount = "Select seen from story where  id = " + story.getId();
                         statement.executeQuery(fetchSeeCount);
-                        System.out.println(fetchSeeCount); //sout
+
                         seenCount = Integer.parseInt(fetchSeeCount);
                         seenCount += 1;
+
                         String updateQuery = "UPDATE `chatapp`.`story` SET seen = " + seenCount + " where id = " + story.getId();
                         statement.executeQuery(updateQuery);
-                        System.out.println("seen count = " + seenCount);
 
                         String insertQuery = "INSERT INTO `chatapp`.`seen_story` ( `str_id` , `user_id`) VALUES ( `" + story.getId() + "` , `" + this.getId() + "`) ";
                         statement.executeQuery(insertQuery);
+                        
                         story.setSeen_count(seenCount);
                     }
                     else {
