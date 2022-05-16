@@ -1,9 +1,13 @@
 package application;
-
 import Chatapp.*;
-import gui.*;
-
 import java.sql.*;
+//imports for the voice notes
+import gui.*;
+import Voicenote.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.JFrame;
 
 public class Main {
 
@@ -36,8 +40,21 @@ public class Main {
         App.setLoggedUser(uu);
        // uu.showContactInfo();
 
+
         //loading form
-        LoginForm x = new LoginForm();
-        x.showLog();
+        //LoginForm x = new LoginForm();
+        //x.showLog();
+        SimpleSoundCapture ssc = new SimpleSoundCapture();
+        ssc.open();
+        JFrame f = new JFrame("Capture/Playback");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.getContentPane().add("Center", ssc);
+        f.pack();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int w = 360;
+        int h = 170;
+        f.setLocation(screenSize.width / 2 - w / 2, screenSize.height / 2 - h / 2);
+        f.setSize(w, h);
+        f.show();
 
     }}
