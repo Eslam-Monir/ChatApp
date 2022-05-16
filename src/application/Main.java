@@ -21,13 +21,14 @@ public class Main {
             e.printStackTrace();
 
         }
-//        Chatroom cr=new Chatroom(1,false,"233","asddfasdfsadfas");
+        Chatroom cr=new Chatroom(16);
 
-        User uu=new User(1);
-       // Message msg=new Message(24,uu,"sadfasdfa","23","23",1,"asdfasdf");
+        User uu=new User(14);
+        Message msg=new Message(5,uu,"sasdfa","23","23",1,"asdfasdf");
       //  User u=new User();
 
-      //  uu.deleteMessage(msg);
+        App.sendMessage(cr,msg,uu);
+//        uu.deleteMessage(msg);
 
           //  u.deleteStory(stor);
 //         App.addContact(App.loggedUser , 1687387229 , "levi");

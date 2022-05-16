@@ -12,7 +12,7 @@ public class Chatroom {
     private boolean isgroup;
     private String last_seen;
     ArrayList<User> users;
-    ArrayList<Message> messages;
+   public ArrayList<Message> messages;
     private String cr_desc;
 
     public Chatroom() {
@@ -22,6 +22,10 @@ public class Chatroom {
         this.id = id;
         this.isgroup = isgroup;
         this.last_seen = last_seen;
+    }
+
+    public Chatroom(int id) {
+        this.id=id;
     }
 
 

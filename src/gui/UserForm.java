@@ -243,7 +243,7 @@ public class UserForm extends javax.swing.JFrame {
         img = new ImageIcon(modifiedImage);
         jLabel3.setIcon(img);
     }//GEN-LAST:event_formComponentShown
-
+    User current_Contact;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         AddgroupForm group = new AddgroupForm();
@@ -255,7 +255,14 @@ public class UserForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        Chatroom cr=new Chatroom(App.load1to1Chatroom(current_Contact.getId()));
+        cr.loadMessages();
+        Message msg=new Message(5,App.loggedUser,jTextField1.getText(),"23","23",1,"asdfasdf");
+        App.sendMessage(cr,msg,App.loggedUser);
+
+
+
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -275,9 +282,32 @@ public class UserForm extends javax.swing.JFrame {
             // TODO add your handling code here:
 
             User user= App.userGetter(jList1.getSelectedValue(),App.loggedUser);
+           current_Contact=user;
             System.out.println(user);
 
-            App.load1to1Chatroom(user.getId());
+
+            System.out.println("this is the cr id" + App.load1to1Chatroom(user.getId()));
+            Chatroom cr=new Chatroom(App.load1to1Chatroom(user.getId()));
+            cr.loadMessages();
+//            System.out.println(cr.messages.);
+            System.out.println(cr.messages.get(1));
+            DefaultListModel dlm=new DefaultListModel();
+            ArrayList<Message> messages=cr.messages;
+
+            for (int i = 0; i < messages.size() ; i++) {
+                System.out.println(messages.get(i).getText());
+
+                String messages_string;
+
+                if((messages.get(i).getSender().getId() != App.loggedUser.getId()))
+                messages_string="<"+App.getContactName(messages.get(i).getSender().getId())+"> "+messages.get(i).getText();
+                else{  messages_string="< Me > "+messages.get(i).getText(); }
+
+                dlm.addElement(messages_string);
+            }
+
+            jList2.setModel(dlm);
+            
         }
 
 
