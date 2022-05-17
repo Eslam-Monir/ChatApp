@@ -3,6 +3,7 @@ import java.sql.*;
 import java.time.LocalDateTime; //  Used for the fetchTime()
 import java.time.format.DateTimeFormatter;//  Used for the fetchTime()
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -66,7 +67,7 @@ public class App {
 
     }
 
-    public void loadChatrooms() {
+    public static void loadChatrooms() {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
@@ -143,6 +144,96 @@ public class App {
 
 
     }
+
+    public static void sendMessage(Chatroom chatroom, Message message, User sender) {
+        try {
+
+            //Create message
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            String query = "INSERT INTO `chatapp`.`messages` (`id`, `sender_id`, `text`, `date`, `time`, `seen`, `type`) VALUES ( null , '" + sender.getId() + "', '" + message.getText() + "', '" + message.getDate() + "', '" + message.getTime() + "', '" + message.isSeen() + "', '" + message.getType() + "');\n";
+            System.out.println(query);
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+            int auto_msg_id = rs.getInt(1);
+
+            boolean cr_exists = false;
+            boolean user_Has_access = false;
+
+
+            //Checks if Chatroom exists
+            String verification_qry1 = "SELECT id from chatroom where id=" + chatroom.getId();
+            Statement vrf_stmt = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(verification_qry1);
+
+            if (resultSet.next()) {
+                cr_exists = true;
+            }
+
+            //Checks if User has access to this chatroom
+            String verification_qry2 = "SELECT cr_id from chatroom where cr_id=" + chatroom.getId() + "AND user_id=" + sender.getId();
+            Statement vrf_stmt2 = connection.createStatement();
+            ResultSet resultSet2 = statement.executeQuery(verification_qry1);
+            if (resultSet2.next()) {
+                user_Has_access = true;
+            }
+
+
+            //if there is no chatroom between user then:
+            if (!cr_exists && !user_Has_access) {
+
+
+                //First:
+                // A chatroom will be created with default values:
+                String query2 = "INSERT INTO `chatapp`.`chatroom` (`id`, `is_group`, `last_seen`) VALUES (null, '0', 'null');";
+                System.out.println(query2);
+
+                Statement statement2 = connection.createStatement();
+                statement2.executeUpdate(query2, Statement.RETURN_GENERATED_KEYS);
+                System.out.println("passedddd");
+                ResultSet rs2 = statement2.getGeneratedKeys();
+
+                rs2.next();
+                int auto_cr_id = rs2.getInt(1);
+                //Second:
+                // will add the user to the users of the chatroom in cr_users
+
+                String query4 = "INSERT INTO `chatapp`.`cr_users` (`cr_id`, `user_id`) VALUES ('" + auto_cr_id + "', '" + sender.getId() + "')";
+                System.out.println(query4);
+
+                Statement stmt = connection.createStatement();
+                stmt.executeUpdate(query4, Statement.RETURN_GENERATED_KEYS);
+
+
+                // Third:
+                // Will create a message in message_to relation table with the newly created Chatroom
+                String query3 = "INSERT INTO `chatapp`.`message_to` (`msg_id`, `user_id`, `cr_id`) VALUES ('" + auto_msg_id + "', '" + sender.getId() + "', '" + auto_cr_id + "')";
+
+                System.out.println(query3);
+
+                Statement statement3 = connection.createStatement();
+                statement3.executeUpdate(query3);
+
+            } else if (cr_exists && user_Has_access) {
+                // Will create a message in message_to relation table with the existing Chatroom values
+                String query4 = "INSERT INTO `chatapp`.`message_to` (`msg_id`, `user_id`, `cr_id`) VALUES ('" + auto_msg_id + "', '" + sender.getId() + "', '" + chatroom.getId() + "')";
+
+                System.out.println(query4);
+
+                Statement statement4 = connection.createStatement();
+                statement4.executeUpdate(query4);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
     public void loadStories(User user) {
         try {
@@ -411,6 +502,109 @@ public class App {
         }
         return Users;
 }
+    static public User userGetter(String user, User loggedUser) { // takes contact name and returns its user
+        User aloooo = new User();
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+
+            Statement statement = connection.createStatement();
+
+
+            //will get the id of the contact
+            String get_contact_id_query = "Select added_id From contacts where adder_id= " + loggedUser.getId() + " AND name= '" + user + "'";
+            System.out.println(get_contact_id_query);
+            ResultSet contact_id = statement.executeQuery(get_contact_id_query);
+            contact_id.next();
+
+            String cID = contact_id.getString("added_id");
+            String get_user_query = "Select * from usser where id=" + cID;
+
+            ResultSet user_ = statement.executeQuery(get_user_query);
+
+            user_.next();
+            User new_user = new User(Integer.parseInt(user_.getString("id"))
+                    , Integer.parseInt(user_.getString("number"))
+                    , user_.getString("f_name")
+                    , user_.getString("password")
+                    , user_.getString("prof_pic")
+                    , user_.getString("prof_desc"));
+                    
+                    aloooo = new_user;
+
+
+                } catch (Exception e) {
+            e.printStackTrace();
+            
+        }
+        return aloooo;
+    }
+    
+    public static int load1to1Chatroom(int id)
+    {
+        int foundRoomId = -1;
+        LinkedList<Integer> checkList = new LinkedList<>();
+        LinkedList<Integer> chatroomIds = new LinkedList<>();
+
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+            
+            
+            String getRoomIds = "SELECT cr_id FROM cr_users WHERE user_id = " + App.loggedUser.getId();
+            ResultSet rst1 = statement.executeQuery(getRoomIds);
+
+            while(rst1.next())
+            {
+                checkList.add(rst1.getInt("cr_id"));
+            }
+
+            System.out.println("checked list = " + checkList);  // sout to check if the list is not empty
+        
+            int removedRoom; // haghayr esmo
+            int popped;
+            
+                while (!checkList.isEmpty())
+                {
+                    popped = checkList.remove();
+                    
+                    String validateChatroom = "SELECT is_group FROM chatroom where id = " + popped;
+                    ResultSet rst2 = statement.executeQuery(validateChatroom);
+                    
+                        while(rst2.next())
+                        {
+                            removedRoom = rst2.getInt("is_group");
+                            if (removedRoom == 0) {
+                            chatroomIds.add(popped);
+                            }
+                        }
+          
+                }
+            System.out.println("--------------------");
+                
+            System.out.println("chatroomIds = " + chatroomIds); // sout to check if the list is filtered
+
+
+            while(!chatroomIds.isEmpty())
+            {
+             String getRoom = "SELECT cr_id FROM cr_users  WHERE user_id =  " + id  + " AND cr_id =  " + chatroomIds.remove();
+             ResultSet rst3 = statement.executeQuery(getRoom);
+
+                 if(rst3.next())
+                    {
+                        foundRoomId = rst3.getInt("cr_id");
+                        System.out.println("Room Found = " + foundRoomId);
+                    }            
+            } 
+        
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }    
+    return foundRoomId;
+      
+    }
+
     public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) // removing duplicates from an ArrayList
     {
         ArrayList<T> newList = new ArrayList<T>();
@@ -425,5 +619,26 @@ public class App {
         return newList;
     }
 
-}
 
+
+    public static String getContactName(int id){
+        String name="";
+
+        try{  Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+
+            String get_name = "SELECT name FROM contacts where added_id =  " +id +" and adder_id= " +loggedUser.getId();
+            System.out.println(get_name); //sout
+            ResultSet rs = statement.executeQuery(get_name); rs.next();
+          name =rs.getString("name");
+
+            System.out.println(name);
+
+
+        }catch(Exception e)
+        {e.printStackTrace();}
+
+    return name;
+
+    }
+}

@@ -168,94 +168,7 @@ public class User {
         }
     }
 
-    public void sendMessage(Chatroom chatroom, Message message, User sender) {
-        try {
 
-            //Create message
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
-            String query = "INSERT INTO `chatapp`.`messages` (`id`, `sender_id`, `text`, `date`, `time`, `seen`, `type`) VALUES ( null , '" + sender.getId() + "', '" + message.getText() + "', '" + message.getDate() + "', '" + message.getTime() + "', '" + message.isSeen() + "', '" + message.getType() + "');\n";
-            System.out.println(query);
-
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-            ResultSet rs = statement.getGeneratedKeys();
-            rs.next();
-            int auto_msg_id = rs.getInt(1);
-
-            boolean cr_exists = false;
-            boolean user_Has_access = false;
-
-
-            //Checks if Chatroom exists
-            String verification_qry1 = "SELECT id from chatroom where id=" + chatroom.getId();
-            Statement vrf_stmt = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(verification_qry1);
-
-            if (resultSet.next()) {
-                cr_exists = true;
-            }
-
-            //Checks if User has access to this chatroom
-            String verification_qry2 = "SELECT cr_id from chatroom where cr_id=" + chatroom.getId() + "AND user_id=" + sender.getId();
-            Statement vrf_stmt2 = connection.createStatement();
-            ResultSet resultSet2 = statement.executeQuery(verification_qry1);
-            if (resultSet2.next()) {
-                user_Has_access = true;
-            }
-
-
-            //if there is no chatroom between user then:
-            if (!cr_exists && !user_Has_access) {
-
-
-                //First:
-                // A chatroom will be created with default values:
-                String query2 = "INSERT INTO `chatapp`.`chatroom` (`id`, `is_group`, `last_seen`) VALUES (null, '0', 'null');";
-                System.out.println(query2);
-
-                Statement statement2 = connection.createStatement();
-                statement2.executeUpdate(query2, Statement.RETURN_GENERATED_KEYS);
-                System.out.println("passedddd");
-                ResultSet rs2 = statement2.getGeneratedKeys();
-
-                rs2.next();
-                int auto_cr_id = rs2.getInt(1);
-                //Second:
-                // will add the user to the users of the chatroom in cr_users
-
-                String query4 = "INSERT INTO `chatapp`.`cr_users` (`cr_id`, `user_id`) VALUES ('" + auto_cr_id + "', '" + sender.getId() + "')";
-                System.out.println(query4);
-
-                Statement stmt = connection.createStatement();
-                stmt.executeUpdate(query4, Statement.RETURN_GENERATED_KEYS);
-
-
-                // Third:
-                // Will create a message in message_to relation table with the newly created Chatroom
-                String query3 = "INSERT INTO `chatapp`.`message_to` (`msg_id`, `user_id`, `cr_id`) VALUES ('" + auto_msg_id + "', '" + sender.getId() + "', '" + auto_cr_id + "')";
-
-                System.out.println(query3);
-
-                Statement statement3 = connection.createStatement();
-                statement3.executeUpdate(query3);
-
-            } else if (cr_exists && user_Has_access) {
-                // Will create a message in message_to relation table with the existing Chatroom values
-                String query4 = "INSERT INTO `chatapp`.`message_to` (`msg_id`, `user_id`, `cr_id`) VALUES ('" + auto_msg_id + "', '" + sender.getId() + "', '" + chatroom.getId() + "')";
-
-                System.out.println(query4);
-
-                Statement statement4 = connection.createStatement();
-                statement4.executeUpdate(query4);
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     public void deleteMessage(Message message) {
         try {
@@ -377,29 +290,28 @@ public class User {
 
             while (rs1.next()) {
                 String id = rs1.getString("user_id");
-                user_ids.add(Integer.parseInt(id));
+                user_ids.add(Integer.parseInt(id));             
 
-            }
+            } // this array(user_ids) now carries the ids of users who saw the story before
 
-            if (story.getUser().getId() != this.getId())
+            if (story.getUser().getId() != this.getId()) //check if the story not opened by its publisher
             {
-                System.out.println("inside the if");
                 for ( int id : user_ids)
                 {
-                    System.out.println("inside the for");
-                    if (id != this.getId())
+                    if (id != App.loggedUser.getId())
                     {
                         String fetchSeeCount = "Select seen from story where  id = " + story.getId();
                         statement.executeQuery(fetchSeeCount);
-                        System.out.println(fetchSeeCount); //sout
+
                         seenCount = Integer.parseInt(fetchSeeCount);
                         seenCount += 1;
+
                         String updateQuery = "UPDATE `chatapp`.`story` SET seen = " + seenCount + " where id = " + story.getId();
                         statement.executeQuery(updateQuery);
-                        System.out.println("seen count = " + seenCount);
 
                         String insertQuery = "INSERT INTO `chatapp`.`seen_story` ( `str_id` , `user_id`) VALUES ( `" + story.getId() + "` , `" + this.getId() + "`) ";
                         statement.executeQuery(insertQuery);
+                        
                         story.setSeen_count(seenCount);
                     }
                     else {
@@ -488,6 +400,20 @@ public class User {
         
         }catch(Exception e)
         {e.printStackTrace();}
+    }
+    public void undoMessage(int msgId)
+    {
+        try
+        {
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+        Statement statement = connection.createStatement();
+
+        String deleteMessage = "DELETE FROM message_to where where msg_id = " + msgId;
+        statement.executeQuery(deleteMessage);    
+        
+        }catch(Exception e)
+        {e.printStackTrace();}
+
     }
 }
 
