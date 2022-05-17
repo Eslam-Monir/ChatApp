@@ -38,6 +38,7 @@ public class UserProfile extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -124,9 +125,21 @@ public class UserProfile extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(460, 110, 120, 32);
+        jButton2.setBounds(500, 110, 120, 32);
 
-        jLabel6.setIcon(new javax.swing.ImageIcon("D:\\Work\\chatapp\\src\\gui\\background.jpg")); // NOI18N
+        jButton3.setBackground(new java.awt.Color(51, 51, 51));
+        jButton3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Edit Describtion");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3);
+        jButton3.setBounds(330, 110, 145, 32);
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/background.jpg"))); // NOI18N
         getContentPane().add(jLabel6);
         jLabel6.setBounds(0, -10, 700, 540);
 
@@ -173,6 +186,17 @@ public class UserProfile extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        EditDescribtion Desc = new EditDescribtion();
+        ImageIcon img = new ImageIcon("D:\\Work\\chatapp\\chat-icon.jpg");
+        Desc.setIconImage(img.getImage());
+        Desc.setTitle("i-chat");
+        Desc.show();
+        dispose();
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -212,6 +236,7 @@ public class UserProfile extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
