@@ -298,7 +298,7 @@ public class User {
             {
                 for ( int id : user_ids)
                 {
-                    if (id != App.loggedUser.getId())
+                    if (id != App.loggedUser.getId())// check if the story not opened by same user before
                     {
                         String fetchSeeCount = "Select seen from story where  id = " + story.getId();
                         statement.executeQuery(fetchSeeCount);
