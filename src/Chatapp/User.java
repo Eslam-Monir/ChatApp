@@ -296,9 +296,7 @@ public class User {
 
             if (story.getUser().getId() != this.getId()) //check if the story not opened by its publisher
             {
-                for ( int id : user_ids)
-                {
-                    if (id != App.loggedUser.getId())// check if the story not opened by same user before
+                    if (!user_ids.contains(App.loggedUser.getId()))// check if the story not opened by same user before
                     {
                         String fetchSeeCount = "Select seen from story where  id = " + story.getId();
                         statement.executeQuery(fetchSeeCount);
@@ -317,7 +315,7 @@ public class User {
                     else {
                         System.out.println("this user has already seen story");
                     }
-                }
+                
             }
         }catch (Exception e)
         {
@@ -417,3 +415,28 @@ public class User {
     }
 }
 
+// if (story.getUser().getId() != this.getId()) //check if the story not opened by its publisher
+// {
+//     for ( int id : user_ids)
+//     {
+//         if (id != App.loggedUser.getId())// check if the story not opened by same user before
+//         {
+//             String fetchSeeCount = "Select seen from story where  id = " + story.getId();
+//             statement.executeQuery(fetchSeeCount);
+
+//             seenCount = Integer.parseInt(fetchSeeCount);
+//             seenCount += 1;
+
+//             String updateQuery = "UPDATE `chatapp`.`story` SET seen = " + seenCount + " where id = " + story.getId();
+//             statement.executeQuery(updateQuery);
+
+//             String insertQuery = "INSERT INTO `chatapp`.`seen_story` ( `str_id` , `user_id`) VALUES ( `" + story.getId() + "` , `" + this.getId() + "`) ";
+//             statement.executeQuery(insertQuery);
+            
+//             story.setSeen_count(seenCount);
+//         }
+//         else {
+//             System.out.println("this user has already seen story");
+//         }
+//     }
+// }
