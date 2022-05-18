@@ -9,19 +9,25 @@ import java.sql.*;
 
 public class Chatroom {
     private int id;
+    private String name;
     private boolean isgroup;
     private String last_seen;
     ArrayList<User> users;
    public ArrayList<Message> messages;
     private String cr_desc;
 
+    public String getName() {
+        return name;
+    }
+
     public Chatroom() {
 
     }
-    public Chatroom(int id, boolean isgroup, String last_seen) {
+    public Chatroom(int id,String name, boolean isgroup) {
         this.id = id;
+        this.name=name;
         this.isgroup = isgroup;
-        this.last_seen = last_seen;
+
     }
 
     public Chatroom(int id) {
