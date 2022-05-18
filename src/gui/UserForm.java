@@ -37,6 +37,7 @@ public class UserForm extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -63,6 +64,9 @@ public class UserForm extends javax.swing.JFrame {
         for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
             dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
         }
+
+
+
 //    }
 
 
@@ -146,6 +150,17 @@ public class UserForm extends javax.swing.JFrame {
         getContentPane().add(jButton2);
         jButton2.setBounds(10, 440, 120, 32);
 
+        jButton8.setBackground(new java.awt.Color(204, 204, 204));
+        jButton8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButton8.setText("Delete message");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton8);
+        jButton8.setBounds(370, 440, 150, 32);
+
         jButton3.setBackground(new java.awt.Color(51, 51, 51));
         jButton3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
@@ -180,16 +195,7 @@ public class UserForm extends javax.swing.JFrame {
 
         jList1.setModel(dlm);
 
-//        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-//
-//
-//
-//
-//
-//            String[] strings = { "I1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 11", "Item 21", "Item 31", "Item 41", "Item 51", "Item 12", "2", "Item 22", "Item 32", "Item 42", "Item 52", " " };
-//            public int getSize() { return strings.length; }
-//            public String getElementAt(int i) { return strings[i]; }
-//        });
+
         jList1.setFixedCellHeight(30);
         jScrollPane1.setViewportView(jList1);
 
@@ -210,7 +216,7 @@ public class UserForm extends javax.swing.JFrame {
         jList2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jList2.setForeground(new java.awt.Color(0, 0, 0));
         jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "Empty Chatroom,Send Your first message!" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -233,7 +239,9 @@ public class UserForm extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         setSize(695, 530);
         jList1.setBackground(new Color(102, 102, 102));
@@ -242,7 +250,7 @@ public class UserForm extends javax.swing.JFrame {
         jScrollPane1.setBackground(new Color(102, 102, 102));
         jScrollPane2.setBackground(new Color(102, 102, 102));
         //user image
-        ImageIcon img = new ImageIcon("D:\\Downloads\\Levi Ackerman .jpg");
+        ImageIcon img = new ImageIcon(App.loggedUser.getProf_pic());
         Image image = img.getImage();
         Image modifiedImage = image.getScaledInstance(80, 70, java.awt.Image.SCALE_SMOOTH);
         img = new ImageIcon(modifiedImage);
@@ -260,10 +268,34 @@ public class UserForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        System.out.println("message clicke");;
+        //sends the message
         Chatroom cr=new Chatroom(App.load1to1Chatroom(current_Contact.getId()));
         cr.loadMessages();
         Message msg=new Message(5,App.loggedUser,jTextField1.getText(),"23","23",1,"asdfasdf");
         App.sendMessage(cr,msg,App.loggedUser);
+
+
+        //refreshes the messages page
+
+        cr.loadMessages();
+      //  System.out.println(cr.messages.get(1));
+        DefaultListModel dlm=new DefaultListModel();
+        ArrayList<Message> messages=cr.messages;
+        ArrayList<Integer> msg_ids=new ArrayList<>();
+        for (int i = 0; i < messages.size() ; i++) {
+          //  System.out.println(messages.get(i).getText());
+            msg_ids.add(messages.get(i).getId());
+            String messages_string;
+
+            if((messages.get(i).getSender().getId() != App.loggedUser.getId()))
+                messages_string="<"+App.getContactName(messages.get(i).getSender().getId())+"> "+messages.get(i).getText();
+            else{  messages_string="< Me > "+messages.get(i).getText(); }
+
+            dlm.addElement(messages_string);
+        }
+
+        jList2.setModel(dlm);
 
 
 
@@ -284,23 +316,23 @@ public class UserForm extends javax.swing.JFrame {
 
 
         private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
-            // TODO add your handling code here:
+
 
             User user= App.userGetter(jList1.getSelectedValue(),App.loggedUser);
            current_Contact=user;
-            System.out.println(user);
+//         //   System.out.println(user);
 
 
-            System.out.println("this is the cr id" + App.load1to1Chatroom(user.getId()));
+        //    System.out.println("this is the cr id" + App.load1to1Chatroom(user.getId()));
             Chatroom cr=new Chatroom(App.load1to1Chatroom(user.getId()));
             cr.loadMessages();
-//            System.out.println(cr.messages.);
-            System.out.println(cr.messages.get(1));
+
+           // System.out.println(cr.messages.get(1));
             DefaultListModel dlm=new DefaultListModel();
             ArrayList<Message> messages=cr.messages;
             ArrayList<Integer> msg_ids=new ArrayList<>();
             for (int i = 0; i < messages.size() ; i++) {
-                System.out.println(messages.get(i).getText());
+            //    System.out.println(messages.get(i).getText());
                 msg_ids.add(messages.get(i).getId());
                 String messages_string;
 
@@ -317,7 +349,7 @@ public class UserForm extends javax.swing.JFrame {
 
     private void jList2MouseClicked(java.awt.event.MouseEvent evt) {
 
-
+        System.out.println(jList2.getSelectedIndex());
 
 
 
@@ -367,9 +399,7 @@ public class UserForm extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -408,6 +438,7 @@ public class UserForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;

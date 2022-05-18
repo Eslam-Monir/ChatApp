@@ -28,7 +28,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="88fb02fd-0573-40ff-be96-17f9ad66dea1">
-      <console name="mysql Connection" type="STANDARD" schema="" session="Main">select * from usser;</console>
+      <console name="mysql Connection" type="STANDARD" schema="" session="Main"><![CDATA[select * from usser;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
