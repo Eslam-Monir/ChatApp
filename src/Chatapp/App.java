@@ -628,11 +628,11 @@ public class App {
             Statement statement = connection.createStatement();
 
             String get_name = "SELECT name FROM contacts where added_id =  " +id +" and adder_id= " +loggedUser.getId();
-            System.out.println(get_name); //sout
+//            System.out.println(get_name); //sout
             ResultSet rs = statement.executeQuery(get_name); rs.next();
           name =rs.getString("name");
 
-            System.out.println(name);
+//            System.out.println(name);
 
 
         }catch(Exception e)

@@ -402,5 +402,23 @@ public class User {
         }catch(Exception e)
         {e.printStackTrace();}
     }
+
+    public void editProfilePic(User user, String prof_pic) {
+
+        String query = "UPDATE  chatapp.usser" + " SET prof_pic = " + "'" + prof_pic + "'" + " WhERE id =" + user.getId();
+        Statement statement = App.connect_to_database();
+        try {
+
+            statement.executeUpdate(query);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
 }
 
