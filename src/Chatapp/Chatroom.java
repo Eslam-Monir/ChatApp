@@ -206,11 +206,11 @@ public class Chatroom {
 
     ;
 
-    public int findRoom (int RoomID) // returns an array with the roomIds inside
+    public int findRoom (int RoomID) // Searches for a chatroom room and returns the id (If found)
     {
         int roomId = 0;
         boolean roomFound = false;
-        int foundRoomId = 0;
+        int foundRoomId = -1;
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
             Statement statement = connection.createStatement();
