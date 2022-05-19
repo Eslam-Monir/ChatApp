@@ -64,8 +64,9 @@ public class UserForm extends javax.swing.JFrame {
         for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
             dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
         }
-
-
+        for (int i = 0; i <App.loadGroup().size() ; i++) {
+            dlm.addElement(App.loadGroup().get(i).getName());
+        }
 
 //    }
 
@@ -266,34 +267,45 @@ public class UserForm extends javax.swing.JFrame {
         group.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    //check if it's group[
+    boolean isgroup=false;
+    int group_id=-1;
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        DefaultListModel dlm=new DefaultListModel();
+
+
         System.out.println("message clicke");;
         //sends the message
-        Chatroom cr=new Chatroom(App.load1to1Chatroom(current_Contact.getId()));
-        cr.loadMessages();
+        Chatroom cr=new Chatroom();
         Message msg=new Message(5,App.loggedUser,jTextField1.getText(),"23","23",1,"asdfasdf");
-        App.sendMessage(cr,msg,App.loggedUser);
-
+       if (!isgroup) {cr=new Chatroom(App.load1to1Chatroom(current_Contact.getId()));
+           cr.loadMessages();
+           App.sendMessage(cr, msg, App.loggedUser);
+       }
+        else{
+            cr=new Chatroom(group_id);
+            cr.loadMessages();
+            App.sendMessage(cr,msg,App.loggedUser);
+        }
 
         //refreshes the messages page
 
         cr.loadMessages();
       //  System.out.println(cr.messages.get(1));
-        DefaultListModel dlm=new DefaultListModel();
-        ArrayList<Message> messages=cr.messages;
-        ArrayList<Integer> msg_ids=new ArrayList<>();
-        for (int i = 0; i < messages.size() ; i++) {
-          //  System.out.println(messages.get(i).getText());
-            msg_ids.add(messages.get(i).getId());
-            String messages_string;
-
-            if((messages.get(i).getSender().getId() != App.loggedUser.getId()))
-                messages_string="<"+App.getContactName(messages.get(i).getSender().getId())+"> "+messages.get(i).getText();
-            else{  messages_string="< Me > "+messages.get(i).getText(); }
-
-            dlm.addElement(messages_string);
-        }
+//        DefaultListModel dlm=new DefaultListModel();
+//        ArrayList<Message> messages=cr.messages;
+//        ArrayList<Integer> msg_ids=new ArrayList<>();
+//        for (int i = 0; i < messages.size() ; i++) {
+//          //  System.out.println(messages.get(i).getText());
+//            msg_ids.add(messages.get(i).getId());
+//            String messages_string;
+//
+//            if((messages.get(i).getSender().getId() != App.loggedUser.getId()))
+//                messages_string="<"+App.getContactName(messages.get(i).getSender().getId())+"> "+messages.get(i).getText();
+//            else{  messages_string="< Me > "+messages.get(i).getText(); }
+//
+//            dlm.addElement(messages_string);
+//        }
 
         jList2.setModel(dlm);
 
@@ -316,36 +328,78 @@ public class UserForm extends javax.swing.JFrame {
 
 
         private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
+    isgroup=false;
+        ArrayList<Chatroom> chatrooms=App.loadGroup();
 
 
-            User user= App.userGetter(jList1.getSelectedValue(),App.loggedUser);
-           current_Contact=user;
+
+           DefaultListModel dlm = new DefaultListModel();
 //         //   System.out.println(user);
 
 
-        //    System.out.println("this is the cr id" + App.load1to1Chatroom(user.getId()));
-            Chatroom cr=new Chatroom(App.load1to1Chatroom(user.getId()));
-            cr.loadMessages();
 
-           // System.out.println(cr.messages.get(1));
-            DefaultListModel dlm=new DefaultListModel();
-            ArrayList<Message> messages=cr.messages;
-            ArrayList<Integer> msg_ids=new ArrayList<>();
-            for (int i = 0; i < messages.size() ; i++) {
-            //    System.out.println(messages.get(i).getText());
-                msg_ids.add(messages.get(i).getId());
-                String messages_string;
+           //checks if selected value is a group or not
+            for (int i = 0; i <chatrooms.size() ; i++) {
+                if (jList1.getSelectedValue().equals(chatrooms.get(i).getName())) {
+                    isgroup = true;
+                    group_id=chatrooms.get(i).getId();
+                    break;
+                }
 
-                if((messages.get(i).getSender().getId() != App.loggedUser.getId()))
-                messages_string="<"+App.getContactName(messages.get(i).getSender().getId())+"> "+messages.get(i).getText();
-                else{  messages_string="< Me > "+messages.get(i).getText(); }
-
-                dlm.addElement(messages_string);
             }
 
-            jList2.setModel(dlm);
+            if (!isgroup) {
+                User user= App.userGetter(jList1.getSelectedValue(),App.loggedUser);
+                current_Contact=user;
+                Chatroom cr = new Chatroom(App.load1to1Chatroom(user.getId()));
+                cr.loadMessages();
+                // System.out.println(cr.messages.get(1));
+
+                ArrayList<Message> messages = cr.messages;
+                ArrayList<Integer> msg_ids = new ArrayList<>();
+                for (int i = 0; i < messages.size(); i++) {
+                    //    System.out.println(messages.get(i).getText());
+                    msg_ids.add(messages.get(i).getId());
+                    String messages_string;
+
+                    if ((messages.get(i).getSender().getId() != App.loggedUser.getId()))
+                        messages_string = "<" + App.getContactName(messages.get(i).getSender().getId()) + "> " + messages.get(i).getText();
+                    else {
+                        messages_string = "< Me > " + messages.get(i).getText();
+                    }
+
+                    dlm.addElement(messages_string);
+                }
+            }
+            else {
+                for (int i = 0; i <chatrooms.size(); i++) {
+                    if (chatrooms.get(i).getId()==group_id){
+                        chatrooms.get(i).loadMessages();
+                        ArrayList<Message> messages = chatrooms.get(i).messages;
+                        ArrayList<Integer> msg_ids = new ArrayList<>();
+                        for (int j = 0; j < messages.size(); j++) {
+
+                            msg_ids.add(messages.get(j).getId());
+                            String messages_string;
+
+                            if ((messages.get(j).getSender().getId() != App.loggedUser.getId()))
+                                messages_string = "<" + App.getContactName(messages.get(j).getSender().getId()) + "> " + messages.get(j).getText();
+                            else {
+                                messages_string = "< Me > " + messages.get(i).getText();
+                            }
+
+                            dlm.addElement(messages_string);
+
+
+
+                    }
+                }
+
+            }
+
             
-        }
+        } jList2.setModel(dlm);
+    }
 
     private void jList2MouseClicked(java.awt.event.MouseEvent evt) {
 
