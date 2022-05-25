@@ -223,7 +223,7 @@ public class UserForm extends javax.swing.JFrame {
         });
         jList2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList1MouseClicked(evt);
+                jList2MouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(jList2);
@@ -240,9 +240,7 @@ public class UserForm extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
+
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         setSize(695, 530);
         jList1.setBackground(new Color(102, 102, 102));
@@ -287,12 +285,13 @@ public class UserForm extends javax.swing.JFrame {
             cr=new Chatroom(group_id);
             cr.loadMessages();
             App.sendMessage(cr,msg,App.loggedUser);
+
         }
 
         //refreshes the messages page
 
         cr.loadMessages();
-        System.out.println(cr.messages.get(1));
+//        System.out.println(cr.messages.get(1));
 //        DefaultListModel dlm=new DefaultListModel();
         ArrayList<Message> messages=cr.messages;
         ArrayList<Integer> msg_ids=new ArrayList<>();
@@ -328,15 +327,63 @@ public class UserForm extends javax.swing.JFrame {
 
 
 
+    ArrayList<Integer> msg_ids = new ArrayList<>();
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {
+        System.out.println("current msgs: "+msg_ids);
+        Message deleted_message=new Message(msg_ids.get(jList2.getSelectedIndex()));
+
+        App.deleteMessage(deleted_message);
+        msg_ids.remove(msg_ids.get(jList2.getSelectedIndex()));
+        DefaultListModel dlm=new DefaultListModel();
+
+
+        System.out.println("message clicke");;
+        //sends the message
+        Chatroom cr=new Chatroom();
+
+        if (!isgroup) {cr=new Chatroom(App.load1to1Chatroom(current_Contact.getId()));
+            cr.loadMessages();
+
+
+        }
+        else{
+            cr=new Chatroom(group_id);
+            cr.loadMessages();
+
+        }
+
+        //refreshes the messages page
+
+        cr.loadMessages();
+//        System.out.println(cr.messages.get(1));
+//        DefaultListModel dlm=new DefaultListModel();
+        ArrayList<Message> messages=cr.messages;
+//        ArrayList<Integer> msg_ids=new ArrayList<>();
+        for (int i = 0; i < messages.size() ; i++) {
+            //  System.out.println(messages.get(i).getText());
+            msg_ids.add(messages.get(i).getId());
+            String messages_string;
+
+            if((messages.get(i).getSender().getId() != App.loggedUser.getId()))
+                messages_string="<"+App.getContactName(messages.get(i).getSender().getId())+"> "+messages.get(i).getText();
+            else{  messages_string="< Me > "+messages.get(i).getText(); }
+
+            dlm.addElement(messages_string);
+        }
+
+        jList2.setModel(dlm);
+
+    }
+
         private void jList1MouseClicked(java.awt.event.MouseEvent evt) {
     isgroup=false;
         ArrayList<Chatroom> chatrooms=App.loadGroup();
-
+//            ArrayList<Integer> msg_ids = new ArrayList<>();
+msg_ids.clear();
 
 
            DefaultListModel dlm = new DefaultListModel();
 //         //   System.out.println(user);
-
 
 
            //checks if selected value is a group or not
@@ -357,7 +404,7 @@ public class UserForm extends javax.swing.JFrame {
                 // System.out.println(cr.messages.get(1));
 
                 ArrayList<Message> messages = cr.messages;
-                ArrayList<Integer> msg_ids = new ArrayList<>();
+//                ArrayList<Integer> msg_ids = new ArrayList<>();
                 for (int i = 0; i < messages.size(); i++) {
                     //    System.out.println(messages.get(i).getText());
                     msg_ids.add(messages.get(i).getId());
@@ -370,14 +417,18 @@ public class UserForm extends javax.swing.JFrame {
                     }
 
                     dlm.addElement(messages_string);
+
+
                 }
+
+                System.out.println(msg_ids);
             }
             else {
                 for (int i = 0; i <chatrooms.size(); i++) {
                     if (chatrooms.get(i).getId()==group_id){
                         chatrooms.get(i).loadMessages();
                         ArrayList<Message> messages = chatrooms.get(i).messages;
-                        ArrayList<Integer> msg_ids = new ArrayList<>();
+
                         for (int j = 0; j < messages.size(); j++) {
 
                             msg_ids.add(messages.get(j).getId());
@@ -404,9 +455,9 @@ public class UserForm extends javax.swing.JFrame {
     }
 
     private void jList2MouseClicked(java.awt.event.MouseEvent evt) {
-
-        System.out.println(jList2.getSelectedIndex());
-
+        System.out.println("hellloooooooo");
+//            System.out.println(jList2.getSelectedValue());
+        System.out.println(msg_ids.get(jList2.getSelectedIndex()));
 
 
     }
