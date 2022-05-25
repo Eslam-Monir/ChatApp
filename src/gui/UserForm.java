@@ -281,6 +281,7 @@ public class UserForm extends javax.swing.JFrame {
        if (!isgroup) {cr=new Chatroom(App.load1to1Chatroom(current_Contact.getId()));
            cr.loadMessages();
            App.sendMessage(cr, msg, App.loggedUser);
+
        }
         else{
             cr=new Chatroom(group_id);
@@ -291,21 +292,21 @@ public class UserForm extends javax.swing.JFrame {
         //refreshes the messages page
 
         cr.loadMessages();
-      //  System.out.println(cr.messages.get(1));
+        System.out.println(cr.messages.get(1));
 //        DefaultListModel dlm=new DefaultListModel();
-//        ArrayList<Message> messages=cr.messages;
-//        ArrayList<Integer> msg_ids=new ArrayList<>();
-//        for (int i = 0; i < messages.size() ; i++) {
-//          //  System.out.println(messages.get(i).getText());
-//            msg_ids.add(messages.get(i).getId());
-//            String messages_string;
-//
-//            if((messages.get(i).getSender().getId() != App.loggedUser.getId()))
-//                messages_string="<"+App.getContactName(messages.get(i).getSender().getId())+"> "+messages.get(i).getText();
-//            else{  messages_string="< Me > "+messages.get(i).getText(); }
-//
-//            dlm.addElement(messages_string);
-//        }
+        ArrayList<Message> messages=cr.messages;
+        ArrayList<Integer> msg_ids=new ArrayList<>();
+        for (int i = 0; i < messages.size() ; i++) {
+          //  System.out.println(messages.get(i).getText());
+            msg_ids.add(messages.get(i).getId());
+            String messages_string;
+
+            if((messages.get(i).getSender().getId() != App.loggedUser.getId()))
+                messages_string="<"+App.getContactName(messages.get(i).getSender().getId())+"> "+messages.get(i).getText();
+            else{  messages_string="< Me > "+messages.get(i).getText(); }
+
+            dlm.addElement(messages_string);
+        }
 
         jList2.setModel(dlm);
 
@@ -385,7 +386,8 @@ public class UserForm extends javax.swing.JFrame {
                             if ((messages.get(j).getSender().getId() != App.loggedUser.getId()))
                                 messages_string = "<" + App.getContactName(messages.get(j).getSender().getId()) + "> " + messages.get(j).getText();
                             else {
-                                messages_string = "< Me > " + messages.get(i).getText();
+                                messages_string = "< Me > " + messages.get(j).getText();
+//                                System.out.println(messages.get(j).getText());
                             }
 
                             dlm.addElement(messages_string);
