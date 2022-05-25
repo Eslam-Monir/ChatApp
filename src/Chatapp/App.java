@@ -620,7 +620,26 @@ public class App {
         return newList;
     }
 
+    public static void deleteMessage(Message message) {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement stmt = connection.createStatement();
+            String query = "DELETE FROM `chatapp`.`messages` WHERE (`id` = '" + message.getId() + "');";
+            stmt.executeUpdate(query);
+            System.out.println(query);
 
+            String query1 = "DELETE FROM `chatapp`.`message_to` WHERE (`msg_id` = '" + message.getId() + "');";
+            System.out.println(query1);
+            Statement stmt1 = connection.createStatement();
+            stmt.executeUpdate(query1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+
+    }
 
     public static String getContactName(int id){
         String name="";

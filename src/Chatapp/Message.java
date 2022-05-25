@@ -18,9 +18,11 @@ public class Message {
         this.seen = seen;
         this.type=type;
     }
-
     public Message() {
 
+    }
+    public Message(int id) {
+        this.id =id;
     }
 
     //setter
