@@ -544,8 +544,6 @@ public class App {
     public static int load1to1Chatroom(int id)
     {
         int foundRoomId = -1;
-     //   LinkedList<Integer> checkList = new LinkedList<>();
-      //  LinkedList<Integer> chatroomIds = new LinkedList<>();
         LinkedList<Integer> chatrooms = new LinkedList<>();
 
         try
@@ -562,9 +560,8 @@ public class App {
                 chatrooms.add(rst1.getInt("cr_id"));
             }
 
-            System.out.println("chatrooms = " + chatrooms);  // sout to check if the list is not empty
         
-            int removedRoom; // haghayr esmo
+            int is_group; 
             int popped;
                 for (int i = 0 ; i < chatrooms.size(); i++)
                 {
@@ -574,8 +571,8 @@ public class App {
                     
                         if(rst2.next())
                         {
-                            removedRoom = rst2.getInt("is_group");
-                            if (removedRoom == 0) {
+                            is_group = rst2.getInt("is_group");
+                            if (is_group == 0) {
                                 chatrooms.addFirst(popped);
                             }
                         }
