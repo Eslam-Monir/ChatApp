@@ -415,6 +415,30 @@ public class User {
 
     }
 
+
+    public void UserData() {
+
+
+        try {
+            Statement statement = App.connect_to_database();
+            ResultSet contact_query = statement.executeQuery("select * from contacts,usser where usser.id=" + id +
+                    " and contacts.added_id = usser.id ");
+            contact_query.next();
+            setF_name(contact_query.getString("name"));
+            setId(Integer.parseInt(contact_query.getString("id")));
+            setNumber(Integer.parseInt(contact_query.getString("number")));
+            setPassword(contact_query.getString("password"));
+            setProf_pic(contact_query.getString("prof_pic"));
+            setProf_desc(contact_query.getString("prof_desc"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
 }
 
 // if (story.getUser().getId() != this.getId()) //check if the story not opened by its publisher

@@ -38,6 +38,7 @@ public class UserForm extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -101,7 +102,7 @@ public class UserForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton5);
-        jButton5.setBounds(330, 35, 120, 30);
+        jButton5.setBounds(390, 35, 120, 30);
 
         jButton7.setBackground(new java.awt.Color(51, 51, 51));
         jButton7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -115,7 +116,8 @@ public class UserForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton7);
-        jButton7.setBounds(500, 35, 120, 30);
+
+        jButton7.setBounds(530, 35, 120, 30);
 
         jButton1.setBackground(new java.awt.Color(51, 51, 51));
         jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -180,6 +182,24 @@ public class UserForm extends javax.swing.JFrame {
         jButton3.setBounds(565, 440, 100, 32);
         jButton3.getAccessibleContext().setAccessibleName("log_out");
 
+
+
+
+        jButton6.setBackground(new java.awt.Color(51, 51, 51));
+        jButton6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("Contacts");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton6);
+        jButton6.setBounds(250, 35, 120, 30);
+
+
+
+
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(null);
         jScrollPane1.setForeground(new java.awt.Color(153, 153, 153));
@@ -241,6 +261,12 @@ public class UserForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        ContactDescribtion contact = new ContactDescribtion();
+        contact.show();
+        dispose();
+    }
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         setSize(695, 530);
         jList1.setBackground(new Color(102, 102, 102));
@@ -548,6 +574,7 @@ msg_ids.clear();
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
