@@ -565,18 +565,18 @@ public class App {
             System.out.println("chatrooms = " + chatrooms);  // sout to check if the list is not empty
         
             int removedRoom; // haghayr esmo
-            
+            int popped;
                 for (int i = 0 ; i < chatrooms.size(); i++)
                 {
-                    
-                    String validateChatroom = "SELECT is_group FROM chatroom where id = " + chatrooms.removeLast(); //returns 1 row
+                    popped = chatrooms.removeLast();
+                    String validateChatroom = "SELECT is_group FROM chatroom where id = " + popped; //returns 1 row
                     ResultSet rst2 = statement.executeQuery(validateChatroom);
                     
                         if(rst2.next())
                         {
                             removedRoom = rst2.getInt("is_group");
                             if (removedRoom == 0) {
-                                chatrooms.addLast(removedRoom);
+                                chatrooms.addFirst(popped);
                             }
                         }
           
