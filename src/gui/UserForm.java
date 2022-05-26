@@ -60,7 +60,7 @@ public class UserForm extends javax.swing.JFrame {
 
         DefaultListModel dlm=new DefaultListModel();
         App.loadContacts();
-//        if(App.loggedUser.getContacts().size() != 0 || App.loggedUser.getContacts() !=null ){
+        if(App.loggedUser.getContacts() !=null ){
         for (int i = 0; i <App.loggedUser.getContacts().size() ; i++) {
             dlm.addElement(""+App.loggedUser.getContacts().get(i).getF_name());
         }
@@ -68,7 +68,7 @@ public class UserForm extends javax.swing.JFrame {
             dlm.addElement(App.loadGroup().get(i).getName());
         }
 
-//    }
+    }
 
 
 

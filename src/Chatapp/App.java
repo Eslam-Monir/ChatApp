@@ -362,12 +362,12 @@ public class App {
                 temporary_contact.setId(Integer.parseInt(contacts_query.getString("id")));
 
                 temporary_contact.setF_name(contacts_query.getString("name"));
-                loggedUser.setId(Integer.parseInt(contacts_query.getString("id")));
-                loggedUser.setNumber(Integer.parseInt(contacts_query.getString("number")));
-                loggedUser.setF_name(contacts_query.getString("f_name"));
-                loggedUser.setPassword(contacts_query.getString("password"));
-                loggedUser.setProf_pic(contacts_query.getString("prof_pic"));
-                loggedUser.setProf_desc(contacts_query.getString("prof_desc"));
+                temporary_contact.setId(Integer.parseInt(contacts_query.getString("id")));
+                temporary_contact.setNumber(Integer.parseInt(contacts_query.getString("number")));
+
+                temporary_contact.setPassword(contacts_query.getString("password"));
+                temporary_contact.setProf_pic(contacts_query.getString("prof_pic"));
+                temporary_contact.setProf_desc(contacts_query.getString("prof_desc"));
 
 
                 //put object in array_list
