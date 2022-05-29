@@ -242,7 +242,7 @@ public class App {
     }
 
 
-    public void loadStories(User user) {
+    public static ArrayList<Story>  loadStories(User user) {
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
@@ -255,8 +255,8 @@ public class App {
 
                 user.getStories().clear();
             }
-
             //put Stories in story's Queue from database
+
             while (story_query.next()) {
 
 
@@ -287,6 +287,7 @@ public class App {
             e.printStackTrace();
 
         }
+        return user.getStories();
     }
 
     public static void addContact(User user, int number, String name) {

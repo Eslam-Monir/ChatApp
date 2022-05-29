@@ -1,13 +1,5 @@
 package Chatapp;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 public class Story {
 
 
@@ -96,8 +88,8 @@ public class Story {
 
     //Functions
 
-   public boolean seen(){
-       return true ;
-   }
+    public boolean seen(){
+        return true ;
+    }
 
-   };
+};

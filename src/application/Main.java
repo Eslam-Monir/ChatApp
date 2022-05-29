@@ -23,7 +23,7 @@ public class Main {
         }
         Chatroom cr=new Chatroom(19);
 
-        User uu=new User(93);
+        User uu=new User(2);
 //        Message msg=new Message(5,uu,"hello","23","23",1,"hello");
       //  User u=new User();
 
