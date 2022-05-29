@@ -11,7 +11,7 @@ public class Chatroom {
     private int id;
     private String name;
     private boolean isgroup;
-    private String last_seen;
+    private static String last_seen;
     ArrayList<User> users;
    public ArrayList<Message> messages;
     private String cr_desc;
@@ -54,8 +54,26 @@ public class Chatroom {
     }
 
     public void setLast_seen(String last_seen) {
-        this.last_seen = last_seen;
+        Chatroom.last_seen = last_seen;
     }
+     
+    public static String setLast_seen(int id)
+    {
+        Chatroom.last_seen = App.getDate(); 
+        try
+        {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
+            Statement statement = connection.createStatement();
+            
+            String updateLastSeen = " UPDATE chatroom SET last_seen = "+last_seen+" where id = "+ id +"";
+            System.out.println(updateLastSeen);
+            statement.executeUpdate(updateLastSeen);
+            
+        }catch(Exception e)
+        {e.printStackTrace();}
+
+        return last_seen;
+    }   
 
     public void setCr_desc(String cr_desc) {
         this.cr_desc = cr_desc;

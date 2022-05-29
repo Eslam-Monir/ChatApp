@@ -70,6 +70,7 @@ public class App {
     }
 
     public static void loadChatrooms() {
+        int ID = -1;
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
 
@@ -91,7 +92,8 @@ public class App {
                 Chatroom temporary_chatroom = new Chatroom();
 
                 temporary_chatroom.setId(Integer.parseInt(chatroom_query.getString("chatroom.id")));
-                temporary_chatroom.setIsgroup(chatroom_query.getBoolean("chatroom.id"));
+                ID = temporary_chatroom.getId();
+                temporary_chatroom.setIsgroup(chatroom_query.getBoolean("chatroom.is_group"));
 
                 temporary_chatroom.setLast_seen(chatroom_query.getString("chatroom.last_seen"));
                 loggedUser.setId(Integer.parseInt(chatroom_query.getString("usser.id")));
@@ -111,11 +113,13 @@ public class App {
             }
             //loggedUser.show_chatrooms();
 
+            //dasbdjdb
 
         } catch (Exception e) {
             e.printStackTrace();
 
         }
+        Chatroom.setLast_seen(ID);
     }
 
     public static ArrayList<User> getAllUsers() { //returns all users from database to verify user login
