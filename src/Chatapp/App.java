@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
 
 
@@ -543,8 +544,7 @@ public class App {
     public static int load1to1Chatroom(int id)
     {
         int foundRoomId = -1;
-        LinkedList<Integer> checkList = new LinkedList<>();
-        LinkedList<Integer> chatroomIds = new LinkedList<>();
+        LinkedList<Integer> chatrooms = new LinkedList<>();
 
         try
         {
@@ -557,45 +557,41 @@ public class App {
 
             while(rst1.next())
             {
-                checkList.add(rst1.getInt("cr_id"));
+                chatrooms.add(rst1.getInt("cr_id"));
             }
 
-            System.out.println("checked list = " + checkList);  // sout to check if the list is not empty
         
-            int removedRoom; // haghayr esmo
+            int is_group; 
             int popped;
-            
-                while (!checkList.isEmpty())
+                for (int i = 0 ; i < chatrooms.size(); i++)
                 {
-                    popped = checkList.remove();
-                    
-                    String validateChatroom = "SELECT is_group FROM chatroom where id = " + popped;
+                    popped = chatrooms.removeLast();
+                    String validateChatroom = "SELECT is_group FROM chatroom where id = " + popped; //returns 1 row
                     ResultSet rst2 = statement.executeQuery(validateChatroom);
                     
-                        while(rst2.next())
+                        if(rst2.next())
                         {
-                            removedRoom = rst2.getInt("is_group");
-                            if (removedRoom == 0) {
-                            chatroomIds.add(popped);
+                            is_group = rst2.getInt("is_group");
+                            if (is_group == 0) {
+                                chatrooms.addFirst(popped);
                             }
                         }
           
                 }
             System.out.println("--------------------");
                 
-            System.out.println("chatroomIds = " + chatroomIds); // sout to check if the list is filtered
+            System.out.println("chatroomIds = " + chatrooms); // sout to check if the list is filtered
 
-
-            while(!chatroomIds.isEmpty())
+            for(int cr_Id : chatrooms)
             {
-             String getRoom = "SELECT cr_id FROM cr_users  WHERE user_id =  " + id  + " AND cr_id =  " + chatroomIds.remove();
+             String getRoom = "SELECT cr_id FROM cr_users  WHERE user_id =  " + id  + " AND cr_id =  " + cr_Id;
              ResultSet rst3 = statement.executeQuery(getRoom);
 
                  if(rst3.next())
                     {
                         foundRoomId = rst3.getInt("cr_id");
                         System.out.println("Room Found = " + foundRoomId);
-                    }            
+                    }      
             } 
         
         }catch(Exception e)
