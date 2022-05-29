@@ -18,10 +18,10 @@ public class User {
     private String prof_pic;
     private String prof_desc;
     private ArrayList<Chatroom> chatrooms;
-    private Queue<Story> Stories ;
+    private ArrayList<Story> Stories ;
     private ArrayList<User> contacts;
 
-    public User(int id, int number, String f_name, String password, String prof_pic, String prof_desc, ArrayList<Chatroom> chatrooms, Queue<Story> stories, ArrayList<User> contacts) {
+    public User(int id, int number, String f_name, String password, String prof_pic, String prof_desc, ArrayList<Chatroom> chatrooms, ArrayList<Story> stories, ArrayList<User> contacts) {
         this.id = id;
         this.number = number;
         this.f_name = f_name;
@@ -86,7 +86,7 @@ public class User {
         return chatrooms;
     }
 
-    public Queue<Story> getStories() {
+    public ArrayList<Story> getStories() {
         return Stories;
     }
 
@@ -122,13 +122,13 @@ public class User {
         this.chatrooms = chatrooms;
     }
 
-    public void setStories(Deque<Story> stories) {
+    public void setStories(ArrayList<Story> stories) {
 
         Stories = stories;
     }
     public void addStoryToStories(Story story) {
         if(this.Stories == null) {
-            Stories =new LinkedList<>();
+            ArrayList<Story> Stories =new ArrayList<>();
 
 
         }
@@ -172,11 +172,11 @@ public class User {
 
 
 
-    public void addStory(Story story) {
+    public void addStory(String textt) {
 
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
-            String query = "INSERT INTO story ( `user_id`, `time`, `text`) VALUES (" + story.getUser().getId() + ",'" + story.getTime() + "','" + story.getText() + "');";
+            String query = "INSERT INTO story ( user_id, time, text ) VALUES (" + App.loggedUser.getId() + ",'" + App.getTime() + "','" + textt + "');";
             System.out.println(query);
 
             Statement statement = connection.createStatement();
@@ -188,6 +188,8 @@ public class User {
         }
 
     }
+
+
 
 
     @Override
@@ -271,32 +273,40 @@ public class User {
 
             while (rs1.next()) {
                 String id = rs1.getString("user_id");
-                user_ids.add(Integer.parseInt(id));             
+                user_ids.add(Integer.parseInt(id));
 
             } // this array(user_ids) now carries the ids of users who saw the story before
-
-            if (story.getUser().getId() != this.getId()) //check if the story not opened by its publisher
+            System.out.println("done");
+            if (!App.loadStories(App.loggedUser).contains(story.getUser().getId())) //check if the story not opened by its publisher
             {
-                    if (!user_ids.contains(App.loggedUser.getId()))// check if the story not opened by same user before
-                    {
-                        String fetchSeeCount = "Select seen from story where  id = " + story.getId();
-                        statement.executeQuery(fetchSeeCount);
 
-                        seenCount = Integer.parseInt(fetchSeeCount);
-                        seenCount += 1;
 
-                        String updateQuery = "UPDATE `chatapp`.`story` SET seen = " + seenCount + " where id = " + story.getId();
-                        statement.executeQuery(updateQuery);
+                if (!user_ids.contains(App.loggedUser.getId()))
+                {
+                    String fetchSeeCount = "Select * from story where  id = " + story.getId();
+                    ResultSet w = statement.executeQuery(fetchSeeCount);
 
-                        String insertQuery = "INSERT INTO `chatapp`.`seen_story` ( `str_id` , `user_id`) VALUES ( `" + story.getId() + "` , `" + this.getId() + "`) ";
-                        statement.executeQuery(insertQuery);
-                        
-                        story.setSeen_count(seenCount);
-                    }
-                    else {
-                        System.out.println("this user has already seen story");
-                    }
-                
+                    w.next();
+                    seenCount = Integer.parseInt(w.getString("seen"));
+                    seenCount += 1;
+
+
+
+                    String updateQuery = "UPDATE `chatapp`.`story` SET seen = " + seenCount + " where id = " + story.getId();
+                    statement.executeUpdate(updateQuery);
+
+
+                    String insertQuery = " INSERT INTO `chatapp`.`seen_story`  VALUES ( " + story.getId() + " , " + App.loggedUser.getId() + ") ";
+
+                    statement.executeUpdate(insertQuery);
+
+                    story.setSeen_count(seenCount);
+
+                }
+                else {
+                    System.out.println("this user has already seen story");
+                }
+
             }
         }catch (Exception e)
         {
@@ -304,7 +314,6 @@ public class User {
         }
         return story;
     };
-
     public void show_stories() {
         for (Story elem : Stories) {
             System.out.println(elem.toString());

@@ -33,6 +33,7 @@ public class Story extends javax.swing.JFrame {
 
 
 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,6 +77,8 @@ public class Story extends javax.swing.JFrame {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
         Statement statement = connection.createStatement();
         ResultSet rst = statement.executeQuery("select * FROM contacts where adder_id = " + App.loggedUser.getId());
+//        int id = rst.getInt("added_id");
+//        System.out.println(id);
         ArrayList<Integer> contact_ids= new ArrayList<>();
         while(rst.next()) {
             int ids = rst.getInt("added_id");
@@ -91,7 +94,7 @@ public class Story extends javax.swing.JFrame {
         for (int contactId : contact_ids) {
             for(int storyId : story_ids){
                 if(contactId == storyId){
-                    rst = statement.executeQuery("SELECT * FROM contacts WHERE added_id = " + contactId);
+                    rst = statement.executeQuery("SELECT * FROM chatapp.contacts WHERE adder_id = " + App.loggedUser.getId() + " AND added_id =" + contactId );
                     rst.next();
                     dlm.addElement("" + rst.getString("name"));
                     break;
@@ -248,6 +251,8 @@ public class Story extends javax.swing.JFrame {
         jLabel1.setIcon(img);
     }//GEN-LAST:event_formComponentShown
     int index_of_stories = 0;
+    Integer id = 0;
+    User contact = new User();
     ArrayList<String> stories = new ArrayList<>();
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
         // TODO add your handling code here:
@@ -259,26 +264,32 @@ public class Story extends javax.swing.JFrame {
             String names = String.valueOf(list.getSelectedValue());
             ResultSet rst = statement.executeQuery("SELECT added_id FROM contacts WHERE name = '" +  names+"'");
             rst.next();
-            int Id = Integer.parseInt(rst.getString("added_id"));
-            User contact = new User(Id);
-            App app = new App();
-            app.loadStories(contact);
+            id = Integer.parseInt(rst.getString("added_id"));
+            contact = new User(id);
+
             stories = new ArrayList<>();
+
             index_of_stories = 0;
-            rst = statement.executeQuery("SELECT text FROM story WHERE user_id =" + Id);
+
+
+            rst = statement.executeQuery("SELECT text FROM story WHERE user_id =" + id);
             while(rst.next()) {
                 String text  = rst.getString("text");
                 stories.add(text);
             }
             jTextArea1.setText(stories.get(index_of_stories));
+
+            contact.openStory(App.loadStories(contact).get(index_of_stories));
         }
     }
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
         index_of_stories++;
+        contact.openStory(App.loadStories(contact).get(index_of_stories));
         if(index_of_stories == stories.size()){
             index_of_stories = (stories.size() - 1);
+
             return;
         }
         jTextArea1.setText(stories.get(index_of_stories));
