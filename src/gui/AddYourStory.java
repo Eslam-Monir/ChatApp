@@ -151,7 +151,7 @@ public class AddYourStory extends javax.swing.JFrame {
         });
 
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(250, 230, 70, 30);
+        jLabel1.setBounds(250, 230, 300, 30);
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -235,8 +235,8 @@ public class AddYourStory extends javax.swing.JFrame {
                     rst.next();
                     int seenCount = 0 ;
                     seenCount = Integer.parseInt(rst.getString("seen"));
-
-                    jLabel1.setText(Integer.toString(seenCount));
+                    String Seeen= "Seen Count: "+ seenCount;
+                    jLabel1.setText( Seeen);
                 }
 
             }catch(Exception e)

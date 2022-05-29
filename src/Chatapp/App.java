@@ -255,8 +255,8 @@ public class App {
 
                 user.getStories().clear();
             }
-
             //put Stories in story's Queue from database
+
             while (story_query.next()) {
 
 

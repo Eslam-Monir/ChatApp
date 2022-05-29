@@ -244,7 +244,7 @@ public class Story extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
         setSize(695, 530);
-        ImageIcon img = new ImageIcon("D:\\Downloads\\Levi Ackerman .jpg");
+        ImageIcon img = new ImageIcon(App.loggedUser.getProf_pic());
         Image image = img.getImage();
         Image modifiedImage = image.getScaledInstance(90, 90, java.awt.Image.SCALE_SMOOTH);
         img = new ImageIcon(modifiedImage);

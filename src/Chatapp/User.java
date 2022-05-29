@@ -18,7 +18,7 @@ public class User {
     private String prof_pic;
     private String prof_desc;
     private ArrayList<Chatroom> chatrooms;
-    private ArrayList<Story> Stories ;
+    private ArrayList<Story> Stories =new ArrayList<>();
     private ArrayList<User> contacts;
 
     public User(int id, int number, String f_name, String password, String prof_pic, String prof_desc, ArrayList<Chatroom> chatrooms, ArrayList<Story> stories, ArrayList<User> contacts) {
@@ -314,12 +314,15 @@ public class User {
         }
         return story;
     };
+
     public void show_stories() {
         for (Story elem : Stories) {
             System.out.println(elem.toString());
         }
 
     }
+
+
     public void show_contacts() {
         System.out.println(toString() +"\nContacts :");
         for (User elem : contacts) {
