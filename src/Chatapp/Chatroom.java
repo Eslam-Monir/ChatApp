@@ -58,8 +58,8 @@ public class Chatroom {
     }
      
     public static String setLast_seen(int id)
-    {
-        Chatroom.last_seen = App.getDate(); 
+    {   App.fetchTime();
+        Chatroom.last_seen = App.getDate();
         try
         {
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chatapp", "root", "password");
@@ -71,7 +71,7 @@ public class Chatroom {
             
         }catch(Exception e)
         {e.printStackTrace();}
-
+        System.out.println(last_seen);
         return last_seen;
     }   
 

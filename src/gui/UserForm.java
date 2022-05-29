@@ -256,7 +256,7 @@ public class UserForm extends javax.swing.JFrame {
 
         getContentPane().add(jLabel4);
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel4.setBounds(230, 80, 100, 16);
+        jLabel4.setBounds(230, 80, 500, 16);
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Last Seen:");
 
@@ -440,7 +440,7 @@ msg_ids.clear();
                 Chatroom cr = new Chatroom(App.load1to1Chatroom(user.getId()));
                 cr.loadMessages();
                 // System.out.println(cr.messages.get(1));
-
+                jLabel4.setText("Last Seen: " +Chatroom.setLast_seen(App.load1to1Chatroom(user.getId())) +" " + App.getTime());
                 ArrayList<Message> messages = cr.messages;
 //                ArrayList<Integer> msg_ids = new ArrayList<>();
                 for (int i = 0; i < messages.size(); i++) {
@@ -466,7 +466,7 @@ msg_ids.clear();
                     if (chatrooms.get(i).getId()==group_id){
                         chatrooms.get(i).loadMessages();
                         ArrayList<Message> messages = chatrooms.get(i).messages;
-
+                        jLabel4.setText("Last Seen: " +Chatroom.setLast_seen(App.load1to1Chatroom(group_id)) +" " + App.getTime());
                         for (int j = 0; j < messages.size(); j++) {
 
                             msg_ids.add(messages.get(j).getId());

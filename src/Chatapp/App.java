@@ -56,6 +56,7 @@ public class App {
     }
 
     public static String getTime() {
+        fetchTime();
         return time;
     }
 
