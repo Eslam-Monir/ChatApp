@@ -92,8 +92,12 @@ public class UserProfile extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Arial", 3, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel9.setText(App.loggedUser.getProf_desc());
+//        jLabel9.setText(App.loggedUser.getProf_desc());
+        jLabel9.setText(App.loggedUser.getProf_desc().toString());
+
+
         getContentPane().add(jLabel9);
+
         jLabel9.setBounds(200, 300, 350, 50);
 
 
@@ -176,6 +180,7 @@ public class UserProfile extends javax.swing.JFrame {
         // TODO add your handling code here:
         EditDescribtion Desc = new EditDescribtion();
         ImageIcon img = new ImageIcon("D:\\Work\\chatapp\\chat-icon.jpg");
+
         Desc.setIconImage(img.getImage());
         Desc.setTitle("i-chat");
         Desc.show();

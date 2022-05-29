@@ -306,26 +306,45 @@ public class App {
                 if (!rstt.next()) {
 
                     // query  to insert into contacts
-                    String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES (" + user.getId() + ",'" + addedId + "','" + name + "');";
-                    statement.executeUpdate(query2);
+
+
+
                     try {
-                        String createChatroom = "INSERT INTO chatroom ( `is_group` , `last_seen` ) Values ( '0' , 'null' )";
-                        System.out.println(createChatroom);
-                        statement.executeUpdate(createChatroom, Statement.RETURN_GENERATED_KEYS);
-
-                        ResultSet rs = statement.getGeneratedKeys();
-                        rs.next();
-
-                        int crID = rs.getInt(1);
-
-                        //Puts newly created contact with the adder in the created chatroom
-                        String first_user_insert = "INSERT INTO cr_users ( `cr_id` , `user_id` ) Values ( " + crID + " , " + user.getId() + ") ";
-                        String second_user_insert = "INSERT INTO cr_users ( `cr_id` , `user_id` ) Values ( " + crID + " , " + addedId + ") ";
-
-                        statement.executeUpdate(first_user_insert);
-                        statement.executeUpdate(second_user_insert);
+                        //check for existing contact chatroom
 
 
+
+
+                        String qury2 = "SELECT * FROM contacts WHERE adder_id ="+user.getId()+ " AND added_id ="+ addedId ;
+                        ResultSet resultSet1 = statement.executeQuery(qury2);
+
+                       boolean f1= resultSet1.next();
+                        String query3 = "SELECT * FROM contacts WHERE adder_id ="+addedId+ " AND added_id ="+ user.getId() ;
+                        ResultSet resultSet2 = statement.executeQuery(query3);
+                       boolean f2 =resultSet2.next();
+                        System.out.println(f1+ " "+ f2);
+                        if(!f1 & !f2) {
+
+
+                            String createChatroom = "INSERT INTO chatroom ( `is_group` , `last_seen` ) Values ( '0' , 'null' )";
+                            System.out.println(createChatroom);
+                            statement.executeUpdate(createChatroom, Statement.RETURN_GENERATED_KEYS);
+
+                            ResultSet rs = statement.getGeneratedKeys();
+                            rs.next();
+
+                            int crID = rs.getInt(1);
+
+                            //Puts newly created contact with the adder in the created chatroom
+                            String first_user_insert = "INSERT INTO cr_users ( `cr_id` , `user_id` ) Values ( " + crID + " , " + user.getId() + ") ";
+                            String second_user_insert = "INSERT INTO cr_users ( `cr_id` , `user_id` ) Values ( " + crID + " , " + addedId + ") ";
+
+                            statement.executeUpdate(first_user_insert);
+                            statement.executeUpdate(second_user_insert);
+                        }
+                        String query2 = "INSERT INTO contacts ( `adder_id`, `added_id`, `name`) VALUES (" + user.getId() + ",'" + addedId + "','" + name + "');";
+
+                        statement.executeUpdate(query2);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
