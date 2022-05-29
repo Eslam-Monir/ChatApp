@@ -140,7 +140,8 @@ public class EditPicture extends javax.swing.JFrame {
         // TODO add your handling code here:
         String text = jTextField1.getText();
         App.loggedUser.editProfilePic(App.loggedUser,text);
-        UserForm editPic = new UserForm();
+        App.loggedUser.setProf_pic(text);
+        UserProfile editPic = new UserProfile();
         editPic.setTitle("i-chat");
         editPic.show();
         dispose();
